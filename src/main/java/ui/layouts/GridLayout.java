@@ -222,13 +222,16 @@ public class GridLayout extends Layout {
         if (!inBounds(row, col))
             return null;
 
-        HorizontalLayout layout = new HorizontalLayout(
-                getLayoutX(col),
-                getLayoutY(row),
-                getLayoutWidth(col),
-                getLayoutHeight(row),
-                horizSpacing
-        );
+//        HorizontalLayout layout = new HorizontalLayout(
+//                getLayoutX(col),
+//                getLayoutY(row),
+//                getLayoutWidth(col),
+//                getLayoutHeight(row),
+//                horizSpacing
+//        );
+        HorizontalLayout layout = HorizontalLayout
+                .build(getLayoutWidth(col), getLayoutHeight(row))
+                .withSpacing(horizSpacing);
 
         setLayoutAt(row, col, layout);
         print();
@@ -236,18 +239,24 @@ public class GridLayout extends Layout {
         return layout;
     }
 
+    // TODO: not updated to the new API
     public @Nullable HorizontalLayout makeHorizontalLayoutAt(int row, int col, float horizSpacing, float fixedChildWidth) {
         if (!inBounds(row, col))
             return null;
 
-        HorizontalLayout layout = new HorizontalLayout(
-                getLayoutX(col),
-                getLayoutY(row),
-                getLayoutWidth(col),
-                getLayoutHeight(row),
-                horizSpacing,
-                fixedChildWidth
-        );
+        HorizontalLayout layout = HorizontalLayout
+                .build(getLayoutWidth(col), getLayoutHeight(row))
+                .withSpacing(horizSpacing)
+                .withFixedWidth(fixedChildWidth);
+
+//        HorizontalLayout layout = new HorizontalLayout(
+//                getLayoutX(col),
+//                getLayoutY(row),
+//                getLayoutWidth(col),
+//                getLayoutHeight(row),
+//                horizSpacing,
+//                fixedChildWidth
+//        );
 
         setLayoutAt(row, col, layout);
         print();

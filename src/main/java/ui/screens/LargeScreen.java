@@ -23,7 +23,7 @@ public class LargeScreen<T extends Layout> extends AbstractScreen<T> {
 
         this.SCREEN_W = SCREEN_BG.getWidth();
         this.SCREEN_H = SCREEN_BG.getHeight();
-        computeCenteredContentLocations();
+        //computeCenteredContentLocations();
 
         //mainLayout = new VerticalLayout(
 //        mainLayout = new VerticalLayout(
@@ -40,16 +40,19 @@ public class LargeScreen<T extends Layout> extends AbstractScreen<T> {
     protected void renderScreenBackground(SpriteBatch sb) {
         sb.setColor(new Color(1.0f, 1.0f, 1.0f, screenOpacity));
         sb.draw(SCREEN_BG,
-                ((float) Settings.WIDTH - SCREEN_W * Settings.scale) * 0.5f,
-                ((float) Settings.HEIGHT - SCREEN_H * Settings.scale) * 0.5f
+                getScreenLeft() * Settings.scale,
+                getScreenBottom() * Settings.scale,
+                SCREEN_W,
+                SCREEN_H
         );
 
         //sb.setColor(trimColor);
-
         sb.setColor(ColorHelper.rainbowColor());
         sb.draw(SCREEN_TRIM,
-                ((float) Settings.WIDTH - SCREEN_W * Settings.scale) * 0.5f,
-                ((float) Settings.HEIGHT - SCREEN_H * Settings.scale) * 0.5f
+                getScreenLeft() * Settings.scale,
+                getScreenBottom() * Settings.scale,
+                SCREEN_W,
+                SCREEN_H
         );
     }
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import ui.layouts.Layout;
 
-public abstract class AbstractScreen implements RenderSubscriber {
+public abstract class AbstractScreen<T extends Layout> implements RenderSubscriber {
     protected boolean visible;
 
     protected Texture SCREEN_BG;
@@ -23,7 +23,7 @@ public abstract class AbstractScreen implements RenderSubscriber {
     protected float CONTENT_MIN_Y;
     protected float CONTENT_MAX_Y;
 
-    protected Layout mainLayout;
+    protected T mainLayout;
 
     protected void computeCenteredContentLocations() {
         this.SCREEN_X = ((float)Settings.WIDTH - SCREEN_W) / 2.0f;

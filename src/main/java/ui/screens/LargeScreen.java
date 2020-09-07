@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
+import ui.layouts.HorizontalLayout;
+import ui.layouts.Layout;
 import ui.layouts.VerticalLayout;
 import utils.ColorHelper;
 import utils.TextureManager;
 
-public class LargeScreen extends AbstractScreen {
+public class LargeScreen<T extends Layout> extends AbstractScreen<T> {
     private static final Texture SCREEN_TRIM = TextureManager.getTexture("ModLib", "SCREEN_LARGE_TRIM");
 
     protected float screenOpacity = 0.8f;
@@ -23,12 +25,13 @@ public class LargeScreen extends AbstractScreen {
         this.SCREEN_H = SCREEN_BG.getHeight();
         computeCenteredContentLocations();
 
-        mainLayout = new VerticalLayout(
-                CONTENT_MIN_X, CONTENT_MAX_Y,
-                SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X,
-                SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y,
-                40.0f
-        );
+        //mainLayout = new VerticalLayout(
+//        mainLayout = new VerticalLayout(
+//                CONTENT_MIN_X, CONTENT_MAX_Y,
+//                SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X,
+//                SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y,
+//                40.0f
+//        );
 
         BaseMod.subscribe(this);
     }

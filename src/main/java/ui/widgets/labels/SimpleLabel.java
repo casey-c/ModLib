@@ -16,7 +16,7 @@ public class SimpleLabel extends ScreenWidget {
         this.font = font;
         this.color = color;
 
-        setPrefWidth( 10000.0f);
+        setPrefWidth(FontHelper.getSmartWidth(font, text, 10000.0f, 10.0f));
         setPrefHeight(font.getLineHeight());
     }
 

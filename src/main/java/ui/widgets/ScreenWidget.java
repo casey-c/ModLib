@@ -1,9 +1,11 @@
 package ui.widgets;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import ui.layouts.AnchorPosition;
 
 public abstract class ScreenWidget {
     private float x, y, prefWidth, prefHeight;
+    protected AnchorPosition anchorPosition;
 
     // --------------------------------------------------------------------------------
     // Getters
@@ -12,17 +14,22 @@ public abstract class ScreenWidget {
     public float getPrefWidth() { return prefWidth; }
     public float getPrefHeight() { return prefHeight; }
 
-    public float getBottomLeftX() { return x; }
-    public float getBottomLeftY() { return y; }
+    public float getLeft() { return x; }
+    public float getRight() { return x + prefWidth; }
+    public float getTop() { return y + prefHeight; }
+    public float getBottom() { return y; }
 
-    public float getTopLeftX() { return x; }
-    public float getTopLeftY() { return y + prefHeight; }
-
-    public float getTopRightX() { return x + prefWidth; }
-    public float getTopRightY() { return y + prefHeight; }
-
-    public float getBottomRightX() { return x + prefWidth; }
-    public float getBottomRightY() { return y; }
+//    public float getBottomLeftX() { return x; }
+//    public float getBottomLeftY() { return y; }
+//
+//    public float getTopLeftX() { return x; }
+//    public float getTopLeftY() { return y + prefHeight; }
+//
+//    public float getTopRightX() { return x + prefWidth; }
+//    public float getTopRightY() { return y + prefHeight; }
+//
+//    public float getBottomRightX() { return x + prefWidth; }
+//    public float getBottomRightY() { return y; }
 
     // --------------------------------------------------------------------------------
     // Setters
@@ -66,7 +73,7 @@ public abstract class ScreenWidget {
 
     // Debug
     public void print() {
-        System.out.println("SCREEN WIDGET: (" + getBottomLeftX() + ", " + getBottomLeftY() + ")  --> (" + getTopRightX() + ", " + getTopRightY() + ")");
+        System.out.println("SCREEN WIDGET: (" + getLeft() + ", " + getBottom() + ")  --> (" + getRight() + ", " + getTop() + ")");
     }
 
     // --------------------------------------------------------------------------------

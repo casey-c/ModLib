@@ -22,6 +22,6 @@ public class SimpleLabel extends ScreenWidget {
 
     @Override
     public void render(SpriteBatch sb) {
-        FontHelper.renderFontLeftDownAligned(sb, font, text, getBottomLeftX(), getBottomLeftY(), color);
+        FontHelper.renderFontLeftDownAligned(sb, font, text, getLeft(), getBottom(), color);
     }
 }

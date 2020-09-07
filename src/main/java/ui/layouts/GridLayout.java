@@ -87,7 +87,7 @@ public class GridLayout extends Layout {
     }
 
     private float getLayoutX(int col) {
-        float pos = getBottomLeftX();
+        float pos = getLeft();
 
         int index = 0;
         for (float w : columnWidths) {
@@ -101,7 +101,7 @@ public class GridLayout extends Layout {
     }
 
     private float getLayoutY(int row) {
-        float pos = getBottomLeftY();
+        float pos = getBottom();
 
         int index = 0;
         for (float h : rowHeights) {
@@ -181,42 +181,42 @@ public class GridLayout extends Layout {
 //        System.out.println("OJB: should move layout x to (" + lx + ", " + ly + ")");
     }
 
-    public @Nullable VerticalLayout makeVerticalLayoutAt(int row, int col, float vertSpacing) {
-        if (!inBounds(row, col))
-            return null;
-
-        VerticalLayout layout = new VerticalLayout(
-                getLayoutX(col),
-                getLayoutY(row),
-                getLayoutWidth(col),
-                getLayoutHeight(row),
-                vertSpacing
-        );
-
-        setLayoutAt(row, col, layout);
-        print();
-
-        return layout;
-    }
-
-    public @Nullable VerticalLayout makeVerticalLayoutAt(int row, int col, float vertSpacing, float fixedChildHeight) {
-        if (!inBounds(row, col))
-            return null;
-
-        VerticalLayout layout = new VerticalLayout(
-                getLayoutX(col),
-                getLayoutY(row),
-                getLayoutWidth(col),
-                getLayoutHeight(row),
-                vertSpacing,
-                fixedChildHeight
-        );
-
-        setLayoutAt(row, col, layout);
-        print();
-
-        return layout;
-    }
+//    public @Nullable VerticalLayout makeVerticalLayoutAt(int row, int col, float vertSpacing) {
+//        if (!inBounds(row, col))
+//            return null;
+//
+//        VerticalLayout layout = new VerticalLayout(
+//                getLayoutX(col),
+//                getLayoutY(row),
+//                getLayoutWidth(col),
+//                getLayoutHeight(row),
+//                vertSpacing
+//        );
+//
+//        setLayoutAt(row, col, layout);
+//        print();
+//
+//        return layout;
+//    }
+//
+//    public @Nullable VerticalLayout makeVerticalLayoutAt(int row, int col, float vertSpacing, float fixedChildHeight) {
+//        if (!inBounds(row, col))
+//            return null;
+//
+//        VerticalLayout layout = new VerticalLayout(
+//                getLayoutX(col),
+//                getLayoutY(row),
+//                getLayoutWidth(col),
+//                getLayoutHeight(row),
+//                vertSpacing,
+//                fixedChildHeight
+//        );
+//
+//        setLayoutAt(row, col, layout);
+//        print();
+//
+//        return layout;
+//    }
 
     public @Nullable HorizontalLayout makeHorizontalLayoutAt(int row, int col, float horizSpacing) {
         if (!inBounds(row, col))
@@ -266,7 +266,7 @@ public class GridLayout extends Layout {
 
     // Debug
     public void print() {
-        System.out.println("GRID LAYOUT: (" + getBottomLeftX() + ", " + getBottomLeftY() + ") --> (" + getTopRightX() + ", " + getTopRightY() + ")");
+        System.out.println("GRID LAYOUT: (" + getLeft() + ", " + getBottom() + ") --> (" + getRight() + ", " + getTop() + ")");
         System.out.println("\tNum rows: " + rowHeights.size() + " | Num cols: " + columnWidths.size());
         System.out.println("\tTotal children: " + children.size());
     }

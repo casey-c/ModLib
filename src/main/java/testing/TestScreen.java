@@ -3,20 +3,47 @@ package testing;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import ui.layouts.*;
-import ui.screens.AbstractScreen;
 import ui.screens.LargeScreen;
-import ui.widgets.SimplePadding;
 import ui.widgets.labels.SimpleLabel;
 
 public class TestScreen extends LargeScreen<HorizontalLayout> {
     public TestScreen() {
-        mainLayout = HorizontalLayout
-                .build( SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X, SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y)
-                .anchoredAt(CONTENT_MIN_X, CONTENT_MIN_Y, LayoutAnchorPosition.BOTTOM_LEFT)
-                .withSpacing(40.0f);
+//        HorizontalLayout bl = HorizontalLayout
+//                .build( SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X, SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y)
+//                .anchoredAt(CONTENT_MIN_X, CONTENT_MIN_Y, AnchorPosition.BOTTOM_LEFT)
+//                .withSpacing(40.0f);
+//
+//        bl.addChild(new SimpleLabel("Hello, world", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
+//        bl.addChild(new SimpleLabel("TEST", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
+//
+        // BOTTOM RIGHT
+//        HorizontalLayout br = HorizontalLayout
+//                .build( SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X, SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y )
+//                .anchoredAt(CONTENT_MAX_X, CONTENT_MIN_Y, AnchorPosition.BOTTOM_RIGHT)
+//                .withSpacing(40.0f);
+//        br.addChild(new SimpleLabel("Hello, world", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
+//        br.addChild(new SimpleLabel("TEST", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
 
-        mainLayout.addChild(new SimpleLabel("Hello, world", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
-        mainLayout.addChild(new SimpleLabel("TEST", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
+
+        // TOP RIGHT
+//        HorizontalLayout tr = HorizontalLayout
+//                .build( SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X, SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y )
+//                .anchoredAt(CONTENT_MAX_X, CONTENT_MAX_Y, AnchorPosition.TOP_RIGHT)
+//                .withSpacing(40.0f);
+//        tr.addChild(new SimpleLabel("Hello, world", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
+//        tr.addChild(new SimpleLabel("TEST", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
+
+
+        // TOP LEFT
+//        HorizontalLayout tl = HorizontalLayout
+//                .build(SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X, SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y)
+//                .anchoredAt(CONTENT_MIN_X, CONTENT_MAX_Y, AnchorPosition.TOP_LEFT)
+//                .withSpacing(40.0f);
+//        tl.addChild(new SimpleLabel("Hello, world", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
+//        tl.addChild(new SimpleLabel("TEST", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
+
+        // TODO: check all
+        //mainLayout = tl;
 
         //nestedLayoutTest();
 //        mainLayout = GridLayout
@@ -47,8 +74,6 @@ public class TestScreen extends LargeScreen<HorizontalLayout> {
 //        l3.addChild(new SimpleLabel("L3 c0", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
 //        l3.addChild(new SimpleLabel("L3 c1", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
 //        l3.print();
-
-        // TODO: add orientation to layouts? like is it anchored bottomLeft, topLeft, br, or tr
 
 
         System.out.println("------");

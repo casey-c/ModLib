@@ -9,16 +9,14 @@ public class HorizontalLayout extends Layout {
     private float horizSpacing;
     private float lastHorizPos;
 
-    private LayoutAnchorPosition anchorPosition;
     private float fixedChildWidth;
     private boolean letChildrenDetermineOwnWidth = true;
 
     private ArrayList<ScreenWidget> children;
 
-
     private HorizontalLayout(float pw, float ph) {
-        setPrefWidthHeight(pw, ph);
-        children = new ArrayList<>();
+        this.setPrefWidthHeight(pw, ph);
+        this.children = new ArrayList<>();
     }
 
     public static HorizontalLayout build(float prefWidth, float prefHeight) {
@@ -26,45 +24,27 @@ public class HorizontalLayout extends Layout {
         return layout;
     }
 
-    public HorizontalLayout anchoredAt(float x, float y, LayoutAnchorPosition pos) {
+    public HorizontalLayout anchoredAt(float x, float y, AnchorPosition pos) {
         this.anchorPosition = pos;
-        this.setBottomLeft(x, y);
 
-        if (pos == LayoutAnchorPosition.TOP_LEFT || pos == LayoutAnchorPosition.BOTTOM_LEFT)
-            this.lastHorizPos = getBottomLeftX();
+        // Move this layout to the proper spot
+        if (pos == AnchorPosition.BOTTOM_LEFT)
+            this.setBottomLeft(x, y);
+        else if (pos == AnchorPosition.TOP_LEFT)
+            this.setTopLeft(x, y);
+        else if (pos == AnchorPosition.TOP_RIGHT)
+            this.setTopRight(x, y);
+        else if (pos == AnchorPosition.BOTTOM_RIGHT)
+            this.setBottomRight(x, y);
+
+        // Setup the horizontal position counter
+        if (pos == AnchorPosition.TOP_LEFT || pos == AnchorPosition.BOTTOM_LEFT)
+            this.lastHorizPos = getLeft();
         else
-            this.lastHorizPos = getBottomRightX();
+            this.lastHorizPos = getRight();
 
         return this;
     }
-
-//    public HorizontalLayout anchoredBottomLeft(float x, float y) {
-//        this.anchorPosition = LayoutAnchorPosition.BOTTOM_LEFT;
-//        this.setBottomLeft(x, y);
-//        lastHorizPos = getBottomLeftX();
-//        return this;
-//    }
-//
-//    public HorizontalLayout anchoredTopLeft(float x, float y) {
-//        this.anchorPosition = LayoutAnchorPosition.TOP_LEFT;
-//        this.setTopLeft(x, y);
-//        lastHorizPos = getBottomLeftX();
-//        return this;
-//    }
-//
-//    public HorizontalLayout anchoredTopRight(float x, float y) {
-//        this.anchorPosition = LayoutAnchorPosition.TOP_RIGHT;
-//        this.setTopLeft(x, y);
-//        lastHorizPos = getBottomRightX();
-//        return this;
-//    }
-//
-//    public HorizontalLayout anchoredBottomRight(float x, float y) {
-//        this.anchorPosition = LayoutAnchorPosition.BOTTOM_RIGHT;
-//        this.setTopLeft(x, y);
-//        lastHorizPos = getBottomRightX();
-//        return this;
-//    }
 
     public HorizontalLayout withSpacing(float horizSpacing) {
         this.horizSpacing = horizSpacing;
@@ -77,68 +57,34 @@ public class HorizontalLayout extends Layout {
         return this;
     }
 
-//    private HorizontalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float horizSpacing, float fixedChildWidth) {
-//        children = new ArrayList<>();
-//
-//        setPrefWidthHeight(prefWidth, prefHeight);
-//        setBottomLeft(bottomLeftX, bottomLeftY);
-//
-//        this.lastHorizPos = getBottomLeftX();
-//
-//        this.horizSpacing = horizSpacing;
-//        this.fixedChildWidth = fixedChildWidth;
-//    }
-//
-//
-//    private HorizontalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float horizSpacing) {
-//        this(bottomLeftX, bottomLeftY, prefWidth, prefHeight, horizSpacing, 0.0f);
-//        this.letChildrenDetermineOwnWidth = true;
-//    }
-
     // Debug
     public void print() {
-        System.out.println("HORIZONTAL LAYOUT: (" + getBottomLeftX() + ", " + getBottomLeftY() + ") --> (" + getTopRightX() + ", " + getTopRightY() + ")");
+        System.out.println("HORIZONTAL LAYOUT: (" + getLeft() + ", " + getBottom() + ") --> (" + getRight() + ", " + getTop() + ")");
         System.out.println("\t last horiz position: " + lastHorizPos);
     }
 
     private void moveChildIntoPosition(ScreenWidget child, float cx) {
-//        // TODO: Move according to the anchor
-//        if (anchorPosition == LayoutAnchorPosition.BOTTOM_LEFT)
-//            child.setBottomLeft(cx, getBottomLeftY());
-//        else if (anchorPosition == LayoutAnchorPosition.BOTTOM_RIGHT)
-//            child.setBottomRight(cx, getBottomLeftY());
-//        else if (anchorPosition == LayoutAnchorPosition.TOP_LEFT)
-//            child.setTopLeft(cx, getBottomLeftY());
-//        else if (anchorPosition == LayoutAnchorPosition.TOP_RIGHT)
-//            child.setTopRight(cx, getBottomLeftY());
-
         // Update the last position counter
         float widthOffset = (letChildrenDetermineOwnWidth) ? child.getPrefWidth() : fixedChildWidth;
 
         switch (anchorPosition) {
             case BOTTOM_LEFT:
-                child.setBottomLeft(cx, getBottomLeftY());
+                child.setBottomLeft(cx, getBottom());
                 lastHorizPos = lastHorizPos + widthOffset + horizSpacing;
                 break;
             case TOP_LEFT:
-                child.setTopLeft(cx, getTopLeftY());
+                child.setTopLeft(cx, getTop());
                 lastHorizPos = lastHorizPos + widthOffset + horizSpacing;
                 break;
             case BOTTOM_RIGHT:
-                child.setBottomRight(cx, getBottomRightY());
+                child.setBottomRight(cx, getBottom());
                 lastHorizPos = lastHorizPos - widthOffset - horizSpacing;
                 break;
             case TOP_RIGHT:
-                child.setTopRight(cx, getTopRightY());
+                child.setTopRight(cx, getTop());
                 lastHorizPos = lastHorizPos - widthOffset - horizSpacing;
                 break;
         }
-
-//        if (letChildrenDetermineOwnWidth) {
-//            lastHorizPos = cx + child.getPrefWidth() + horizSpacing;
-//        } else {
-//            lastHorizPos = lastHorizPos + fixedChildWidth + horizSpacing;
-//        }
     }
 
     public void addChild(ScreenWidget child) {
@@ -146,7 +92,7 @@ public class HorizontalLayout extends Layout {
         moveChildIntoPosition(child, lastHorizPos);
     }
 
-    // TODO: Should be called if the layout ever moves at some point
+    // TODO: needed if layout position ever changes (maybe have a recursive update to all widgets?)
 //    public void recomputeAllChildPositions() {
 //        lastHorizPos = 0;
 //        for (ScreenWidget child : children)

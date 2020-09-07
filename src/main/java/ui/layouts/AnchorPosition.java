@@ -1,6 +1,6 @@
 package ui.layouts;
 
-public enum LayoutAnchorPosition {
+public enum AnchorPosition {
     BOTTOM_LEFT,
     TOP_LEFT,
     BOTTOM_RIGHT,

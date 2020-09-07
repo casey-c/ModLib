@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class SimplePadding extends ScreenWidget {
     public SimplePadding(float w, float h) {
-        this.prefWidth = w;
-        this.prefHeight = h;
+        setPrefWidthHeight(w, h);
     }
 
     @Override

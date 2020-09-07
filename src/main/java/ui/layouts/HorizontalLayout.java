@@ -12,38 +12,37 @@ public class HorizontalLayout extends Layout {
     private float fixedChildWidth;
     private boolean letChildrenDetermineOwnWidth;
 
-    public HorizontalLayout(float topLeftX, float topLeftY, float prefWidth, float prefHeight, float horizSpacing, float fixedChildWidth) {
+    public HorizontalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float horizSpacing, float fixedChildWidth) {
         children = new ArrayList<>();
 
-        this.x = topLeftX;
-        this.y = topLeftY;
-        this.lastHorizPos = x;
+        setPrefWidthHeight(prefWidth, prefHeight);
+        setBottomLeft(bottomLeftX, bottomLeftY);
 
-        this.prefWidth = prefWidth;
-        this.prefHeight = prefHeight;
+        this.lastHorizPos = getBottomLeftX();
 
         this.horizSpacing = horizSpacing;
         this.fixedChildWidth = fixedChildWidth;
+
+        print();
     }
 
-    public HorizontalLayout(float topLeftX, float topLeftY, float prefWidth, float prefHeight, float horizSpacing) {
-        children = new ArrayList<>();
 
-        this.x = topLeftX;
-        this.y = topLeftY;
-        this.lastHorizPos = x;
-
-        this.prefWidth = prefWidth;
-        this.prefHeight = prefHeight;
-
-        this.horizSpacing = horizSpacing;
+    public HorizontalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float horizSpacing) {
+        this(bottomLeftX, bottomLeftY, prefWidth, prefHeight, horizSpacing, 0.0f);
         this.letChildrenDetermineOwnWidth = true;
     }
 
+    // Debug
+    public void print() {
+        System.out.println("HORIZONTAL LAYOUT: (" + getBottomLeftX() + ", " + getBottomLeftY() + ") --> (" + getTopRightX() + ", " + getTopRightY() + ")");
+        System.out.println("\t last horiz position: " + lastHorizPos);
+    }
+
     private void moveChildIntoPosition(ScreenWidget child, float cx) {
-        // Move the child to the proper position determined by this layout
-        child.setX(cx);
-        child.setY(y);
+        child.setBottomLeft(cx, getBottomLeftY());
+
+        System.out.println("Moved child into position");
+        child.print();
 
         if (letChildrenDetermineOwnWidth)
             lastHorizPos = cx + child.getPrefWidth() + horizSpacing;

@@ -12,44 +12,39 @@ public class VerticalLayout extends Layout {
     private float fixedChildHeight;
     private boolean letChildrenDetermineOwnHeight;
 
-    public VerticalLayout(float topLeftX, float topLeftY, float prefWidth, float prefHeight, float vertSpacing, float fixedChildHeight) {
+    public VerticalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float vertSpacing, float fixedChildHeight) {
         children = new ArrayList<>();
 
-        System.out.println("OJB: making a vertical layout start top left at " + topLeftX + ", " + topLeftY);
-        System.out.println("OJB: vertical layout w,h: " + prefWidth + ", " + prefHeight);
+        setPrefWidthHeight(prefWidth, prefHeight);
+        setBottomLeft(bottomLeftX, bottomLeftY);
 
-        this.x = topLeftX;
-        this.y = topLeftY;
-        this.lastVertPos = y;
-
-        this.prefWidth = prefWidth;
-        this.prefHeight = prefHeight;
+        this.lastVertPos = getTopLeftY();
 
         this.vertSpacing = vertSpacing;
         this.fixedChildHeight = fixedChildHeight;
+
+        print();
     }
 
-    public VerticalLayout(float topLeftX, float topLeftY, float prefWidth, float prefHeight, float vertSpacing) {
-        children = new ArrayList<>();
-
-        System.out.println("OJB: making a vertical layout start top left at " + topLeftX + ", " + topLeftY);
-        System.out.println("OJB: vertical layout w,h: " + prefWidth + ", " + prefHeight);
-
-        this.x = topLeftX;
-        this.y = topLeftY;
-        this.lastVertPos = y;
-
-        this.prefWidth = prefWidth;
-        this.prefHeight = prefHeight;
-
-        this.vertSpacing = vertSpacing;
+    public VerticalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float vertSpacing) {
+        this(bottomLeftX, bottomLeftY, prefWidth, prefHeight, vertSpacing, 0.0f);
         this.letChildrenDetermineOwnHeight = true;
+    }
+
+    // Debug
+    public void print() {
+        System.out.println("VERTICAL LAYOUT: (" + getBottomLeftX() + ", " + getBottomLeftY() + ") --> (" + getTopRightX() + ", " + getTopRightY() + ")");
+        System.out.println("\t last vert position: " + lastVertPos);
     }
 
     private void moveChildIntoPosition(ScreenWidget child, float cy) {
         // Move the child to the proper position determined by this layout
-        child.setX(x);
-        child.setY(cy);
+        child.setTopLeft(getBottomLeftX(), cy);
+//        child.setBottomLeftX(x);
+//        child.setTopLeftY(cy);
+
+//        child.setX(x);
+//        child.setY(cy);
 
         if (letChildrenDetermineOwnHeight)
             lastVertPos = cy - child.getPrefHeight() - vertSpacing;
@@ -69,7 +64,9 @@ public class VerticalLayout extends Layout {
 
     // TODO: Should be called if the layout ever moves at some point
     public void recomputeAllChildPositions() {
-        lastVertPos = 0;
+        //lastVertPos = 0;
+        lastVertPos = getTopLeftY();
+
         for (ScreenWidget child : children) {
             moveChildIntoPosition(child, lastVertPos);
         }

@@ -13,14 +13,16 @@ import ui.widgets.labels.SimpleLabel;
 public class TestScreen extends LargeScreen<VerticalLayout> {
     public TestScreen() {
         mainLayout = new VerticalLayout(
-                CONTENT_MIN_X, CONTENT_MAX_Y,
+                CONTENT_MIN_X,
+                CONTENT_MIN_Y,
                 SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X,
                 SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y,
-                40.0f,
                 40.0f
         );
 
         mainLayout.addChild(new SimpleLabel("Test Screen", FontHelper.bannerFont, Settings.GOLD_COLOR));
         mainLayout.addChild(new SimpleLabel("Hello, world", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
+        mainLayout.addChild(new SimpleLabel("More Text", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
+        mainLayout.addChild(new SimpleLabel("YESSSSSS", FontHelper.tipBodyFont, Settings.BLUE_TEXT_COLOR));
     }
 }

@@ -22,8 +22,6 @@ public class HorizontalLayout extends Layout {
 
         this.horizSpacing = horizSpacing;
         this.fixedChildWidth = fixedChildWidth;
-
-        print();
     }
 
 
@@ -41,9 +39,6 @@ public class HorizontalLayout extends Layout {
     private void moveChildIntoPosition(ScreenWidget child, float cx) {
         child.setBottomLeft(cx, getBottomLeftY());
 
-        System.out.println("Moved child into position");
-        child.print();
-
         if (letChildrenDetermineOwnWidth)
             lastHorizPos = cx + child.getPrefWidth() + horizSpacing;
         else
@@ -51,21 +46,15 @@ public class HorizontalLayout extends Layout {
     }
 
     public void addChild(ScreenWidget child) {
-        System.out.println("OJB: horiz layout starting lastHorizPos at " + lastHorizPos);
-
         children.add(child);
         moveChildIntoPosition(child, lastHorizPos);
-
-        System.out.println("OJB: horiz layout added a child with preferred width " + child.getPrefWidth());
-        System.out.println("OJB: horiz layout now has lastHorizPos at " + lastHorizPos + "\n");
     }
 
     // TODO: Should be called if the layout ever moves at some point
     public void recomputeAllChildPositions() {
         lastHorizPos = 0;
-        for (ScreenWidget child : children) {
+        for (ScreenWidget child : children)
             moveChildIntoPosition(child, lastHorizPos);
-        }
     }
 
     @Override

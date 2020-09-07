@@ -1,0 +1,10 @@
+{
+  "modid": "modlib",
+  "name": "ModLib",
+  "author_list": ["ojb"],
+  "description": "A library containing UI and functional improvements for modders. This utility mod does not affect the game by itself.",
+  "version": "0.0.1",
+  "sts_version": "06-22-2020",
+  "mts_version": "2.6.0",
+  "dependencies": ["basemod"]
+}

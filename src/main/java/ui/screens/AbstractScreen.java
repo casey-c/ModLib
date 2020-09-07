@@ -15,8 +15,8 @@ public abstract class AbstractScreen implements RenderSubscriber {
 
     protected float SCREEN_X, SCREEN_Y;
 
-    protected float CONTENT_OUTER_PADDING_X = 10.0f;
-    protected float CONTENT_OUTER_PADDING_Y = 10.0f;
+    protected float CONTENT_OUTER_PADDING_X = 60.0f;
+    protected float CONTENT_OUTER_PADDING_Y = 60.0f;
 
     protected float CONTENT_MIN_X;
     protected float CONTENT_MAX_X;

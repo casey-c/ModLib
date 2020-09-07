@@ -5,7 +5,7 @@ import ui.screens.LargeScreen;
 import utils.TextureManager;
 
 public class TestClass extends TopPanelItem {
-    private LargeScreen screen;
+    private TestScreen screen;
 
     public TestClass() {
         super(TextureManager.getTexture("ModLib", "ICON"), "ModLib:TEST");
@@ -16,7 +16,7 @@ public class TestClass extends TopPanelItem {
         System.out.println("OJB: top panel item clicked");
 
         if (screen == null)
-            screen = new LargeScreen();
+            screen = new TestScreen();
 
         if (screen.isVisible())
             screen.hide();

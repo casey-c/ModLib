@@ -10,10 +10,14 @@ public class VerticalLayout extends Layout {
     private float lastVertPos;
 
     public VerticalLayout(float topLeftX, float topLeftY, float prefWidth, float prefHeight, float vertSpacing) {
-        children = new ArrayList<ScreenWidget>();
+        children = new ArrayList<>();
+
+        System.out.println("OJB: making a vertical layout start top left at " + topLeftX + ", " + topLeftY);
+        System.out.println("OJB: vertical layout w,h: " + prefWidth + ", " + prefHeight);
 
         this.x = topLeftX;
         this.y = topLeftY;
+        this.lastVertPos = y;
 
         this.prefWidth = prefWidth;
         this.prefHeight = prefHeight;
@@ -26,12 +30,17 @@ public class VerticalLayout extends Layout {
         child.setX(x);
         child.setY(cy);
 
-        lastVertPos = cy + child.getPrefHeight() + vertSpacing;
+        lastVertPos = cy - child.getPrefHeight() - vertSpacing;
     }
 
     public void addChild(ScreenWidget child) {
+        System.out.println("OJB: vertical layout starting lastVertPos at " + lastVertPos);
+
         children.add(child);
         moveChildIntoPosition(child, lastVertPos);
+
+        System.out.println("OJB: vertical layout added a child with preferred height " + child.getPrefHeight());
+        System.out.println("OJB: vertical layout now has lastVertPos at " + lastVertPos);
     }
 
     // TODO: Should be called if the layout ever moves at some point

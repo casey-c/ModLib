@@ -6,8 +6,15 @@ import ui.layouts.*;
 import ui.screens.LargeScreen;
 import ui.widgets.labels.SimpleLabel;
 
-public class TestScreen extends LargeScreen<HorizontalLayout> {
+public class TestScreen extends LargeScreen<VerticalLayout> {
     public TestScreen() {
+        mainLayout = VerticalLayout
+                .build( SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X, SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y)
+                .anchoredAt(CONTENT_MAX_X, CONTENT_MIN_Y, AnchorPosition.BOTTOM_RIGHT)
+                .withSpacing(40.0f);
+        mainLayout.addChild(new SimpleLabel("Hello, world", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
+        mainLayout.addChild(new SimpleLabel("TEST", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
+
 //        HorizontalLayout bl = HorizontalLayout
 //                .build( SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X, SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y)
 //                .anchoredAt(CONTENT_MIN_X, CONTENT_MIN_Y, AnchorPosition.BOTTOM_LEFT)

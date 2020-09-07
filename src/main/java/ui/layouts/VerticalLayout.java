@@ -26,7 +26,16 @@ public class VerticalLayout extends Layout {
 
     public VerticalLayout anchoredAt(float x, float y, AnchorPosition pos) {
         this.anchorPosition = pos;
-        this.setBottomLeft(x, y);
+
+        // Move this layout to the proper spot
+        if (pos == AnchorPosition.BOTTOM_LEFT)
+            this.setBottomLeft(x, y);
+        else if (pos == AnchorPosition.TOP_LEFT)
+            this.setTopLeft(x, y);
+        else if (pos == AnchorPosition.TOP_RIGHT)
+            this.setTopRight(x, y);
+        else if (pos == AnchorPosition.BOTTOM_RIGHT)
+            this.setBottomRight(x, y);
 
         if (pos == AnchorPosition.TOP_LEFT || pos == AnchorPosition.TOP_RIGHT)
             this.lastVertPos = getTop();

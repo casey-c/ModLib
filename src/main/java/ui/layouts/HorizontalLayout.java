@@ -12,6 +12,8 @@ public class HorizontalLayout extends Layout {
     private float fixedChildWidth;
     private boolean letChildrenDetermineOwnWidth;
 
+    private ArrayList<ScreenWidget> children;
+
     public HorizontalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float horizSpacing, float fixedChildWidth) {
         children = new ArrayList<>();
 

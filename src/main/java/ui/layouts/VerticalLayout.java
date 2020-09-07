@@ -12,6 +12,8 @@ public class VerticalLayout extends Layout {
     private float fixedChildHeight;
     private boolean letChildrenDetermineOwnHeight;
 
+    private ArrayList<ScreenWidget> children;
+
     public VerticalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float vertSpacing, float fixedChildHeight) {
         children = new ArrayList<>();
 

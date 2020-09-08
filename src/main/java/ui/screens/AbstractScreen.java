@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import ui.layouts.Layout;
 
-public abstract class AbstractScreen<T extends Layout> implements RenderSubscriber {
+public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubscriber {
     protected boolean visible;
 
     protected Texture SCREEN_BG;

@@ -11,7 +11,7 @@ import ui.layouts.VerticalLayout;
 import utils.ColorHelper;
 import utils.TextureManager;
 
-public class LargeScreen<T extends Layout> extends AbstractScreen<T> {
+public class LargeScreen<T extends Layout<T>> extends AbstractScreen<T> {
     private static final Texture SCREEN_TRIM = TextureManager.getTexture("ModLib", "SCREEN_LARGE_TRIM");
 
     protected float screenOpacity = 0.8f;

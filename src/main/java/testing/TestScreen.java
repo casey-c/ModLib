@@ -3,12 +3,16 @@ package testing;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import ui.layouts.*;
+import ui.screens.DynamicScreen;
 import ui.screens.LargeScreen;
 import ui.widgets.SimplePadding;
 import ui.widgets.labels.SimpleLabel;
 
-public class TestScreen extends LargeScreen<GridLayout> {
-    public TestScreen() {
+public class TestScreen extends DynamicScreen<GridLayout> {
+    public TestScreen(int width, int height) {
+        super();
+        with_dimensions(width, height);
+
         this.CONTENT_PADDING_X = 100.0f;
         this.CONTENT_PADDING_Y = 40.0f;
 
@@ -28,7 +32,7 @@ public class TestScreen extends LargeScreen<GridLayout> {
         for (int i = 0; i < 10; ++i)
             bottom.addChild(new SimpleLabel("Test " + i));
 
-        mainLayout.setWidget(0, 1, new SimpleLabel("TEST"), AnchorPosition.BOTTOM_LEFT);
+        //mainLayout.setWidget(0, 1, new SimpleLabel("TEST"), AnchorPosition.BOTTOM_LEFT);
     }
 
     private void dynGridTest() {

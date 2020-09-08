@@ -9,16 +9,19 @@ import ui.layouts.HorizontalLayout;
 import ui.layouts.Layout;
 import ui.layouts.VerticalLayout;
 import utils.ColorHelper;
+import utils.TextureHelper;
 import utils.TextureManager;
 
 public class LargeScreen<T extends Layout<T>> extends AbstractScreen<T> {
-    private static final Texture SCREEN_TRIM = TextureManager.getTexture("ModLib", "SCREEN_LARGE_TRIM");
+    //private static final Texture SCREEN_TRIM = TextureManager.getTexture("ModLib", "SCREEN_LARGE_TRIM");
+    private static final Texture SCREEN_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_LARGE_TRIM);
 
     protected float screenOpacity = 0.8f;
     protected Color trimColor;
 
     public LargeScreen() {
-        this.SCREEN_BG = TextureManager.getTexture("ModLib", "SCREEN_LARGE_BASE");
+        //this.SCREEN_BG = TextureManager.getTexture("ModLib", "SCREEN_LARGE_BASE");
+        this.SCREEN_BG = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_LARGE_BASE);
         this.trimColor = Settings.CREAM_COLOR;
 
         this.SCREEN_W = SCREEN_BG.getWidth();

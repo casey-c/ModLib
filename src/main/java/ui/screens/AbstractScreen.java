@@ -100,4 +100,10 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
         renderScreenBackground(sb);
         renderScreenForeground(sb);
     }
+
+    public void print() {
+        System.out.println("SCREEN (width, height): " + getScreenWidth() + ", " + getScreenHeight());
+        System.out.println("SCREEN bottom left (x, y): " + getScreenLeft() + ", " + getScreenBottom());
+        System.out.println("SCREEN upper right (x, y): " + getScreenRight() + ", " + getScreenTop());
+    }
 }

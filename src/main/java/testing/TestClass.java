@@ -1,14 +1,14 @@
 package testing;
 
 import basemod.TopPanelItem;
-import ui.screens.LargeScreen;
-import utils.TextureManager;
+import utils.TextureHelper;
 
 public class TestClass extends TopPanelItem {
     private TestScreen screen;
 
     public TestClass() {
-        super(TextureManager.getTexture("ModLib", "ICON"), "ModLib:TEST");
+        super(TextureHelper.getTexture(TextureHelper.TextureItem.ICON), TextureHelper.MOD_ID + ":ICON");
+        //super(TextureManager.getTexture("ModLib", "ICON"), "ModLib:TEST");
     }
 
     @Override
@@ -16,7 +16,9 @@ public class TestClass extends TopPanelItem {
         System.out.println("OJB: top panel item clicked");
 
         if (screen == null)
-            screen = new TestScreen();
+            screen = new TestScreen(1000, 800);
+
+        screen.print();
 
         if (screen.isVisible())
             screen.hide();

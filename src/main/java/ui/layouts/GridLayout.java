@@ -1,6 +1,7 @@
 package ui.layouts;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ui.widgets.ScreenWidget;
 import utils.DualIntegerKey;
@@ -22,9 +23,9 @@ public class GridLayout extends Layout {
     private ArrayList<Float> rowHeights;
     private GRID_TYPE colType, rowType;
 
-    private GridLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight) {
+    private GridLayout(float prefWidth, float prefHeight) {
         setPrefWidthHeight(prefWidth, prefHeight);
-        setBottomLeft(bottomLeftX, bottomLeftY);
+        //setBottomLeft(bottomLeftX, bottomLeftY);
 
         this.children = new HashMap<>();
         columnWidths = new ArrayList<>();
@@ -32,6 +33,27 @@ public class GridLayout extends Layout {
 
         this.colType = GRID_TYPE.NONE;
         this.rowType = GRID_TYPE.NONE;
+    }
+
+    public static GridLayout build(float prefWidth, float prefHeight) {
+        GridLayout layout = new GridLayout(prefWidth, prefHeight);
+        return layout;
+    }
+
+    public GridLayout anchoredAt(float x, float y, AnchorPosition pos) {
+        this.anchorPosition = pos;
+
+        // Move this layout to the proper spot
+        if (pos == AnchorPosition.BOTTOM_LEFT)
+            this.setBottomLeft(x, y);
+        else if (pos == AnchorPosition.TOP_LEFT)
+            this.setTopLeft(x, y);
+        else if (pos == AnchorPosition.TOP_RIGHT)
+            this.setTopRight(x, y);
+        else if (pos == AnchorPosition.BOTTOM_RIGHT)
+            this.setBottomRight(x, y);
+
+        return this;
     }
 
     public GridLayout with_balanced_rows(int count) {
@@ -66,21 +88,43 @@ public class GridLayout extends Layout {
         return this;
     }
 
-    public static GridLayout build(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight) {
-        GridLayout res = new GridLayout(bottomLeftX, bottomLeftY, prefWidth, prefHeight);
-        return res;
+    // TODO: add in anchors for GRIDs
+    private void fixRawLayout(int row, int col, Layout layout) {
+        layout.withDimensions(getLayoutWidth(col), getLayoutHeight(row))
+              .anchoredAt(getLayoutX(col), getLayoutY(row), AnchorPosition.BOTTOM_LEFT);
     }
 
-    public boolean hasExistingAt(int row, int col) {
-        return children.containsKey( new DualIntegerKey(row, col));
+    public boolean setRawLayout(int row, int col, Layout layout) {
+        if (!inBounds(row, col))
+            return false;
+
+        System.out.println("OJB: original raw layout");
+        layout.print();
+
+        fixRawLayout(row, col, layout);
+
+        System.out.println("OJB: fixed raw layout");
+        layout.print();
+
+        children.put(new DualIntegerKey(row, col), layout);
+        return true;
     }
 
-    public @Nullable Layout getLayoutAt(int row, int col) {
-        if (hasExistingAt(row, col))
-            return children.get(new DualIntegerKey(row, col));
-        else
-            return null;
-    }
+//    public static GridLayout build(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight) {
+//        GridLayout res = new GridLayout(bottomLeftX, bottomLeftY, prefWidth, prefHeight);
+//        return res;
+//    }
+
+//    public boolean hasExistingAt(int row, int col) {
+//        return children.containsKey( new DualIntegerKey(row, col));
+//    }
+//
+//    public @Nullable Layout getLayoutAt(int row, int col) {
+//        if (hasExistingAt(row, col))
+//            return children.get(new DualIntegerKey(row, col));
+//        else
+//            return null;
+//    }
 
     public boolean inBounds(int row, int col) {
         return (row < rowHeights.size()) && (col < columnWidths.size());
@@ -218,51 +262,51 @@ public class GridLayout extends Layout {
 //        return layout;
 //    }
 
-    public @Nullable HorizontalLayout makeHorizontalLayoutAt(int row, int col, float horizSpacing) {
-        if (!inBounds(row, col))
-            return null;
-
-//        HorizontalLayout layout = new HorizontalLayout(
-//                getLayoutX(col),
-//                getLayoutY(row),
-//                getLayoutWidth(col),
-//                getLayoutHeight(row),
-//                horizSpacing
-//        );
-        HorizontalLayout layout = HorizontalLayout
-                .build(getLayoutWidth(col), getLayoutHeight(row))
-                .withSpacing(horizSpacing);
-
-        setLayoutAt(row, col, layout);
-        print();
-
-        return layout;
-    }
+//    public @Nullable HorizontalLayout makeHorizontalLayoutAt(int row, int col, float horizSpacing) {
+//        if (!inBounds(row, col))
+//            return null;
+//
+////        HorizontalLayout layout = new HorizontalLayout(
+////                getLayoutX(col),
+////                getLayoutY(row),
+////                getLayoutWidth(col),
+////                getLayoutHeight(row),
+////                horizSpacing
+////        );
+//        HorizontalLayout layout = HorizontalLayout
+//                .build(getLayoutWidth(col), getLayoutHeight(row))
+//                .withSpacing(horizSpacing);
+//
+//        setLayoutAt(row, col, layout);
+//        print();
+//
+//        return layout;
+//    }
 
     // TODO: not updated to the new API
-    public @Nullable HorizontalLayout makeHorizontalLayoutAt(int row, int col, float horizSpacing, float fixedChildWidth) {
-        if (!inBounds(row, col))
-            return null;
-
-        HorizontalLayout layout = HorizontalLayout
-                .build(getLayoutWidth(col), getLayoutHeight(row))
-                .withSpacing(horizSpacing)
-                .withFixedWidth(fixedChildWidth);
-
-//        HorizontalLayout layout = new HorizontalLayout(
-//                getLayoutX(col),
-//                getLayoutY(row),
-//                getLayoutWidth(col),
-//                getLayoutHeight(row),
-//                horizSpacing,
-//                fixedChildWidth
-//        );
-
-        setLayoutAt(row, col, layout);
-        print();
-
-        return layout;
-    }
+//    public @Nullable HorizontalLayout makeHorizontalLayoutAt(int row, int col, float horizSpacing, float fixedChildWidth) {
+//        if (!inBounds(row, col))
+//            return null;
+//
+//        HorizontalLayout layout = HorizontalLayout
+//                .build(getLayoutWidth(col), getLayoutHeight(row))
+//                .withSpacing(horizSpacing)
+//                .withFixedWidth(fixedChildWidth);
+//
+////        HorizontalLayout layout = new HorizontalLayout(
+////                getLayoutX(col),
+////                getLayoutY(row),
+////                getLayoutWidth(col),
+////                getLayoutHeight(row),
+////                horizSpacing,
+////                fixedChildWidth
+////        );
+//
+//        setLayoutAt(row, col, layout);
+//        print();
+//
+//        return layout;
+//    }
 
     // Debug
     public void print() {

@@ -5,7 +5,7 @@ import ui.widgets.ScreenWidget;
 
 import java.util.ArrayList;
 
-public class HorizontalLayout extends Layout {
+public class HorizontalLayout extends Layout<HorizontalLayout> {
     private float horizSpacing;
     private float lastHorizPos;
 

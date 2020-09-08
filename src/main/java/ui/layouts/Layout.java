@@ -6,6 +6,25 @@ import ui.widgets.ScreenWidget;
 import java.util.Collection;
 
 // TODO: either add layout specific functions (clearAll? recomputePositions?) or remove this code smell!
-public abstract class Layout extends ScreenWidget {
-    //protected Collection<ScreenWidget> children;
+public abstract class Layout<T extends Layout<T>> extends ScreenWidget {
+    public T anchoredAt(float x,  float y, AnchorPosition pos) {
+        this.anchorPosition = pos;
+
+        // Move this layout to the proper spot
+        if (pos == AnchorPosition.BOTTOM_LEFT)
+            this.setBottomLeft(x, y);
+        else if (pos == AnchorPosition.TOP_LEFT)
+            this.setTopLeft(x, y);
+        else if (pos == AnchorPosition.TOP_RIGHT)
+            this.setTopRight(x, y);
+        else if (pos == AnchorPosition.BOTTOM_RIGHT)
+            this.setBottomRight(x, y);
+
+        return (T)this;
+    }
+
+    public T withDimensions(float prefWidth, float prefHeight) {
+        this.setPrefWidthHeight(prefWidth, prefHeight);
+        return (T)this;
+    }
 }

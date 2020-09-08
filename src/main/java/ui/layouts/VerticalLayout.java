@@ -5,7 +5,7 @@ import ui.widgets.ScreenWidget;
 
 import java.util.ArrayList;
 
-public class VerticalLayout extends Layout {
+public class VerticalLayout extends Layout<VerticalLayout> {
     private float vertSpacing;
     private float lastVertPos;
 
@@ -14,28 +14,35 @@ public class VerticalLayout extends Layout {
 
     private ArrayList<ScreenWidget> children;
 
-    private VerticalLayout(float pw, float ph) {
-        this.setPrefWidthHeight(pw, ph);
+//    private VerticalLayout(float pw, float ph) {
+//        this.setPrefWidthHeight(pw, ph);
+//        this.children = new ArrayList<>();
+//    }
+
+    private VerticalLayout() {
         this.children = new ArrayList<>();
     }
 
+//    public static VerticalLayout buildRaw() {
+//        VerticalLayout layout = new VerticalLayout();
+//        return layout;
+//    }
+
     public static VerticalLayout build(float prefWidth, float prefHeight) {
-        VerticalLayout layout = new VerticalLayout(prefWidth, prefHeight);
-        return layout;
+        return new VerticalLayout().withDimensions(prefWidth, prefHeight);
+    }
+    public static VerticalLayout buildRaw() {
+        return new VerticalLayout();
     }
 
-    public VerticalLayout anchoredAt(float x, float y, AnchorPosition pos) {
-        this.anchorPosition = pos;
+//    public VerticalLayout withDimensions(float prefWidth, float prefHeight) {
+//        this.setPrefWidthHeight(prefWidth, prefHeight);
+//        return this;
+//    }
 
-        // Move this layout to the proper spot
-        if (pos == AnchorPosition.BOTTOM_LEFT)
-            this.setBottomLeft(x, y);
-        else if (pos == AnchorPosition.TOP_LEFT)
-            this.setTopLeft(x, y);
-        else if (pos == AnchorPosition.TOP_RIGHT)
-            this.setTopRight(x, y);
-        else if (pos == AnchorPosition.BOTTOM_RIGHT)
-            this.setBottomRight(x, y);
+    @Override
+    public VerticalLayout anchoredAt(float x, float y, AnchorPosition pos) {
+        super.anchoredAt(x, y, pos);
 
         if (pos == AnchorPosition.TOP_LEFT || pos == AnchorPosition.TOP_RIGHT)
             this.lastVertPos = getTop();
@@ -44,6 +51,28 @@ public class VerticalLayout extends Layout {
 
         return this;
     }
+
+
+//    public VerticalLayout anchoredAt(float x, float y, AnchorPosition pos) {
+//        this.anchorPosition = pos;
+//
+//        // Move this layout to the proper spot
+//        if (pos == AnchorPosition.BOTTOM_LEFT)
+//            this.setBottomLeft(x, y);
+//        else if (pos == AnchorPosition.TOP_LEFT)
+//            this.setTopLeft(x, y);
+//        else if (pos == AnchorPosition.TOP_RIGHT)
+//            this.setTopRight(x, y);
+//        else if (pos == AnchorPosition.BOTTOM_RIGHT)
+//            this.setBottomRight(x, y);
+//
+//        if (pos == AnchorPosition.TOP_LEFT || pos == AnchorPosition.TOP_RIGHT)
+//            this.lastVertPos = getTop();
+//        else
+//            this.lastVertPos = getBottom();
+//
+//        return this;
+//    }
 
     public VerticalLayout withSpacing(float vertSpacing) {
         this.vertSpacing = vertSpacing;
@@ -57,7 +86,7 @@ public class VerticalLayout extends Layout {
     }
 
 
-//    public VerticalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float vertSpacing, float fixedChildHeight) {
+    //    public VerticalLayout(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight, float vertSpacing, float fixedChildHeight) {
 //        children = new ArrayList<>();
 //
 //        setPrefWidthHeight(prefWidth, prefHeight);
@@ -129,5 +158,4 @@ public class VerticalLayout extends Layout {
         for (ScreenWidget c : children)
             c.render(sb);
     }
-
 }

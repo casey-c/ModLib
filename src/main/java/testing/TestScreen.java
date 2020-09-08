@@ -40,33 +40,27 @@ public class TestScreen extends LargeScreen<GridLayout> {
 
 
         // 0, 0
-        VerticalLayout l0 = VerticalLayout.buildRaw();
-        mainLayout.setRawLayout(0, 0, l0);
+        AnchorPosition pos = AnchorPosition.TOP_LEFT;
 
+        HorizontalLayout l0 = (HorizontalLayout)mainLayout.setRawLayout(0, 0, HorizontalLayout.buildRaw(), pos);
         l0.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
         l0.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
         l0.print();
 
         // 0, 1
-        VerticalLayout l1 = VerticalLayout.buildRaw();
-        mainLayout.setRawLayout(0, 1, l1);
-
+        VerticalLayout l1 = (VerticalLayout)mainLayout.setRawLayout(0, 1, VerticalLayout.buildRaw(), pos);
         l1.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
         l1.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
         l1.print();
 
         // 1, 0
-        VerticalLayout l2 = VerticalLayout.buildRaw();
-        mainLayout.setRawLayout(1, 0, l2);
-
+        HorizontalLayout l2 = (HorizontalLayout)mainLayout.setRawLayout(1, 0, HorizontalLayout.buildRaw(), pos);
         l2.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
         l2.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
         l2.print();
 
         // 1, 1
-        VerticalLayout l3 = VerticalLayout.buildRaw();
-        mainLayout.setRawLayout(1, 1, l3);
-
+        HorizontalLayout l3 = (HorizontalLayout)mainLayout.setRawLayout(1, 1, HorizontalLayout.buildRaw(), pos);
         l3.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.GREEN_TEXT_COLOR));
         l3.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.GREEN_TEXT_COLOR));
         l3.print();

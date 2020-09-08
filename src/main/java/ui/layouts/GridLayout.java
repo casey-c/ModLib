@@ -89,25 +89,27 @@ public class GridLayout extends Layout {
     }
 
     // TODO: add in anchors for GRIDs
-    private void fixRawLayout(int row, int col, Layout layout) {
-        layout.withDimensions(getLayoutWidth(col), getLayoutHeight(row))
-              .anchoredAt(getLayoutX(col), getLayoutY(row), AnchorPosition.BOTTOM_LEFT);
+    private void fixRawLayout(int row, int col, Layout layout, AnchorPosition pos) {
+        layout.withDimensions(getLayoutWidth(col), getLayoutHeight(row));
+        float x = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.TOP_LEFT) ? getLayoutX(col) : getLayoutX(col) + getLayoutWidth(col);
+        float y = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.BOTTOM_RIGHT) ? getLayoutY(row) : getLayoutY(row) + getLayoutHeight(row);
+        layout.anchoredAt(x, y, pos);
     }
 
-    public boolean setRawLayout(int row, int col, Layout layout) {
+    public Layout setRawLayout(int row, int col, Layout layout, AnchorPosition pos) {
         if (!inBounds(row, col))
-            return false;
+            return layout;
 
         System.out.println("OJB: original raw layout");
         layout.print();
 
-        fixRawLayout(row, col, layout);
+        fixRawLayout(row, col, layout, pos);
 
         System.out.println("OJB: fixed raw layout");
         layout.print();
 
         children.put(new DualIntegerKey(row, col), layout);
-        return true;
+        return layout;
     }
 
 //    public static GridLayout build(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight) {

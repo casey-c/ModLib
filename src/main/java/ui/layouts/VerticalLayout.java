@@ -31,6 +31,7 @@ public class VerticalLayout extends Layout<VerticalLayout> {
     public static VerticalLayout build(float prefWidth, float prefHeight) {
         return new VerticalLayout().withDimensions(prefWidth, prefHeight);
     }
+
     public static VerticalLayout buildRaw() {
         return new VerticalLayout();
     }

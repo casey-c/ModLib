@@ -14,29 +14,29 @@ public class HorizontalLayout extends Layout<HorizontalLayout> {
 
     private ArrayList<ScreenWidget> children;
 
-    private HorizontalLayout(float pw, float ph) {
-        this.setPrefWidthHeight(pw, ph);
-        this.children = new ArrayList<>();
-    }
+    private HorizontalLayout() { this.children = new ArrayList<>(); }
+    public static HorizontalLayout buildRaw() { return new HorizontalLayout(); }
 
     public static HorizontalLayout build(float prefWidth, float prefHeight) {
-        HorizontalLayout layout = new HorizontalLayout(prefWidth, prefHeight);
-        return layout;
+        return new HorizontalLayout().withDimensions(prefWidth, prefHeight);
     }
 
+
+    @Override
     public HorizontalLayout anchoredAt(float x, float y, AnchorPosition pos) {
-        this.anchorPosition = pos;
-
-        // Move this layout to the proper spot
-        if (pos == AnchorPosition.BOTTOM_LEFT)
-            this.setBottomLeft(x, y);
-        else if (pos == AnchorPosition.TOP_LEFT)
-            this.setTopLeft(x, y);
-        else if (pos == AnchorPosition.TOP_RIGHT)
-            this.setTopRight(x, y);
-        else if (pos == AnchorPosition.BOTTOM_RIGHT)
-            this.setBottomRight(x, y);
-
+        super.anchoredAt(x, y, pos);
+//        this.anchorPosition = pos;
+//
+//        // Move this layout to the proper spot
+//        if (pos == AnchorPosition.BOTTOM_LEFT)
+//            this.setBottomLeft(x, y);
+//        else if (pos == AnchorPosition.TOP_LEFT)
+//            this.setTopLeft(x, y);
+//        else if (pos == AnchorPosition.TOP_RIGHT)
+//            this.setTopRight(x, y);
+//        else if (pos == AnchorPosition.BOTTOM_RIGHT)
+//            this.setBottomRight(x, y);
+//
         // Setup the horizontal position counter
         if (pos == AnchorPosition.TOP_LEFT || pos == AnchorPosition.BOTTOM_LEFT)
             this.lastHorizPos = getLeft();

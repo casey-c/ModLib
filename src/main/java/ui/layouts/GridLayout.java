@@ -96,6 +96,44 @@ public class GridLayout extends Layout {
         return this;
     }
 
+    public GridLayout with_absolute_rows(float... heights) {
+        // -1, 80.0f;
+        float sum = 0.0f;
+        int numNegative = 0;
+        for (float h : heights) {
+            if (h < 0.0f)
+                numNegative++;
+            else
+                sum += h;
+        }
+
+        // epsilon safety check
+        if (sum < 0.0001f)
+            return this;
+
+        float remaining = getPrefHeight() - sum;
+        float balancedHeightForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
+
+        // debug
+        System.out.println("OJB: grid layout abs rows ");
+        System.out.println("\tprefheight: " + getPrefHeight());
+        System.out.println("\tsum: " + sum);
+        System.out.println("\tremaining: " + remaining);
+        System.out.println("\tbalanced: " + balancedHeightForNegativeVals);
+        System.out.println("\tnegative: " + numNegative);
+
+        rowHeights.clear();
+        for (float h : heights) {
+            if (h < 0.0f)
+                rowHeights.add(balancedHeightForNegativeVals);
+            else
+                rowHeights.add(h);
+        }
+
+        this.rowType = GRID_TYPE.ABSOLUTE;
+        return this;
+    }
+
     public GridLayout with_relative_cols(float... ratios) {
         float sum = 0.0f;
         for (float r : ratios) {
@@ -131,6 +169,37 @@ public class GridLayout extends Layout {
             columnWidths.add(colWidth);
 
         colType = GRID_TYPE.BALANCED;
+        return this;
+    }
+
+    public GridLayout with_absolute_cols(float... widths) {
+        float sum = 0.0f;
+        int numNegative = 0;
+        for (float w : widths) {
+            if (w < 0.0f) {
+                numNegative++;
+                continue;
+            }
+
+            sum += w;
+        }
+
+        // epsilon safety check
+        if (sum < 0.0001f)
+            return this;
+
+        float remaining = getPrefWidth() - sum;
+        float balancedWidthForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
+
+        columnWidths.clear();
+        for (float w : widths) {
+            if (w < 0.0f)
+                columnWidths.add(balancedWidthForNegativeVals);
+            else
+                columnWidths.add(w);
+        }
+
+        this.colType = GRID_TYPE.ABSOLUTE;
         return this;
     }
 
@@ -207,39 +276,22 @@ public class GridLayout extends Layout {
     }
 
     private float getLayoutWidth(int col) {
-        if (colType == GRID_TYPE.BALANCED || colType == GRID_TYPE.RELATIVE) {
-            if (col < columnWidths.size())
-                return columnWidths.get(col);
-            else
-                return getPrefWidth();
-        }
-
-        // TODO: absolute etc.
-        return getPrefWidth();
-//        return getPrefHeight();
-//        float sum = 0.0f;
-//
-//        int index = 0;
-//        for (float w : columnWidths) {
-//            if (index++ > col)
-//                break;
-//
-//            sum += w;
-//        }
-//
-//        return sum;
+//        if (colType == GRID_TYPE.BALANCED || colType == GRID_TYPE.RELATIVE) {
+        if (col < columnWidths.size())
+            return columnWidths.get(col);
+        else
+            return getPrefWidth();
     }
 
     private float getLayoutHeight(int row) {
-        if (rowType == GRID_TYPE.BALANCED || rowType == GRID_TYPE.RELATIVE) {
+//        if (rowType == GRID_TYPE.BALANCED || rowType == GRID_TYPE.RELATIVE) {
             if (row < rowHeights.size())
                 return rowHeights.get(row);
             else
                 return getPrefHeight();
-        }
 
         // TODO:
-        return getPrefHeight();
+//        return getPrefHeight();
 
         // TODO: this is probably for absolute
 //        float sum = 0.0f;

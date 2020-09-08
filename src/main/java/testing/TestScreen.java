@@ -15,7 +15,7 @@ public class TestScreen extends LargeScreen<GridLayout> {
         mainLayout = GridLayout
                 .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                .with_relative_rows(8, 1)
+                .with_absolute_rows(-1, 80.0f)
                 .with_balanced_cols(1);
 
         HorizontalLayout upper = (HorizontalLayout)mainLayout.setRawLayout(1,0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);

@@ -9,30 +9,20 @@ import utils.DualIntegerKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GridLayout extends Layout {
-    private static enum GRID_TYPE {
-        ABSOLUTE,
-        RELATIVE,
-        BALANCED,
-        NONE
-    }
-
+public class GridLayout extends Layout<GridLayout> {
     private HashMap<DualIntegerKey, Layout> children;
 
     private ArrayList<Float> columnWidths;
     private ArrayList<Float> rowHeights;
-    private GRID_TYPE colType, rowType;
+
+    // --------------------------------------------------------------------------------
 
     private GridLayout(float prefWidth, float prefHeight) {
         setPrefWidthHeight(prefWidth, prefHeight);
-        //setBottomLeft(bottomLeftX, bottomLeftY);
 
         this.children = new HashMap<>();
         columnWidths = new ArrayList<>();
         rowHeights = new ArrayList<>();
-
-        this.colType = GRID_TYPE.NONE;
-        this.rowType = GRID_TYPE.NONE;
     }
 
     public static GridLayout build(float prefWidth, float prefHeight) {
@@ -40,18 +30,23 @@ public class GridLayout extends Layout {
         return layout;
     }
 
-    public GridLayout anchoredAt(float x, float y, AnchorPosition pos) {
-        this.anchorPosition = pos;
+    // TODO: lots of code duplication between row and col setters below; probably should refactor at some point
 
-        // Move this layout to the proper spot
-        if (pos == AnchorPosition.BOTTOM_LEFT)
-            this.setBottomLeft(x, y);
-        else if (pos == AnchorPosition.TOP_LEFT)
-            this.setTopLeft(x, y);
-        else if (pos == AnchorPosition.TOP_RIGHT)
-            this.setTopRight(x, y);
-        else if (pos == AnchorPosition.BOTTOM_RIGHT)
-            this.setBottomRight(x, y);
+    // --------------------------------------------------------------------------------
+
+    public GridLayout with_balanced_rows(int count) {
+        if (count <= 0) {
+            System.out.println("OJB: WARNING: nonpositive number of rows; not altering");
+            return this;
+        }
+
+        float rowHeight = getPrefHeight() / (float)count;
+        System.out.println("OJB: making " + count + " rows of size " + rowHeight);
+
+        rowHeights.clear();
+
+        for (int i = 0; i < count; ++i)
+            rowHeights.add(rowHeight);
 
         return this;
     }
@@ -73,28 +68,9 @@ public class GridLayout extends Layout {
             rowHeights.add((r / sum) * getPrefHeight());
         }
 
-        rowType = GRID_TYPE.RELATIVE;
-
         return this;
     }
 
-    public GridLayout with_balanced_rows(int count) {
-        if (count <= 0) {
-            System.out.println("OJB: WARNING: nonpositive number of rows; not altering");
-            return this;
-        }
-
-        float rowHeight = getPrefHeight() / (float)count;
-        System.out.println("OJB: making " + count + " rows of size " + rowHeight);
-
-        rowHeights.clear();
-
-        for (int i = 0; i < count; ++i)
-            rowHeights.add(rowHeight);
-
-        rowType = GRID_TYPE.BALANCED;
-        return this;
-    }
 
     public GridLayout with_absolute_rows(float... heights) {
         // -1, 80.0f;
@@ -114,14 +90,6 @@ public class GridLayout extends Layout {
         float remaining = getPrefHeight() - sum;
         float balancedHeightForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
 
-        // debug
-        System.out.println("OJB: grid layout abs rows ");
-        System.out.println("\tprefheight: " + getPrefHeight());
-        System.out.println("\tsum: " + sum);
-        System.out.println("\tremaining: " + remaining);
-        System.out.println("\tbalanced: " + balancedHeightForNegativeVals);
-        System.out.println("\tnegative: " + numNegative);
-
         rowHeights.clear();
         for (float h : heights) {
             if (h < 0.0f)
@@ -130,7 +98,24 @@ public class GridLayout extends Layout {
                 rowHeights.add(h);
         }
 
-        this.rowType = GRID_TYPE.ABSOLUTE;
+        return this;
+    }
+
+    // --------------------------------------------------------------------------------
+
+    public GridLayout with_balanced_cols(int count) {
+        if (count <= 0) {
+            System.out.println("OJB: WARNING: nonpositive number of columns; not altering");
+            return this;
+        }
+
+        float colWidth = getPrefWidth() / (float)count;
+        System.out.println("OJB: making " + count + " cols of size " + colWidth);
+        columnWidths.clear();
+
+        for (int i = 0; i < count; ++i)
+            columnWidths.add(colWidth);
+
         return this;
     }
 
@@ -151,26 +136,9 @@ public class GridLayout extends Layout {
             columnWidths.add((r / sum) * getPrefWidth());
         }
 
-        colType = GRID_TYPE.RELATIVE;
         return this;
     }
 
-    public GridLayout with_balanced_cols(int count) {
-        if (count <= 0) {
-            System.out.println("OJB: WARNING: nonpositive number of columns; not altering");
-            return this;
-        }
-
-        float colWidth = getPrefWidth() / (float)count;
-        System.out.println("OJB: making " + count + " cols of size " + colWidth);
-        columnWidths.clear();
-
-        for (int i = 0; i < count; ++i)
-            columnWidths.add(colWidth);
-
-        colType = GRID_TYPE.BALANCED;
-        return this;
-    }
 
     public GridLayout with_absolute_cols(float... widths) {
         float sum = 0.0f;
@@ -199,8 +167,13 @@ public class GridLayout extends Layout {
                 columnWidths.add(w);
         }
 
-        this.colType = GRID_TYPE.ABSOLUTE;
         return this;
+    }
+
+    // --------------------------------------------------------------------------------
+
+    public boolean inBounds(int row, int col) {
+        return (row < rowHeights.size()) && (col < columnWidths.size());
     }
 
     // TODO: add in anchors for GRIDs
@@ -215,37 +188,15 @@ public class GridLayout extends Layout {
         if (!inBounds(row, col))
             return layout;
 
-        System.out.println("OJB: original raw layout");
-        layout.print();
-
         fixRawLayout(row, col, layout, pos);
-
-        System.out.println("OJB: fixed raw layout");
-        layout.print();
 
         children.put(new DualIntegerKey(row, col), layout);
         return layout;
     }
 
-//    public static GridLayout build(float bottomLeftX, float bottomLeftY, float prefWidth, float prefHeight) {
-//        GridLayout res = new GridLayout(bottomLeftX, bottomLeftY, prefWidth, prefHeight);
-//        return res;
-//    }
 
-//    public boolean hasExistingAt(int row, int col) {
-//        return children.containsKey( new DualIntegerKey(row, col));
-//    }
-//
-//    public @Nullable Layout getLayoutAt(int row, int col) {
-//        if (hasExistingAt(row, col))
-//            return children.get(new DualIntegerKey(row, col));
-//        else
-//            return null;
-//    }
-
-    public boolean inBounds(int row, int col) {
-        return (row < rowHeights.size()) && (col < columnWidths.size());
-    }
+    // --------------------------------------------------------------------------------
+    // Layout getters
 
     private float getLayoutX(int col) {
         float pos = getLeft();
@@ -276,7 +227,6 @@ public class GridLayout extends Layout {
     }
 
     private float getLayoutWidth(int col) {
-//        if (colType == GRID_TYPE.BALANCED || colType == GRID_TYPE.RELATIVE) {
         if (col < columnWidths.size())
             return columnWidths.get(col);
         else
@@ -284,129 +234,17 @@ public class GridLayout extends Layout {
     }
 
     private float getLayoutHeight(int row) {
-//        if (rowType == GRID_TYPE.BALANCED || rowType == GRID_TYPE.RELATIVE) {
-            if (row < rowHeights.size())
-                return rowHeights.get(row);
-            else
-                return getPrefHeight();
-
-        // TODO:
-//        return getPrefHeight();
-
-        // TODO: this is probably for absolute
-//        float sum = 0.0f;
-//
-//        int index = 0;
-//        for (float h : rowHeights) {
-//            if (index++ > row)
-//                break;
-//
-//            sum += h;
-//        }
-//
-//        return sum;
+        if (row < rowHeights.size())
+            return rowHeights.get(row);
+        else
+            return getPrefHeight();
     }
+
+    // --------------------------------------------------------------------------------
 
     private void setLayoutAt(int row, int col, Layout layout) {
-        // TODO: check in bounds
-//        if (!inBounds(row, col)) {
-//            System.out.println("OJB warning: can't set layout at " + row + ", " + col + ". Check if you built properly");
-//            return;
-//        }
-
-        // In bounds, so set the layout
         children.put(new DualIntegerKey(row, col), layout);
-
-//        // TODO: move the layout
-//        float lx = getLayoutX(col);
-//        float ly = getLayoutY(row);
-//
-//        print();
-//        System.out.println("OJB: should move layout x to (" + lx + ", " + ly + ")");
     }
-
-//    public @Nullable VerticalLayout makeVerticalLayoutAt(int row, int col, float vertSpacing) {
-//        if (!inBounds(row, col))
-//            return null;
-//
-//        VerticalLayout layout = new VerticalLayout(
-//                getLayoutX(col),
-//                getLayoutY(row),
-//                getLayoutWidth(col),
-//                getLayoutHeight(row),
-//                vertSpacing
-//        );
-//
-//        setLayoutAt(row, col, layout);
-//        print();
-//
-//        return layout;
-//    }
-//
-//    public @Nullable VerticalLayout makeVerticalLayoutAt(int row, int col, float vertSpacing, float fixedChildHeight) {
-//        if (!inBounds(row, col))
-//            return null;
-//
-//        VerticalLayout layout = new VerticalLayout(
-//                getLayoutX(col),
-//                getLayoutY(row),
-//                getLayoutWidth(col),
-//                getLayoutHeight(row),
-//                vertSpacing,
-//                fixedChildHeight
-//        );
-//
-//        setLayoutAt(row, col, layout);
-//        print();
-//
-//        return layout;
-//    }
-
-//    public @Nullable HorizontalLayout makeHorizontalLayoutAt(int row, int col, float horizSpacing) {
-//        if (!inBounds(row, col))
-//            return null;
-//
-////        HorizontalLayout layout = new HorizontalLayout(
-////                getLayoutX(col),
-////                getLayoutY(row),
-////                getLayoutWidth(col),
-////                getLayoutHeight(row),
-////                horizSpacing
-////        );
-//        HorizontalLayout layout = HorizontalLayout
-//                .build(getLayoutWidth(col), getLayoutHeight(row))
-//                .withSpacing(horizSpacing);
-//
-//        setLayoutAt(row, col, layout);
-//        print();
-//
-//        return layout;
-//    }
-
-    // TODO: not updated to the new API
-//    public @Nullable HorizontalLayout makeHorizontalLayoutAt(int row, int col, float horizSpacing, float fixedChildWidth) {
-//        if (!inBounds(row, col))
-//            return null;
-//
-//        HorizontalLayout layout = HorizontalLayout
-//                .build(getLayoutWidth(col), getLayoutHeight(row))
-//                .withSpacing(horizSpacing)
-//                .withFixedWidth(fixedChildWidth);
-//
-////        HorizontalLayout layout = new HorizontalLayout(
-////                getLayoutX(col),
-////                getLayoutY(row),
-////                getLayoutWidth(col),
-////                getLayoutHeight(row),
-////                horizSpacing,
-////                fixedChildWidth
-////        );
-//
-//        setLayoutAt(row, col, layout);
-//        print();
-//
-//        return layout;
-//    }
 
     // Debug
     public void print() {
@@ -414,22 +252,6 @@ public class GridLayout extends Layout {
         System.out.println("\tNum rows: " + rowHeights.size() + " | Num cols: " + columnWidths.size());
         System.out.println("\tTotal children: " + children.size());
     }
-
-//    public GridLayout with_absolute_cols(float... widths) {
-//        for (float colWidth : widths)
-//            columnWidths.add(colWidth);
-//
-//        colType = GRID_TYPE.ABSOLUTE;
-//        return this;
-//    }
-//
-//    public GridLayout with_absolute_rows(float... heights) {
-//        for (float rowHeight : heights)
-//            rowHeights.add(rowHeight);
-//
-//        rowType = GRID_TYPE.ABSOLUTE;
-//        return this;
-//    }
 
     @Override
     public void render(SpriteBatch sb) {

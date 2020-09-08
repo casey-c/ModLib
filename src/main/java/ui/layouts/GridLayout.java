@@ -56,6 +56,28 @@ public class GridLayout extends Layout {
         return this;
     }
 
+    public GridLayout with_relative_rows(float... ratios) {
+        float sum = 0.0f;
+        for (float r : ratios) {
+            if (r <= 0.0f) return this;
+            sum += r;
+        }
+
+        // epsilon safety threshold?
+        if (sum < 0.001f)
+            return this;
+
+        rowHeights.clear();
+
+        for (float r : ratios) {
+            rowHeights.add((r / sum) * getPrefHeight());
+        }
+
+        rowType = GRID_TYPE.RELATIVE;
+
+        return this;
+    }
+
     public GridLayout with_balanced_rows(int count) {
         if (count <= 0) {
             System.out.println("OJB: WARNING: nonpositive number of rows; not altering");
@@ -65,10 +87,33 @@ public class GridLayout extends Layout {
         float rowHeight = getPrefHeight() / (float)count;
         System.out.println("OJB: making " + count + " rows of size " + rowHeight);
 
+        rowHeights.clear();
+
         for (int i = 0; i < count; ++i)
             rowHeights.add(rowHeight);
 
         rowType = GRID_TYPE.BALANCED;
+        return this;
+    }
+
+    public GridLayout with_relative_cols(float... ratios) {
+        float sum = 0.0f;
+        for (float r : ratios) {
+            if (r <= 0.0f) return this;
+            sum += r;
+        }
+
+        // epsilon safety threshold?
+        if (sum < 0.001f)
+            return this;
+
+        columnWidths.clear();
+
+        for (float r : ratios) {
+            columnWidths.add((r / sum) * getPrefWidth());
+        }
+
+        colType = GRID_TYPE.RELATIVE;
         return this;
     }
 
@@ -80,6 +125,7 @@ public class GridLayout extends Layout {
 
         float colWidth = getPrefWidth() / (float)count;
         System.out.println("OJB: making " + count + " cols of size " + colWidth);
+        columnWidths.clear();
 
         for (int i = 0; i < count; ++i)
             columnWidths.add(colWidth);
@@ -161,7 +207,7 @@ public class GridLayout extends Layout {
     }
 
     private float getLayoutWidth(int col) {
-        if (colType == GRID_TYPE.BALANCED) {
+        if (colType == GRID_TYPE.BALANCED || colType == GRID_TYPE.RELATIVE) {
             if (col < columnWidths.size())
                 return columnWidths.get(col);
             else
@@ -185,7 +231,7 @@ public class GridLayout extends Layout {
     }
 
     private float getLayoutHeight(int row) {
-        if (rowType == GRID_TYPE.BALANCED) {
+        if (rowType == GRID_TYPE.BALANCED || rowType == GRID_TYPE.RELATIVE) {
             if (row < rowHeights.size())
                 return rowHeights.get(row);
             else

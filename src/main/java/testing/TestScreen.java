@@ -9,81 +9,80 @@ import ui.widgets.labels.SimpleLabel;
 
 public class TestScreen extends LargeScreen<GridLayout> {
     public TestScreen() {
-        mainLayout = GridLayout.build(getContentWidth(), getContentHeight())
+        this.CONTENT_PADDING_X = 100.0f;
+        this.CONTENT_PADDING_Y = 40.0f;
+
+        mainLayout = GridLayout
+                .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                .with_balanced_cols(2)
-                .with_balanced_rows(2);
+                .with_relative_rows(8, 1)
+                .with_balanced_cols(1);
 
-//        mainLayout = VerticalLayout
+        HorizontalLayout upper = (HorizontalLayout)mainLayout.setRawLayout(1,0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
+        upper.addChild(new SimpleLabel("TEST BANNER", FontHelper.bannerFont, Settings.GOLD_COLOR));
+        upper.addChild(SimplePadding.horizontal(200.0f));
+        upper.addChild(new SimpleLabel("Hello, world"));
+
+        VerticalLayout bottom = ((VerticalLayout)mainLayout.setRawLayout(0, 0, VerticalLayout.buildRaw(), AnchorPosition.TOP_LEFT)).withSpacing(20.0f);
+        bottom.addChild(SimplePadding.vertical(50.0f));
+        for (int i = 0; i < 10; ++i)
+            bottom.addChild(new SimpleLabel("Test " + i));
+    }
+
+    private void dynGridTest() {
+//        int numRows = 4;
+//        int numCols = 3;
+//
+//        mainLayout = GridLayout
 //                .build(getContentWidth(), getContentHeight())
-//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT);
+//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+//                .with_balanced_rows(numRows)
+//                .with_balanced_cols(numCols);
+//
+//        for (int i = 0; i < numRows; ++i) {
+//            for (int j = 0; j < numCols; ++j) {
+//                VerticalLayout layout = (VerticalLayout)mainLayout.setRawLayout(i, j, VerticalLayout.buildRaw(), AnchorPosition.TOP_LEFT);
+//                layout.addChild(new SimpleLabel("Hello " + i + j));
+//                layout.addChild(new SimpleLabel("Goodbye " + i + j));
+//            }
+//        }
+    }
 
-//                .(getContentWidth(), getContentHeight())
+    private void balancedGridTest() {
+//        mainLayout = GridLayout.build(getContentWidth(), getContentHeight())
 //                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
 //                .with_balanced_cols(2)
 //                .with_balanced_rows(2);
-
-        //nestedLayoutTest();
-
-//        mainLayout = GridLayout
-//                .build(CONTENT_MIN_X, CONTENT_MIN_Y,
-//                        SCREEN_W - 2.0f * CONTENT_OUTER_PADDING_X,
-//                        SCREEN_H - 2.0f * CONTENT_OUTER_PADDING_Y)
-//                .with_balanced_rows(2)
-//                .with_balanced_cols(2);
 //
+//        // 0, 0
+//        AnchorPosition pos = AnchorPosition.TOP_LEFT;
 //
-//        System.out.println("------");
-
-        // TODO: have .setRawLayout return the layout, so we can pass in .buildRaw() as the param (condense to one line)
-        //   * also have .setRawLayout take in an anchor?
-
-
-        // 0, 0
-        AnchorPosition pos = AnchorPosition.TOP_LEFT;
-
-        HorizontalLayout l0 = (HorizontalLayout)mainLayout.setRawLayout(0, 0, HorizontalLayout.buildRaw(), pos);
-        l0.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
-        l0.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
-        l0.print();
-
-        // 0, 1
-        VerticalLayout l1 = (VerticalLayout)mainLayout.setRawLayout(0, 1, VerticalLayout.buildRaw(), pos);
-        l1.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
-        l1.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
-        l1.print();
-
-        // 1, 0
-        HorizontalLayout l2 = (HorizontalLayout)mainLayout.setRawLayout(1, 0, HorizontalLayout.buildRaw(), pos);
-        l2.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
-        l2.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
-        l2.print();
-
-        // 1, 1
-        HorizontalLayout l3 = (HorizontalLayout)mainLayout.setRawLayout(1, 1, HorizontalLayout.buildRaw(), pos);
-        l3.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.GREEN_TEXT_COLOR));
-        l3.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.GREEN_TEXT_COLOR));
-        l3.print();
+//        HorizontalLayout l0 = (HorizontalLayout)mainLayout.setRawLayout(0, 0, HorizontalLayout.buildRaw(), pos);
+//        l0.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
+//        l0.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
+//        l0.print();
 //
-//        VerticalLayout l1 = mainLayout.makeVerticalLayoutAt(0, 1, 40.0f);
-//        l1.addChild(new SimpleLabel("L1 c0", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
-//        l1.addChild(new SimpleLabel("L1 c1", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
+//        // 0, 1
+//        VerticalLayout l1 = (VerticalLayout)mainLayout.setRawLayout(0, 1, VerticalLayout.buildRaw(), pos);
+//        l1.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
+//        l1.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
 //        l1.print();
 //
-//        VerticalLayout l2 = mainLayout.makeVerticalLayoutAt(1, 0, 40.0f);
-//        l2.addChild(new SimpleLabel("L2 c0", FontHelper.tipBodyFont, Settings.GREEN_TEXT_COLOR));
-//        l2.addChild(new SimpleLabel("L2 c1", FontHelper.tipBodyFont, Settings.GREEN_TEXT_COLOR));
+//        // 1, 0
+//        HorizontalLayout l2 = (HorizontalLayout)mainLayout.setRawLayout(1, 0, HorizontalLayout.buildRaw(), pos);
+//        l2.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
+//        l2.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.GOLD_COLOR));
 //        l2.print();
 //
-//        HorizontalLayout l3 = mainLayout.makeHorizontalLayoutAt(1, 1, 40.0f);
-//        l3.addChild(new SimpleLabel("L3 c0", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
-//        l3.addChild(new SimpleLabel("L3 c1", FontHelper.tipBodyFont, Settings.RED_TEXT_COLOR));
+//        // 1, 1
+//        HorizontalLayout l3 = (HorizontalLayout)mainLayout.setRawLayout(1, 1, HorizontalLayout.buildRaw(), pos);
+//        l3.addChild(new SimpleLabel("L0 c0", FontHelper.tipBodyFont, Settings.GREEN_TEXT_COLOR));
+//        l3.addChild(new SimpleLabel("L0 c1", FontHelper.tipBodyFont, Settings.GREEN_TEXT_COLOR));
 //        l3.print();
-
-
-        System.out.println("------");
-
-        mainLayout.print();
+//
+//        System.out.println("------");
+//        mainLayout.print();
+//
     }
 
     private void nestedLayoutTest() {

@@ -3,6 +3,7 @@ package ui.widgets.labels;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import ui.widgets.ScreenWidget;
 
@@ -18,6 +19,10 @@ public class SimpleLabel extends ScreenWidget {
 
         setPrefWidth(FontHelper.getSmartWidth(font, text, 10000.0f, 10.0f));
         setPrefHeight(font.getLineHeight());
+    }
+
+    public SimpleLabel(String text) {
+        this(text, FontHelper.tipBodyFont, Settings.CREAM_COLOR);
     }
 
     @Override

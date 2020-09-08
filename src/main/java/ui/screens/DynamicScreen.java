@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
 import ui.layouts.AnchorPosition;
 import ui.layouts.Layout;
+import utils.ColorHelper;
 import utils.TextureHelper;
 import utils.TextureManager;
 
@@ -15,8 +16,9 @@ public class DynamicScreen<T extends Layout<T>> extends AbstractScreen<T> {
     private int rowChunks, colChunks;
     private static final int CHUNK_SIZE = 100;
 
-    private static final Texture TEX_CORNER = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_CORNER);
-    private static final Texture TEX_EDGE = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_EDGE);
+    private static final Texture TEX_CORNER_BASE = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_CORNER_BASE);
+    private static final Texture TEX_CORNER_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_CORNER_TRIM);
+    private static final Texture TEX_EDGE_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_EDGE_TRIM);
     private static final Texture TEX_CENTER = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_CENTER);
 
     protected DynamicScreen() {
@@ -52,7 +54,6 @@ public class DynamicScreen<T extends Layout<T>> extends AbstractScreen<T> {
     }
 
     /*
-    TODO: figure out if rotation is in degrees? 0.0f -> 360.0f? is it radians? is it 0.0f->1.0f percent? idk
     Draws a rectangle with the bottom left corner at x,y having the given width and height in pixels. The rectangle is
     offset by originX, originY relative to the origin. Scale specifies the scaling factor by which the rectangle should
     be scaled around originX, originY. Rotation specifies the angle of counter clockwise rotation of the rectangle
@@ -79,8 +80,36 @@ Specified by:
     flipY - whether to flip the sprite vertically
      */
 
-    private void easyDraw(SpriteBatch sb, Texture tex, float x, float y, float rot, boolean flipX, boolean flipY) {
-        sb.draw(tex,
+    private void easyDrawCenterPiece(SpriteBatch sb, float x, float y) {
+        sb.setColor(Color.WHITE);
+        sb.draw(TEX_CENTER, x, y,
+                50.0f, 50.0f,
+                (float)CHUNK_SIZE, (float)CHUNK_SIZE,
+                Settings.scale, Settings.scale,
+                0.0f,
+                0, 0,
+                CHUNK_SIZE, CHUNK_SIZE,
+                false, false );
+
+    }
+
+
+    private void easyDraw(SpriteBatch sb, Texture baseTex, Texture trimTex, float x, float y, float rot, boolean flipX, boolean flipY) {
+        // Base
+        sb.setColor(Color.WHITE);
+        sb.draw(baseTex,
+                x, y,
+                50.0f, 50.0f, // CHUNK_SIZE / 2.0 (it's a square)
+                (float)CHUNK_SIZE, (float)CHUNK_SIZE,
+                Settings.scale, Settings.scale,
+                rot,
+                0, 0,
+                CHUNK_SIZE, CHUNK_SIZE,
+                flipX, flipY );
+
+        // Trim
+        sb.setColor(ColorHelper.rainbowColor());
+        sb.draw(trimTex,
                 x, y,
                 50.0f, 50.0f, // CHUNK_SIZE / 2.0 (it's a square)
                 (float)CHUNK_SIZE, (float)CHUNK_SIZE,
@@ -96,16 +125,6 @@ Specified by:
         float left = getScreenLeft();
         float bottom = getScreenBottom();
 
-//        float x = left;
-//        float y = bottom;
-
-//        float originX = ((float)CHUNK_SIZE / 2.0f);
-//        float originY = ((float)CHUNK_SIZE / 2.0f);
-//
-//        System.out.println("OJB: rendering texture at " + x + ", " + y);
-//        System.out.println("OJB: origin at " + originX + ", " + originY);
-//        System.out.println("OJB: settings.scale: " + Settings.scale);
-
         sb.setColor(Color.WHITE);
         for (int i = 0; i < rowChunks; ++i) {
             float x = left + i * CHUNK_SIZE;
@@ -115,29 +134,29 @@ Specified by:
 
                 // CORNERS (default texture looks like top left corner)
                 if (i == 0 && j == 0)
-                    easyDraw(sb, TEX_CORNER, x, y, 90.0f, false, false);
+                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 90.0f, false, false);
                 else if (i == 0 && j == colChunks - 1)
-                    easyDraw(sb, TEX_CORNER, x, y, 0.0f, false, false);
+                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 0.0f, false, false);
                 else if (i == rowChunks - 1 && j == 0)
-                    easyDraw(sb, TEX_CORNER, x, y, 90.0f, false, true);
+                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 90.0f, false, true);
                 else if (i == rowChunks - 1 && j == colChunks - 1)
-                    easyDraw(sb, TEX_CORNER, x, y, 0.0f, true, false);
+                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 0.0f, true, false);
 
                 // EDGES
                 else if (i == 0)
-                    easyDraw(sb, TEX_EDGE, x, y, 90.0f, false, false);
+                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 90.0f, false, false);
                 else if (i == rowChunks - 1)
-                    easyDraw(sb, TEX_EDGE, x, y, 90.0f, false, true);
+                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 90.0f, false, true);
                 else if (j == 0)
-                    easyDraw(sb, TEX_EDGE, x, y, 0.0f, false, true);
+                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 0.0f, false, true);
                 else if (j == colChunks - 1)
-                    easyDraw(sb, TEX_EDGE, x, y, 0.0f, false, false);
+                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 0.0f, false, false);
 
-                // Inside
+                // CENTER
                 else
-                    easyDraw(sb, TEX_CENTER, x, y, 0.0f, false, false);
+                    easyDrawCenterPiece(sb, x, y);
             }
         }
-
     }
+
 }

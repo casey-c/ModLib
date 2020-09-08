@@ -18,12 +18,12 @@ public class TestScreen extends LargeScreen<GridLayout> {
                 .with_absolute_rows(-1, 80.0f)
                 .with_balanced_cols(1);
 
-        HorizontalLayout upper = (HorizontalLayout)mainLayout.setRawLayout(1,0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
+        HorizontalLayout upper = mainLayout.setRawLayout(1,0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
         upper.addChild(new SimpleLabel("TEST BANNER", FontHelper.bannerFont, Settings.GOLD_COLOR));
         upper.addChild(SimplePadding.horizontal(200.0f));
         upper.addChild(new SimpleLabel("Hello, world"));
 
-        VerticalLayout bottom = ((VerticalLayout)mainLayout.setRawLayout(0, 0, VerticalLayout.buildRaw(), AnchorPosition.TOP_LEFT)).withSpacing(20.0f);
+        VerticalLayout bottom = mainLayout.setRawLayout(0, 0, VerticalLayout.buildRaw(), AnchorPosition.TOP_LEFT).withSpacing(20.0f);
         bottom.addChild(SimplePadding.vertical(50.0f));
         for (int i = 0; i < 10; ++i)
             bottom.addChild(new SimpleLabel("Test " + i));

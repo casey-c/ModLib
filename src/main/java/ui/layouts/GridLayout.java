@@ -9,6 +9,8 @@ import utils.DualIntegerKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// TODO: make children not need to be layouts? (let arbitrary ScreenWidgets instead?)
+
 public class GridLayout extends Layout<GridLayout> {
     private HashMap<DualIntegerKey, Layout> children;
 
@@ -177,14 +179,14 @@ public class GridLayout extends Layout<GridLayout> {
     }
 
     // TODO: add in anchors for GRIDs
-    private void fixRawLayout(int row, int col, Layout layout, AnchorPosition pos) {
+    private <T extends Layout<T>> void fixRawLayout(int row, int col, T layout, AnchorPosition pos) {
         layout.withDimensions(getLayoutWidth(col), getLayoutHeight(row));
         float x = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.TOP_LEFT) ? getLayoutX(col) : getLayoutX(col) + getLayoutWidth(col);
         float y = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.BOTTOM_RIGHT) ? getLayoutY(row) : getLayoutY(row) + getLayoutHeight(row);
         layout.anchoredAt(x, y, pos);
     }
 
-    public Layout setRawLayout(int row, int col, Layout layout, AnchorPosition pos) {
+    public <T extends Layout<T>> T setRawLayout(int row, int col, T  layout, AnchorPosition pos) {
         if (!inBounds(row, col))
             return layout;
 
@@ -241,10 +243,6 @@ public class GridLayout extends Layout<GridLayout> {
     }
 
     // --------------------------------------------------------------------------------
-
-    private void setLayoutAt(int row, int col, Layout layout) {
-        children.put(new DualIntegerKey(row, col), layout);
-    }
 
     // Debug
     public void print() {

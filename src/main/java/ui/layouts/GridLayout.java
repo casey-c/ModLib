@@ -9,10 +9,8 @@ import utils.DualIntegerKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// TODO: make children not need to be layouts? (let arbitrary ScreenWidgets instead?)
-
 public class GridLayout extends Layout<GridLayout> {
-    private HashMap<DualIntegerKey, Layout> children;
+    private HashMap<DualIntegerKey, ScreenWidget> children;
 
     private ArrayList<Float> columnWidths;
     private ArrayList<Float> rowHeights;
@@ -194,6 +192,29 @@ public class GridLayout extends Layout<GridLayout> {
 
         children.put(new DualIntegerKey(row, col), layout);
         return layout;
+    }
+
+    public <T extends ScreenWidget> T setWidget(int row, int col, T widget, AnchorPosition pos) {
+        if (!inBounds(row, col))
+            return widget;
+
+        // Fix the widget in place specified by this grid
+        widget.setPrefWidthHeight(getLayoutWidth(col), getLayoutHeight(row));
+
+        if (pos == AnchorPosition.BOTTOM_LEFT)
+            widget.setBottomLeft(getLayoutX(col), getLayoutY(row));
+        else if (pos == AnchorPosition.TOP_LEFT)
+            widget.setTopLeft(getLayoutX(col), getLayoutY(row) + getLayoutHeight(row));
+        else if (pos == AnchorPosition.TOP_RIGHT)
+            widget.setTopRight(getLayoutX(col) + getLayoutWidth(col), getLayoutY(row) + getLayoutHeight(row));
+        else if (pos == AnchorPosition.BOTTOM_RIGHT)
+            widget.setTopRight(getLayoutX(col) + getLayoutWidth(col), getLayoutY(row));
+
+        System.out.println("OJB: set widget success");
+        widget.print();
+
+        children.put(new DualIntegerKey(row, col), widget);
+        return widget;
     }
 
 

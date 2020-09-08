@@ -16,7 +16,7 @@ public class TestScreen extends LargeScreen<GridLayout> {
                 .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
                 .with_absolute_rows(-1, 80.0f)
-                .with_balanced_cols(1);
+                .with_absolute_cols(-1, 40.0f);
 
         HorizontalLayout upper = mainLayout.setRawLayout(1,0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
         upper.addChild(new SimpleLabel("TEST BANNER", FontHelper.bannerFont, Settings.GOLD_COLOR));
@@ -27,6 +27,8 @@ public class TestScreen extends LargeScreen<GridLayout> {
         bottom.addChild(SimplePadding.vertical(50.0f));
         for (int i = 0; i < 10; ++i)
             bottom.addChild(new SimpleLabel("Test " + i));
+
+        mainLayout.setWidget(0, 1, new SimpleLabel("TEST"), AnchorPosition.BOTTOM_LEFT);
     }
 
     private void dynGridTest() {

@@ -21,23 +21,24 @@ public class DynamicScreen<T extends Layout<T>> extends AbstractScreen<T> {
     private static final Texture TEX_EDGE_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_EDGE_TRIM);
     private static final Texture TEX_CENTER = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_CENTER);
 
-    protected DynamicScreen() {
-        BaseMod.subscribe(this);
-    }
-
-    public static <T extends Layout<T>> DynamicScreen<T> build(int width, int height) {
-        DynamicScreen<T> screen = new DynamicScreen<>();
-        return screen.with_dimensions(width, height);
-    }
-
-    public <T extends Layout<T>> DynamicScreen<T> with_dimensions(int width, int height) {
+    public DynamicScreen(int width, int height) {
         this.SCREEN_W = toNearestHundred(width);
         this.SCREEN_H = toNearestHundred(height);
         this.rowChunks = (int)SCREEN_W / 100;
         this.colChunks = (int)SCREEN_H / 100;
 
-        return (DynamicScreen<T>) this;
+        BaseMod.subscribe(this);
     }
+
+//    public static <T extends Layout<T>> DynamicScreen<T> build(int width, int height) {
+//        DynamicScreen<T> screen = new DynamicScreen<>();
+//        return screen.with_dimensions(width, height);
+//    }
+
+//    public <T extends Layout<T>> DynamicScreen<T> with_dimensions(int width, int height) {
+//
+//        return (DynamicScreen<T>) this;
+//    }
 
     // TODO: screen is always centered at the moment; should improve later to allow anchoring
 //    public <T extends Layout<T>> DynamicScreen<T> centered() {
@@ -48,9 +49,13 @@ public class DynamicScreen<T extends Layout<T>> extends AbstractScreen<T> {
 //        return (DynamicScreen<T>) this;
 //    }
 
-    private int toNearestHundred(float input) {
+    protected int toNearestHundred(float input) {
         int x = (int)Math.floor((input + 50.0f) / 100.0f);
         return x * 100;
+    }
+
+    public Color getTrimColor() {
+        return Settings.CREAM_COLOR;
     }
 
     /*
@@ -108,7 +113,7 @@ Specified by:
                 flipX, flipY );
 
         // Trim
-        sb.setColor(ColorHelper.rainbowColor());
+        sb.setColor(getTrimColor());
         sb.draw(trimTex,
                 x, y,
                 50.0f, 50.0f, // CHUNK_SIZE / 2.0 (it's a square)

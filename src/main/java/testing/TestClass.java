@@ -16,7 +16,7 @@ public class TestClass extends TopPanelItem {
         System.out.println("OJB: top panel item clicked");
 
         if (screen == null)
-            screen = new TestScreen(1000, 800);
+            screen = new TestScreen(1000, 600);
 
         screen.print();
 

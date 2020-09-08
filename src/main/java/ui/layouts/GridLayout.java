@@ -25,6 +25,17 @@ public class GridLayout extends Layout<GridLayout> {
         rowHeights = new ArrayList<>();
     }
 
+    private GridLayout() {
+        this.children = new HashMap<>();
+        columnWidths = new ArrayList<>();
+        rowHeights = new ArrayList<>();
+    }
+
+    public static GridLayout buildRaw() {
+        GridLayout layout = new GridLayout();
+        return layout;
+    }
+
     public static GridLayout build(float prefWidth, float prefHeight) {
         GridLayout layout = new GridLayout(prefWidth, prefHeight);
         return layout;
@@ -267,9 +278,25 @@ public class GridLayout extends Layout<GridLayout> {
 
     // Debug
     public void print() {
-        System.out.println("GRID LAYOUT: (" + getLeft() + ", " + getBottom() + ") --> (" + getRight() + ", " + getTop() + ")");
-        System.out.println("\tNum rows: " + rowHeights.size() + " | Num cols: " + columnWidths.size());
-        System.out.println("\tTotal children: " + children.size());
+        System.out.println("GRID LAYOUT (width, height): " + getPrefWidth() + ", " + getPrefHeight());
+        System.out.println("GRID LAYOUT bl (x, y): " + getLeft() + ", " + getBottom());
+        System.out.println("GRID LAYOUT tr (x, y): " + getRight() + ", " + getTop());
+        System.out.println();
+        System.out.println("GRID LAYOUT (#rows, #cols): " + rowHeights.size() + ", " + columnWidths.size());
+        System.out.println("GRID LAYOUT (#children): " + children.size());
+        System.out.println();
+        System.out.println("GRID LAYOUT row heights:");
+        for (float h : rowHeights)
+            System.out.println("\t " + h);
+        System.out.println("GRID LAYOUT column widths:");
+        for (float w : columnWidths)
+            System.out.println("\t " + w);
+
+        System.out.println();
+
+//        System.out.println("GRID LAYOUT: (" + getLeft() + ", " + getBottom() + ") --> (" + getRight() + ", " + getTop() + ")");
+//        System.out.println("\tNum rows: " + rowHeights.size() + " | Num cols: " + columnWidths.size());
+//        System.out.println("\tTotal children: " + children.size());
     }
 
     @Override

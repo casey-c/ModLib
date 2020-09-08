@@ -1,5 +1,6 @@
 package testing;
 
+import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import ui.layouts.*;
@@ -7,32 +8,57 @@ import ui.screens.DynamicScreen;
 import ui.screens.LargeScreen;
 import ui.widgets.SimplePadding;
 import ui.widgets.labels.SimpleLabel;
+import utils.ColorHelper;
 
 public class TestScreen extends DynamicScreen<GridLayout> {
     public TestScreen(int width, int height) {
-        super();
-        with_dimensions(width, height);
+        super(width, height);
 
-        this.CONTENT_PADDING_X = 100.0f;
-        this.CONTENT_PADDING_Y = 40.0f;
+        //setContentPadding(100.0f, 60.0f);
+        setContentPadding(100.0f, 100.0f, 60.0f, 100.0f);
 
         mainLayout = GridLayout
                 .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                .with_absolute_rows(-1, 80.0f)
-                .with_absolute_cols(-1, 40.0f);
+                .with_absolute_rows(-1, 40.0f)
+                .with_balanced_cols(1);
+//                .with_absolute_rows(-1, 80.0f)
+//                .with_absolute_cols(-1, 40.0f);
 
-        HorizontalLayout upper = mainLayout.setRawLayout(1,0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
-        upper.addChild(new SimpleLabel("TEST BANNER", FontHelper.bannerFont, Settings.GOLD_COLOR));
-        upper.addChild(SimplePadding.horizontal(200.0f));
-        upper.addChild(new SimpleLabel("Hello, world"));
+        mainLayout.setWidget(1, 0, new SimpleLabel("Hello", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.BOTTOM_LEFT);
 
-        VerticalLayout bottom = mainLayout.setRawLayout(0, 0, VerticalLayout.buildRaw(), AnchorPosition.TOP_LEFT).withSpacing(20.0f);
-        bottom.addChild(SimplePadding.vertical(50.0f));
-        for (int i = 0; i < 10; ++i)
-            bottom.addChild(new SimpleLabel("Test " + i));
+        GridLayout bottomGrid = mainLayout.setRawLayout(0, 0, GridLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT)
+                .with_balanced_cols(4)
+                .with_balanced_rows(4);
+
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                bottomGrid.setWidget(i, j, new SimpleLabel("Caw"), AnchorPosition.BOTTOM_LEFT);
+            }
+        }
+
+//        HorizontalLayout upper = mainLayout.setRawLayout(1,0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
+//        upper.addChild(new SimpleLabel("TEST BANNER", FontHelper.bannerFont, Settings.GOLD_COLOR));
+//        upper.addChild(SimplePadding.horizontal(200.0f));
+//        upper.addChild(new SimpleLabel("Hello, world"));
+//
+//        VerticalLayout bottom = mainLayout.setRawLayout(0, 0, VerticalLayout.buildRaw(), AnchorPosition.TOP_LEFT).withSpacing(20.0f);
+//        bottom.addChild(SimplePadding.vertical(50.0f));
+//        for (int i = 0; i < 10; ++i)
+//            bottom.addChild(new SimpleLabel("Test " + i));
 
         //mainLayout.setWidget(0, 1, new SimpleLabel("TEST"), AnchorPosition.BOTTOM_LEFT);
+    }
+
+    @Override
+    public void print() {
+        super.print();
+        mainLayout.print();
+    }
+
+    @Override
+    public Color getTrimColor() {
+        return ColorHelper.rainbowColor();
     }
 
     private void dynGridTest() {

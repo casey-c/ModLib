@@ -19,6 +19,9 @@ public abstract class ScreenWidget {
     public float getTop() { return y + prefHeight; }
     public float getBottom() { return y; }
 
+    public float getCenterX() { return x + 0.5f * prefWidth; }
+    public float getCenterY() { return y + 0.5f * prefHeight; }
+
 //    public float getBottomLeftX() { return x; }
 //    public float getBottomLeftY() { return y; }
 //

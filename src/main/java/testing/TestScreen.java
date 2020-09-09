@@ -11,6 +11,8 @@ import ui.screens.DynamicScreen;
 import ui.screens.LargeScreen;
 import ui.widgets.SimplePadding;
 import ui.widgets.labels.SimpleLabel;
+import ui.widgets.lines.HorizontalLine;
+import ui.widgets.lines.VerticalLine;
 import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureManager;
@@ -25,12 +27,13 @@ public class TestScreen extends DynamicScreen<GridLayout> {
         mainLayout = GridLayout
                 .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                .with_absolute_rows(-1, 40.0f)
+                .with_absolute_rows(-1, 20.0f, 40.0f)
                 .with_balanced_cols(1);
 //                .with_absolute_rows(-1, 80.0f)
 //                .with_absolute_cols(-1, 40.0f);
 
-        mainLayout.setWidget(1, 0, new SimpleLabel("Hello", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.BOTTOM_LEFT);
+        mainLayout.setWidget(2, 0, new SimpleLabel("Hello", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.BOTTOM_LEFT);
+        mainLayout.setWidget(1, 0, new HorizontalLine(), AnchorPosition.BOTTOM_LEFT);
 
         GridLayout bottomGrid = mainLayout.setRawLayout(0, 0, GridLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT)
                 .with_balanced_cols(4)

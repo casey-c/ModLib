@@ -32,6 +32,9 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
     protected float getContentBottom() { return getScreenBottom() + CONTENT_PADDING_BOTTOM; }
     protected float getContentTop() { return getScreenTop() - CONTENT_PADDING_TOP; }
 
+    protected float getContentCenterX() { return getContentLeft() + (getContentWidth() * 0.5f); }
+    protected float getContentCenterY() { return getContentBottom() + (getContentHeight() * 0.5f); }
+
     protected float getScreenWidth() { return SCREEN_W; }
     protected float getContentWidth() { return SCREEN_W - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT; }
 

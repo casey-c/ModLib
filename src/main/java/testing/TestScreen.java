@@ -17,33 +17,45 @@ import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureManager;
 
-public class TestScreen extends DynamicScreen<GridLayout> {
+public class TestScreen extends DynamicScreen<HorizontalLayout> {
     public TestScreen(int width, int height) {
         super(width, height);
 
         //setContentPadding(100.0f, 60.0f);
         setContentPadding(100.0f, 100.0f, 60.0f, 100.0f);
 
-        mainLayout = GridLayout
+        mainLayout = HorizontalLayout
                 .build(getContentWidth(), getContentHeight())
-                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                .with_absolute_rows(-1, 20.0f, 40.0f)
-                .with_balanced_cols(1);
-//                .with_absolute_rows(-1, 80.0f)
-//                .with_absolute_cols(-1, 40.0f);
+                .withSpacing(40.0f)
+                .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER);
 
-        mainLayout.setWidget(2, 0, new SimpleLabel("Hello", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.BOTTOM_LEFT);
-        mainLayout.setWidget(1, 0, new HorizontalLine(), AnchorPosition.BOTTOM_LEFT);
+        mainLayout.addChild(new SimpleLabel("Test 1"));
+        mainLayout.addChild(new SimpleLabel("Test 2"));
+        mainLayout.addChild(new SimpleLabel("Test 3"));
 
-        GridLayout bottomGrid = mainLayout.setRawLayout(0, 0, GridLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT)
-                .with_balanced_cols(4)
-                .with_balanced_rows(4);
+        //----
+//        mainLayout = GridLayout
+//                .build(getContentWidth(), getContentHeight())
+//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+//                .with_absolute_rows(-1, 20.0f, 40.0f)
+//                .with_balanced_cols(1);
+////                .with_absolute_rows(-1, 80.0f)
+////                .with_absolute_cols(-1, 40.0f);
+//
+//        mainLayout.setWidget(2, 0, new SimpleLabel("Hello", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.BOTTOM_LEFT);
+//        mainLayout.setWidget(1, 0, new HorizontalLine(), AnchorPosition.BOTTOM_LEFT);
+//
+//        GridLayout bottomGrid = mainLayout.setRawLayout(0, 0, GridLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT)
+//                .with_balanced_cols(4)
+//                .with_balanced_rows(4);
+//
+//        for (int i = 0; i < 4; ++i) {
+//            for (int j = 0; j < 4; ++j) {
+//                bottomGrid.setWidget(i, j, new SimpleLabel("Caw"), AnchorPosition.BOTTOM_LEFT);
+//            }
+//        }
 
-        for (int i = 0; i < 4; ++i) {
-            for (int j = 0; j < 4; ++j) {
-                bottomGrid.setWidget(i, j, new SimpleLabel("Caw"), AnchorPosition.BOTTOM_LEFT);
-            }
-        }
+        //----
 
 //        HorizontalLayout upper = mainLayout.setRawLayout(1,0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
 //        upper.addChild(new SimpleLabel("TEST BANNER", FontHelper.bannerFont, Settings.GOLD_COLOR));

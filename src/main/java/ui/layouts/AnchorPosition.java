@@ -4,7 +4,33 @@ public enum AnchorPosition {
     BOTTOM_LEFT,
     TOP_LEFT,
     BOTTOM_RIGHT,
-    TOP_RIGHT
+    TOP_RIGHT,
 
-    // TODO: CENTER, CENTER_LEFT, TOP_CENTER, CENTER_RIGHT, BOTTOM_CENTER (need to update layouts and other uses of anchor pos)
+    CENTER_LEFT,
+    TOP_CENTER,
+    BOTTOM_CENTER,
+    CENTER_RIGHT,
+
+    CENTER
 }
+
+/*
+
+            TOP LEFT                   TOP CENTER                  TOP RIGHT
+                       +-----------------------------------------+
+                       |                                         |
+                       |                                         |
+                       |                                         |
+                       |                                         |
+                       |                                         |
+       CENTER LEFT     |                 CENTER                  |    CENTER RIGHT
+                       |                                         |
+                       |                                         |
+                       |                                         |
+                       |                                         |
+                       |                                         |
+                       +-----------------------------------------+
+         BOTTOM LEFT               BOTTOM CENTER                     BOTTOM RIGHT
+
+
+ */

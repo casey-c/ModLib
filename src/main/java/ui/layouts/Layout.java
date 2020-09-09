@@ -20,6 +20,16 @@ public abstract class Layout<T extends Layout<T>> extends ScreenWidget {
             this.setTopRight(x, y);
         else if (pos == AnchorPosition.BOTTOM_RIGHT)
             this.setBottomRight(x, y);
+        else if (pos == AnchorPosition.CENTER_LEFT)
+            this.setCenterLeft(x, y);
+        else if (pos == AnchorPosition.CENTER_RIGHT)
+            this.setCenterRight(x, y);
+        else if (pos == AnchorPosition.TOP_CENTER)
+            this.setTopCenter(x, y);
+        else if (pos == AnchorPosition.BOTTOM_CENTER)
+            this.setBottomCenter(x, y);
+        else if (pos == AnchorPosition.CENTER)
+            this.setCenter(x, y);
 
         return (T)this;
     }

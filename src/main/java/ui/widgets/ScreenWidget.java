@@ -72,6 +72,41 @@ public abstract class ScreenWidget {
         setTopRightY(y);
     }
 
+    public void setCenterLeftX(float x) { this.x = x; }
+    public void setCenterLeftY(float y) { this.y = y - (prefHeight * 0.5f); }
+    public void setCenterLeft(float x, float y) {
+        setCenterLeftX(x);
+        setCenterLeftY(y);
+    }
+
+    public void setBottomCenterX(float x) { this.x = x - (prefWidth * 0.5f); }
+    public void setBottomCenterY(float y) { this.y = y; }
+    public void setBottomCenter(float x, float y) {
+        setBottomCenterX(x);
+        setBottomCenterY(y);
+    }
+
+    public void setCenterRightX(float x) { this.x = x - prefWidth; }
+    public void setCenterRightY(float y) { this.y = y - (prefHeight * 0.5f); }
+    public void setCenterRight(float x, float y) {
+        setCenterRightX(x);
+        setCenterRightY(y);
+    }
+
+    public void setTopCenterX(float x) { this.x = x - (prefWidth * 0.5f); }
+    public void setTopCenterY(float y) { this.y = y - prefHeight; }
+    public void setTopCenter(float x, float y) {
+        setTopCenterX(x);
+        setTopCenterY(y);
+    }
+
+    public void setCenter(float x, float y) {
+        this.x = x - (prefWidth * 0.5f);
+        this.y = y - (prefHeight * 0.5f);
+    }
+
+
+
     // --------------------------------------------------------------------------------
 
     // Debug

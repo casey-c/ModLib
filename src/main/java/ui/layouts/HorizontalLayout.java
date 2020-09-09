@@ -38,10 +38,13 @@ public class HorizontalLayout extends Layout<HorizontalLayout> {
 //            this.setBottomRight(x, y);
 //
         // Setup the horizontal position counter
-        if (pos == AnchorPosition.TOP_LEFT || pos == AnchorPosition.BOTTOM_LEFT)
+        if (pos == AnchorPosition.TOP_LEFT || pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.CENTER_LEFT)
             this.lastHorizPos = getLeft();
-        else
+        else if (pos == AnchorPosition.TOP_RIGHT || pos == AnchorPosition.BOTTOM_RIGHT || pos == AnchorPosition.CENTER_RIGHT)
             this.lastHorizPos = getRight();
+        // TODO: probably need some special stuff for centered layouts -- need to think about this more!
+        else if (pos == AnchorPosition.TOP_CENTER || pos == AnchorPosition.BOTTOM_CENTER || pos == AnchorPosition.CENTER)
+            this.lastHorizPos = getCenterX();
 
         return this;
     }
@@ -84,6 +87,31 @@ public class HorizontalLayout extends Layout<HorizontalLayout> {
                 child.setTopRight(cx, getTop());
                 lastHorizPos = lastHorizPos - widthOffset - horizSpacing;
                 break;
+
+            // TODO: verify all these additions
+            // TODO: in the centering case, it's probably good to recompute all existing nodes and shift them accordingly
+            //   something like: figure out the sum of the prefWidths + spacings and then recenter it again?
+            case CENTER_LEFT:
+                child.setCenterLeft(cx, getCenterY());
+                lastHorizPos = lastHorizPos + widthOffset + horizSpacing;
+                break;
+            case CENTER_RIGHT:
+                child.setCenterRight(cx, getCenterY());
+                lastHorizPos = lastHorizPos - widthOffset - horizSpacing;
+                break;
+            case TOP_CENTER:
+                child.setTopCenter(cx, getTop());
+                lastHorizPos = lastHorizPos + widthOffset + horizSpacing;
+                break;
+            case BOTTOM_CENTER:
+                child.setTopCenter(cx, getBottom());
+                lastHorizPos = lastHorizPos + widthOffset + horizSpacing;
+                break;
+            case CENTER:
+                child.setCenter(cx, getCenterY());
+                lastHorizPos = lastHorizPos + widthOffset + horizSpacing;
+                break;
+
         }
     }
 

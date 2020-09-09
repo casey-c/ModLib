@@ -1,14 +1,19 @@
 package testing;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
 import ui.screens.LargeScreen;
 import ui.widgets.SimplePadding;
 import ui.widgets.labels.SimpleLabel;
 import utils.ColorHelper;
+import utils.RenderingHelper;
+import utils.TextureManager;
 
 public class TestScreen extends DynamicScreen<GridLayout> {
     public TestScreen(int width, int height) {
@@ -59,6 +64,20 @@ public class TestScreen extends DynamicScreen<GridLayout> {
     @Override
     public Color getTrimColor() {
         return ColorHelper.rainbowColor();
+    }
+
+    // Clipping demonstration
+    private static final Texture ERROR_TEX = TextureManager.getTexture("oh", "yeahhhhhhhhhhhhhhh");
+    @Override
+    protected void renderScreenForeground(SpriteBatch sb) {
+        super.renderScreenForeground(sb);
+
+        if (!visible)
+            return;
+
+        sb.setColor(Color.WHITE);
+        RenderingHelper.renderClipped(sb, ERROR_TEX, InputHelper.mX - 32.0f, InputHelper.mY - 32.0f, false, false,
+                getScreenLeft(), getScreenRight(), getScreenBottom(), getScreenTop());
     }
 
     private void dynGridTest() {

@@ -1,0 +1,22 @@
+# ModLib
+A utility library providing useful features for Slay The Spire mods. ModLib started as a consolidation of shared code between my mod code bases (InfoMod and BetterPaths), but evolved towards focusing on providing a more flexible GUI system. This library is currently under development and is NOT ready for release (don't depend on the current API to be stable!)
+
+### What's currently working
+* Dynamic, custom screens -- you specify the width/height/color, and it will show/hide the proper interfaces as if it were part of the original game
+* Automatic layouts -- tedious, time consuming, and painful manual placement of items is now (mostly) a thing of the past. Use the powerful new layout systems to automatically lay out different widgets without needing to think about all the headaches of alignment and aesthetics. Layouts are flexible, nestable, and are designed to go hand in hand with the custom screens. Currently, ModLib supports VerticalLayouts (for laying things out in a column), HorizontalLayouts (can you guess?), and a very powerful GridLayout (with extra special features to make relative internal dimension setting a breeze)
+* Widgets, widgets, widgets -- you name it, we got it (unless it's anything actually useful, as that hasn't been ported in yet). Currently in are simple Labels (for displaying text), .... and that's about it. There's some horizontal and vertical lines -- do they count? (More widgets -- buttons, text boxes, sliders, scroll areas, etc. should be coming soon)
+* Anchoring support -- adds a whole new level (well, 4 radically awesome levels -- let's not sell ourselves short here) of control over widget placement. Do you want that label attached at the bottom left? Bingo bongo, you got it. Now what about right aligned along the top edge? You absolute legend! You got it! I know what you're thinking... man it would be great if I could just center this very special text right smack dab in the center of my grid layout. Well do I have some news for you! You can....not do that yet (bottomLeft, topLeft, topRight, and bottomRight alignment features are built into the existing widgets and layouts - centering capabilities should come soon)
+* Right clicking hitboxes -- did you ever stop and wonder why the devs have a handy left click watcher on their hitboxes but not one for right clicks? Well, wonder no more. ModLib includes a fancy-schmancy state of the art click watcher to set / fire callback events whenever a right click occurs. These can be on existing hitboxes, or simply whenever a right click occurs. 
+* "Improved" texture management -- did someone say fancy-schmancy? This over-engineered and piss-poor excuse for a singleton class keeps track of all your mod specific textures in a much more convienient fashion. Just add water (and by water I mean an enum with .toString() values pointing to the textures inside your jar -- the enum approach is actually really nice once you get over the slight speed bump). Many mods can store their textures into this registry, so there are lots of opportunities for safe / cross mod interactions if desired! (fine print: not currently safe - but maybe someday)
+
+
+### What's coming
+* Several more *interactive* widgets
+* More helpful dev tools (cleaner config support / easier saveables / etc.)
+* ???
+
+### Goals of this project
+The primary focus is making an accesible GUI library for modders to hook into. My experiments with InfoMod in particular have led me to desire a much more flexible and less awful way of making custom interfaces -- whether for allowing users to customize their settings, aid in displaying information, or serve as a platform to take your mod to the next level. Secondary goals include getting all the pieces of common code I've made into one core library -- things like config support exist in the base ModTheSpire and BaseMod libraries, but they can be a bit inconvienient to use. The bits of code I've made to make it easier on myself will probably make it easier for other people as well -- and I'd like to share that (though selfishly, it's mostly so I don't have to keep reimplementing them each time I go to make a new mod). Underlying all this is my interest in building a useful GUI library from scratch. I've always liked coding software with nice looking interfaces, but have never done the groundwork to make my own GUI library. This is a decent start into that arena and it's been pretty interesting and fun so far.
+
+### Contributions
+Leave me a note here on Github's issues page if you want to get involved!

@@ -24,14 +24,40 @@ public class TestScreen extends DynamicScreen<HorizontalLayout> {
         //setContentPadding(100.0f, 60.0f);
         setContentPadding(100.0f, 100.0f, 60.0f, 100.0f);
 
+        AnchorPosition pos = AnchorPosition.BOTTOM_RIGHT;
         mainLayout = HorizontalLayout
                 .build(getContentWidth(), getContentHeight())
+                //.anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+                .anchoredAt(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT)
                 .withSpacing(40.0f)
-                .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER);
+                .withChildAnchor(pos);
 
-        mainLayout.addChild(new SimpleLabel("Test 1"));
-        mainLayout.addChild(new SimpleLabel("Test 2"));
-        mainLayout.addChild(new SimpleLabel("Test 3"));
+        mainLayout.addChild(new SimpleLabel(pos.name()));
+        mainLayout.addChild(new SimpleLabel(pos.name()));
+
+//        mainLayout = GridLayout
+//                .build(getContentWidth(), getContentHeight())
+//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+//                .with_balanced_rows(AnchorPosition.values().length);
+                //.with_balanced_cols(1);
+
+//        mainLayout.print();
+
+//        int r = 0;
+//        for (AnchorPosition p : AnchorPosition.values()) {
+//            HorizontalLayout layout = mainLayout.setRawLayout(r++, 0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
+//            layout.addChild(new SimpleLabel(p.name()));
+//            //mainLayout.setWidget(r++, 0, new SimpleLabel(p.name()), p);
+//        }
+
+//        mainLayout = HorizontalLayout
+//                .build(getContentWidth(), getContentHeight())
+//                .withSpacing(40.0f)
+//                .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER_LEFT);
+
+//        mainLayout.addChild(new SimpleLabel("Test 1"));
+//        mainLayout.addChild(new SimpleLabel("Test 2"));
+//        mainLayout.addChild(new SimpleLabel("Test 3"));
 
         //----
 //        mainLayout = GridLayout
@@ -79,6 +105,7 @@ public class TestScreen extends DynamicScreen<HorizontalLayout> {
     @Override
     public Color getTrimColor() {
         return ColorHelper.rainbowColor();
+        //return ColorHelper.ORANGE_COLOR;
     }
 
     // Clipping demonstration

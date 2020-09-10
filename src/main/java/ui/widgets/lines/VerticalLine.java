@@ -5,7 +5,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import ui.widgets.ScreenWidget;
 import utils.ColorHelper;
 
-public class VerticalLine extends ScreenWidget {
+public class VerticalLine extends ScreenWidget<VerticalLine> {
     @Override
     public float getPrefWidth() {
         return 3.0f; // Vertical line is always this width

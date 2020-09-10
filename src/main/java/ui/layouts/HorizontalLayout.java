@@ -14,17 +14,37 @@ public class HorizontalLayout extends Layout<HorizontalLayout> {
 
     private ArrayList<ScreenWidget> children;
 
+    private AnchorPosition childAnchor;
+
     private HorizontalLayout() { this.children = new ArrayList<>(); }
     public static HorizontalLayout buildRaw() { return new HorizontalLayout(); }
 
     public static HorizontalLayout build(float prefWidth, float prefHeight) {
-        return new HorizontalLayout().withDimensions(prefWidth, prefHeight);
+        return new HorizontalLayout()
+                .withDimensions(prefWidth, prefHeight);
     }
 
+    public HorizontalLayout withChildAnchor(AnchorPosition childAnchor) {
+        this.childAnchor = childAnchor;
+
+        // Default horiz pos
+        if (AnchorPosition.isLeft(childAnchor))
+            this.lastHorizPos = getLeft();
+        else if (AnchorPosition.isRight(childAnchor))
+            this.lastHorizPos = getRight();
+        else if (AnchorPosition.isCentralX(childAnchor))
+            this.lastHorizPos = getCenterX();
+
+        return this;
+    }
 
     @Override
     public HorizontalLayout anchoredAt(float x, float y, AnchorPosition pos) {
         super.anchoredAt(x, y, pos);
+
+        // By default, the child anchor inherits the parent anchor
+        this.childAnchor = pos;
+
 //        this.anchorPosition = pos;
 //
 //        // Move this layout to the proper spot
@@ -38,13 +58,9 @@ public class HorizontalLayout extends Layout<HorizontalLayout> {
 //            this.setBottomRight(x, y);
 //
         // Setup the horizontal position counter
-        if (pos == AnchorPosition.TOP_LEFT || pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.CENTER_LEFT)
-            this.lastHorizPos = getLeft();
-        else if (pos == AnchorPosition.TOP_RIGHT || pos == AnchorPosition.BOTTOM_RIGHT || pos == AnchorPosition.CENTER_RIGHT)
-            this.lastHorizPos = getRight();
-        // TODO: probably need some special stuff for centered layouts -- need to think about this more!
-        else if (pos == AnchorPosition.TOP_CENTER || pos == AnchorPosition.BOTTOM_CENTER || pos == AnchorPosition.CENTER)
-            this.lastHorizPos = getCenterX();
+
+//        else if (pos == AnchorPosition.TOP_CENTER || pos == AnchorPosition.BOTTOM_CENTER || pos == AnchorPosition.CENTER)
+//            this.lastHorizPos = getCenterX();
 
         return this;
     }
@@ -70,7 +86,11 @@ public class HorizontalLayout extends Layout<HorizontalLayout> {
         // Update the last position counter
         float widthOffset = (letChildrenDetermineOwnWidth) ? child.getPrefWidth() : fixedChildWidth;
 
-        switch (anchorPosition) {
+        // *********************************************************************************************
+        // TODO: redo this whole thing with the new child anchor / parent anchor differentiation change
+        //   what's below is NOT working correctly
+        // *********************************************************************************************
+        switch (childAnchor) {
             case BOTTOM_LEFT:
                 child.setBottomLeft(cx, getBottom());
                 lastHorizPos = lastHorizPos + widthOffset + horizSpacing;
@@ -115,17 +135,52 @@ public class HorizontalLayout extends Layout<HorizontalLayout> {
         }
     }
 
+    private float getTotalChildWidths() {
+        float sum = 0.0f;
+
+        for (ScreenWidget child : children) {
+            sum += (letChildrenDetermineOwnWidth) ? child.getPrefWidth() : fixedChildWidth;
+            sum += horizSpacing;
+        }
+
+        // Undo the last one
+        if (children.size() > 0)
+            sum -= horizSpacing;
+
+        return sum;
+    }
+
     public void addChild(ScreenWidget child) {
         children.add(child);
-        moveChildIntoPosition(child, lastHorizPos);
+
+        if (AnchorPosition.isCentralX(childAnchor)) {
+            recomputeAllChildPositions();
+        }
+        else {
+            moveChildIntoPosition(child, lastHorizPos);
+        }
     }
 
     // TODO: needed if layout position ever changes (maybe have a recursive update to all widgets?)
-//    public void recomputeAllChildPositions() {
+    public void recomputeAllChildPositions() {
+        if (AnchorPosition.isCentralX(childAnchor)) {
+            float totalChildWidth = getTotalChildWidths();
+            float layoutCenterX = getCenterX();
+
+            lastHorizPos = layoutCenterX - (totalChildWidth / 2.0f);
+        }
+        else if (AnchorPosition.isLeft(childAnchor))
+            lastHorizPos = getLeft();
+        else if (AnchorPosition.isRight(childAnchor))
+            lastHorizPos = getRight();
+
+        for (ScreenWidget child : children)
+            moveChildIntoPosition(child, lastHorizPos);
+
 //        lastHorizPos = 0;
 //        for (ScreenWidget child : children)
 //            moveChildIntoPosition(child, lastHorizPos);
-//    }
+    }
 
     @Override
     public void render(SpriteBatch sb) {

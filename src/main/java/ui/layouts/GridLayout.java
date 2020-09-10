@@ -38,6 +38,14 @@ public class GridLayout extends Layout<GridLayout> {
 
     public static GridLayout build(float prefWidth, float prefHeight) {
         GridLayout layout = new GridLayout(prefWidth, prefHeight);
+
+        // Start out at a 1x1 grid
+        layout.rowHeights.clear();
+        layout.columnWidths.clear();
+
+        layout.rowHeights.add(prefHeight);
+        layout.columnWidths.add(prefWidth);
+
         return layout;
     }
 

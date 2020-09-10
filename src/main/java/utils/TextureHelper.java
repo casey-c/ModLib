@@ -10,10 +10,10 @@ public class TextureHelper {
         SCREEN_LARGE_BASE("ModLib/images/screens/screen_1000_800_base.png"),
         SCREEN_LARGE_TRIM("ModLib/images/screens/screen_1000_800_trim.png"),
 
-        SCREEN_CORNER_BASE("ModLib/images/screens/screen_corner_base.png"),
+        SCREEN_CORNER_BASE("ModLib/images/screens/screen_corner_base_v2.png"),
         SCREEN_CORNER_TRIM("ModLib/images/screens/screen_corner_trim.png"),
         SCREEN_EDGE_TRIM("ModLib/images/screens/screen_edge_trim.png"),
-        SCREEN_CENTER("ModLib/images/screens/screen_center.png"),
+        SCREEN_CENTER("ModLib/images/screens/screen_center_v2.png"),
 
         ICON("ModLib/images/icon.png")
         ;

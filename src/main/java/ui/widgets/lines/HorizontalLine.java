@@ -5,7 +5,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import ui.widgets.ScreenWidget;
 import utils.ColorHelper;
 
-public class HorizontalLine extends ScreenWidget {
+public class HorizontalLine extends ScreenWidget<HorizontalLine> {
     @Override
     public float getPrefHeight() {
         return 3.0f; // Horizontal line is always this height

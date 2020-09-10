@@ -54,6 +54,9 @@ public class DynamicScreen<T extends Layout<T>> extends AbstractScreen<T> {
         return x * 100;
     }
 
+    public Color getBaseColor() {
+        return ColorHelper.SCREEN_BASE_COLOR;
+    }
     public Color getTrimColor() {
         return Settings.CREAM_COLOR;
     }
@@ -86,7 +89,7 @@ Specified by:
      */
 
     private void easyDrawCenterPiece(SpriteBatch sb, float x, float y) {
-        sb.setColor(Color.WHITE);
+        sb.setColor(getBaseColor());
         sb.draw(TEX_CENTER, x, y,
                 50.0f, 50.0f,
                 (float)CHUNK_SIZE, (float)CHUNK_SIZE,
@@ -101,7 +104,7 @@ Specified by:
 
     private void easyDraw(SpriteBatch sb, Texture baseTex, Texture trimTex, float x, float y, float rot, boolean flipX, boolean flipY) {
         // Base
-        sb.setColor(Color.WHITE);
+        sb.setColor(getBaseColor());
         sb.draw(baseTex,
                 x, y,
                 50.0f, 50.0f, // CHUNK_SIZE / 2.0 (it's a square)
@@ -130,7 +133,6 @@ Specified by:
         float left = getScreenLeft();
         float bottom = getScreenBottom();
 
-        sb.setColor(Color.WHITE);
         for (int i = 0; i < rowChunks; ++i) {
             float x = left + i * CHUNK_SIZE;
 

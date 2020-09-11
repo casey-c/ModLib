@@ -15,10 +15,12 @@ public class GridLayout extends Layout<GridLayout> {
 
     private float verticalPadding, horizontalPadding;
 
-    public static GridLayout buildRaw() {
-        GridLayout layout = new GridLayout();
-        return layout;
-    }
+//    public static GridLayout buildRaw() {
+//        GridLayout layout = new GridLayout();
+//        return layout;
+//    }
+
+    public GridLayout() { }
 
     public static GridLayout build(float prefWidth, float prefHeight) {
         GridLayout layout = new GridLayout();

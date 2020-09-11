@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import config.Config;
 import ui.layouts.*;
-import ui.screens.DynamicScreen2;
+import ui.screens.DynamicScreen;
 import ui.widgets.labels.SimpleLabel;
 import ui.widgets.lines.HorizontalLine;
 import utils.ColorHelper;
@@ -17,7 +17,7 @@ import utils.TextureManager;
 
 import java.util.ArrayList;
 
-public class TestScreen extends DynamicScreen2<GridLayout> {
+public class TestScreen extends DynamicScreen<GridLayout> {
 
     private ArrayList<Layout> tests = new ArrayList<>();
 
@@ -27,21 +27,54 @@ public class TestScreen extends DynamicScreen2<GridLayout> {
 
         setContentPadding(64.0f, 64.0f);
 
+        gridTest4();
+
+
+//        mainLayout = GridLayout
+//                .build(getContentWidth(), getContentHeight())
+//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+//                .withVerticalPadding(20.0f)
+//                .with_absolute_rows(-1, 10.0f, 60.0f);
+//
+//        VerticalLayout bottomLayout = VerticalLayout.build(0, 0).withSpacing(32.0f);
+//        mainLayout.setWidget(2, 0, new SimpleLabel("Grid Test 3", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.CENTER);
+//        mainLayout.setWidget(1, 0, new HorizontalLine());
+//
+//        bottomLayout.addChild(new SimpleLabel("Hello 1"), AnchorPosition.CENTER);
+//        bottomLayout.addChild(new SimpleLabel("Hello 2"), AnchorPosition.CENTER);
+//        bottomLayout.addChild(new SimpleLabel("Hello 3"), AnchorPosition.CENTER);
+//
+//        mainLayout.setWidget(0, 0, bottomLayout, AnchorPosition.CENTER);
+    }
+
+    private void gridTest4() {
         mainLayout = GridLayout
                 .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                .withVerticalPadding(20.0f)
-                .with_absolute_rows(-1, 10.0f, 60.0f);
+                .withVerticalPadding(10)
+                .withHorizontalPadding(20)
+                .with_absolute_rows(-1, 10.0f, 60.0f)
+                .with_absolute_cols(-1, 80.0f);
 
-        VerticalLayout bottomLayout = VerticalLayout.build(0, 0).withSpacing(32.0f);
-        mainLayout.setWidget(2, 0, new SimpleLabel("Grid Test 3", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.CENTER);
+        int s = 4;
+        GridLayout bottomGrid = mainLayout.setWidget(0, 0, new GridLayout().withVerticalPadding(5).withHorizontalPadding(5));
+        bottomGrid.with_balanced_rows(s).with_balanced_cols(s);
+        for (int i = 0; i < s; ++i) {
+            for (int j = 0; j < s; ++j) {
+                bottomGrid.setWidget(i, j, new SimpleLabel(i + ", " + j));
+            }
+        }
+
         mainLayout.setWidget(1, 0, new HorizontalLine());
+        mainLayout.setWidget(2, 0, new SimpleLabel("Grid Test 4", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.CENTER_LEFT);
 
-        bottomLayout.addChild(new SimpleLabel("Hello 1"), AnchorPosition.CENTER);
-        bottomLayout.addChild(new SimpleLabel("Hello 2"), AnchorPosition.CENTER);
-        bottomLayout.addChild(new SimpleLabel("Hello 3"), AnchorPosition.CENTER);
-
-        mainLayout.setWidget(0, 0, bottomLayout, AnchorPosition.CENTER);
+        VerticalLayout rightLayout = mainLayout.setWidget(2, 1, new VerticalLayout().withSpacing(20), AnchorPosition.TOP_RIGHT);
+        rightLayout.addChild(new SimpleLabel("Vert 1"));
+        rightLayout.addChild(new SimpleLabel("Vert 2"));
+        rightLayout.addChild(new SimpleLabel("Vert 3"));
+        rightLayout.addChild(new SimpleLabel("Vert 4"));
+        rightLayout.addChild(new SimpleLabel("Vert 5"));
+        rightLayout.addChild(new SimpleLabel("Vert 6"));
     }
 
 /*

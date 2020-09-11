@@ -13,9 +13,6 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
     protected Texture SCREEN_BG;
     protected float SCREEN_W, SCREEN_H;
 
-//    protected float CONTENT_PADDING_X = 60.0f;
-//    protected float CONTENT_PADDING_Y = 60.0f;
-
     protected float CONTENT_PADDING_LEFT = 60.0f;
     protected float CONTENT_PADDING_RIGHT = 60.0f;
     protected float CONTENT_PADDING_TOP = 60.0f;
@@ -41,28 +38,7 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
     protected float getScreenHeight() { return SCREEN_H; }
     protected float getContentHeight() { return SCREEN_H - CONTENT_PADDING_TOP - CONTENT_PADDING_BOTTOM; }
 
-//    protected float SCREEN_X, SCREEN_Y;
-//
-//    protected float CONTENT_OUTER_PADDING_X = 60.0f;
-//    protected float CONTENT_OUTER_PADDING_Y = 60.0f;
-//
-//    protected float CONTENT_MIN_X;
-//    protected float CONTENT_MAX_X;
-//    protected float CONTENT_MIN_Y;
-//    protected float CONTENT_MAX_Y;
-
     protected T mainLayout;
-
-//    protected void computeCenteredContentLocations() {
-//        this.SCREEN_X = ((float)Settings.WIDTH - SCREEN_W) / 2.0f;
-//        this.SCREEN_Y = ((float)Settings.HEIGHT - SCREEN_H) / 2.0f;
-//
-//        this.CONTENT_MIN_X = SCREEN_X + CONTENT_OUTER_PADDING_X;
-//        this.CONTENT_MAX_X = SCREEN_X + SCREEN_W - CONTENT_OUTER_PADDING_X;
-//
-//        this.CONTENT_MIN_Y = SCREEN_Y + CONTENT_OUTER_PADDING_Y;
-//        this.CONTENT_MAX_Y = SCREEN_Y + SCREEN_H - CONTENT_OUTER_PADDING_Y;
-//    }
 
     public boolean isVisible() {
         return visible;

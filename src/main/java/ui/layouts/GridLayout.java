@@ -7,6 +7,15 @@ import utils.DualIntegerKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// TODO: GridLayout probably needs to implement recomputeLayout() somehow?
+//   -- it's kinda tough because of the builder methods (how do we rebuild the action of with_..._rows() for example)
+//
+// TODO:
+//   idea for a solution: extract all the building to a GridFactory -> this should store all the pieces required
+//   to build the GridLayout, (builder methods return GridFactory instances, and only a final .build() returns a grid)
+//   then all the information to build it (and again on a recompute()) can be stored in the factory and easily accessed
+//   I don't see an urgent need for this right now; but it is very likely something I will need to tackle eventually
+
 public class GridLayout extends Layout<GridLayout> {
 
     private HashMap<DualIntegerKey, ScreenWidget> children = new HashMap<>();

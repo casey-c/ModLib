@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import ui.layouts.Layout;
+import ui.widgets.ScreenWidget;
+
+import java.util.ArrayList;
 
 public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubscriber {
     protected boolean visible;
@@ -38,10 +41,20 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
     protected float getScreenHeight() { return SCREEN_H; }
     protected float getContentHeight() { return SCREEN_H - CONTENT_PADDING_TOP - CONTENT_PADDING_BOTTOM; }
 
+    // --------------------------------------------------------------------------------
+
     protected T mainLayout;
+    protected ArrayList<ScreenWidget> activeChildWidgets = new ArrayList<>();
+
+    // --------------------------------------------------------------------------------
 
     public boolean isVisible() {
         return visible;
+    }
+
+    protected void setAllChildrenActive(boolean val) {
+        for (ScreenWidget child : activeChildWidgets)
+            child.setActive(val);
     }
 
     public void show() {
@@ -49,6 +62,8 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
             return;
 
         visible = true;
+        setAllChildrenActive(true);
+
         ScreenHelper.showCustomScreen("DECK_OPEN");
     }
 
@@ -57,6 +72,8 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
             return;
 
         visible = false;
+        setAllChildrenActive(false);
+
         ScreenHelper.closeCustomScreen("DECK_CLOSE");
     }
 

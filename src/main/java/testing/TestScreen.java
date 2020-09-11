@@ -26,27 +26,9 @@ public class TestScreen extends DynamicScreen<GridLayout> {
         super(width, height);
 
         setContentPadding(64.0f, 64.0f);
-
-        gridTest4();
-
-
-//        mainLayout = GridLayout
-//                .build(getContentWidth(), getContentHeight())
-//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-//                .withVerticalPadding(20.0f)
-//                .with_absolute_rows(-1, 10.0f, 60.0f);
-//
-//        VerticalLayout bottomLayout = VerticalLayout.build(0, 0).withSpacing(32.0f);
-//        mainLayout.setWidget(2, 0, new SimpleLabel("Grid Test 3", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.CENTER);
-//        mainLayout.setWidget(1, 0, new HorizontalLine());
-//
-//        bottomLayout.addChild(new SimpleLabel("Hello 1"), AnchorPosition.CENTER);
-//        bottomLayout.addChild(new SimpleLabel("Hello 2"), AnchorPosition.CENTER);
-//        bottomLayout.addChild(new SimpleLabel("Hello 3"), AnchorPosition.CENTER);
-//
-//        mainLayout.setWidget(0, 0, bottomLayout, AnchorPosition.CENTER);
     }
 
+    /*
     private void gridTest4() {
         mainLayout = GridLayout
                 .build(getContentWidth(), getContentHeight())
@@ -76,6 +58,7 @@ public class TestScreen extends DynamicScreen<GridLayout> {
         rightLayout.addChild(new SimpleLabel("Vert 5"));
         rightLayout.addChild(new SimpleLabel("Vert 6"));
     }
+     */
 
 /*
     private void verticalLayoutTests() {

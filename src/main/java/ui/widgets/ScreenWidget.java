@@ -6,6 +6,7 @@ import ui.layouts.AnchorPosition;
 public abstract class ScreenWidget<T extends ScreenWidget> {
     private float x, y, prefWidth, prefHeight;
     protected AnchorPosition anchorPosition = AnchorPosition.BOTTOM_LEFT;
+    protected boolean active = false;
 
     // --------------------------------------------------------------------------------
     // Getters
@@ -135,6 +136,7 @@ public abstract class ScreenWidget<T extends ScreenWidget> {
         this.anchorPosition = pos;
     }
 
+    public void setActive(boolean val) { this.active = val; }
 
     public T withDimensions(float prefWidth, float prefHeight) {
         this.setPrefWidthHeight(prefWidth, prefHeight);

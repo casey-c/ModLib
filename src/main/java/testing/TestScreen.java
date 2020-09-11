@@ -17,6 +17,8 @@ import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureManager;
 
+import java.util.ArrayList;
+
 public class TestScreen extends DynamicScreen<HorizontalLayout2> {
     public TestScreen(int width, int height) {
         super(width, height);
@@ -38,12 +40,30 @@ public class TestScreen extends DynamicScreen<HorizontalLayout2> {
                 //.anchoredAt(getContentCenterX(), getContentBottom(), AnchorPosition.BOTTOM_CENTER)
                 //.anchoredAt(getContentRight(), getContentBottom(), AnchorPosition.BOTTOM_RIGHT)
 
-                //.withFixedChildWidth(150.0f) // will look weird centered because the label is not aligned internally yet (it seems to work, but each cell is internally left aligned)
+                .withFixedChildWidth(250.0f)
+                .withFixedChildHeight(150.0f)
                 .withSpacing(40.0f);
 
-        mainLayout.addChild(new SimpleLabel("Hello 1"), AnchorPosition.BOTTOM_RIGHT)
-                  .addChild(new SimpleLabel("Hello 2"), AnchorPosition.BOTTOM_RIGHT)
-                  .addChild(new SimpleLabel("Hello 3"), AnchorPosition.BOTTOM_RIGHT);
+//        mainLayout.addChild(new SimpleLabel("Hello 1"), AnchorPosition.BOTTOM_RIGHT)
+//                  .addChild(new SimpleLabel("Hello 2"), AnchorPosition.BOTTOM_RIGHT)
+//                  .addChild(new SimpleLabel("Hello 3"), AnchorPosition.BOTTOM_RIGHT);
+
+        // note: can use AnchorPosition.values() instead to get all.
+        ArrayList<AnchorPosition> tests = new ArrayList<>();
+        for (AnchorPosition p : AnchorPosition.values())
+            tests.add(p);
+//        tests.add(AnchorPosition.BOTTOM_LEFT);
+//        tests.add(AnchorPosition.BOTTOM_CENTER);
+//        tests.add(AnchorPosition.BOTTOM_RIGHT);
+
+//        tests.add(AnchorPosition.TOP_LEFT);
+//        tests.add(AnchorPosition.TOP_CENTER);
+//        tests.add(AnchorPosition.TOP_RIGHT);
+
+        for (int i = 0; i < tests.size(); i += 2) {
+            mainLayout.addChild(new SimpleLabel(tests.get(i).name()), tests.get(i));
+        }
+
 
                 //.withSpacing(40.0f);
 

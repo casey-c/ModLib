@@ -12,14 +12,24 @@ import java.util.ArrayList;
 public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> extends Layout<T> {
     protected float spacing = 0.0f;
 
-    protected boolean dynamicSize = true;
-    protected float fixedSize;
+    protected float fixedWidth, fixedHeight;
+    protected boolean dynamicWidth = true;
+    protected boolean dynamicHeight = true;
 
-    protected ArrayList<Pair<ScreenWidget, AnchorPosition>> children = new ArrayList<>();
+    //protected ArrayList<Pair<ScreenWidget, AnchorPosition>> children = new ArrayList<>();
+    protected ArrayList<ScreenWidget> children = new ArrayList<>();
 
     //public <T extends OneDimensionalLayout<T>> OneDimensionalLayout<T> addChild(ScreenWidget child, AnchorPosition anchor) {
+
+    // Convenience
+    public T addChild(ScreenWidget child) {
+        return addChild(child, AnchorPosition.BOTTOM_LEFT);
+    }
+
     public T addChild(ScreenWidget child, AnchorPosition anchor) {
-        children.add(Pair.of(child, anchor));
+        children.add(child);
+        child.setAnchor(anchor);
+
         recomputeLayout();
         return (T)this;
     }
@@ -32,15 +42,21 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
 
     //public <T extends OneDimensionalLayout<T>> OneDimensionalLayout<T> withFixedChildWidth(float w) {
     public T withFixedChildWidth(float w) {
-        this.dynamicSize = false;
-        this.fixedSize = w;
+        this.dynamicWidth = false;
+        this.fixedWidth = w;
+        return (T)this;
+    }
+
+    public T withFixedChildHeight(float h) {
+        this.dynamicHeight = false;
+        this.fixedHeight = h;
         return (T)this;
     }
 
     protected float totalChildrenHeight() {
         float sum = 0.0f;
-        for (Pair<ScreenWidget, AnchorPosition> p : children) {
-            sum += (dynamicSize) ? p.getLeft().getPrefHeight() : fixedSize;
+        for (ScreenWidget child : children) {
+            sum += (dynamicHeight) ? child.getPrefHeight() : fixedHeight;
             sum += spacing;
         }
 
@@ -52,8 +68,8 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
 
     protected float totalChildrenWidth() {
         float sum = 0.0f;
-        for (Pair<ScreenWidget, AnchorPosition> p : children) {
-            sum += (dynamicSize) ? p.getLeft().getPrefWidth() : fixedSize;
+        for (ScreenWidget child : children) {
+            sum += (dynamicWidth) ? child.getPrefWidth() : fixedWidth;
             sum += spacing;
         }
 
@@ -65,36 +81,36 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
 
     protected float minChildHeight() {
         float min = 100000.0f;
-        for (Pair<ScreenWidget, AnchorPosition> p : children) {
-            if (p.getLeft().getPrefHeight() < min)
-                min = p.getLeft().getPrefHeight();
+        for (ScreenWidget child : children) {
+            if (child.getPrefHeight() < min)
+                min = child.getPrefHeight();
         }
         return min;
     }
 
     protected float minChildWidth() {
         float min = 100000.0f;
-        for (Pair<ScreenWidget, AnchorPosition> p : children) {
-            if (p.getLeft().getPrefWidth() < min)
-                min = p.getLeft().getPrefWidth();
+        for (ScreenWidget child : children) {
+            if (child.getPrefWidth() < min)
+                min = child.getPrefWidth();
         }
         return min;
     }
 
     protected float maxChildHeight() {
         float max = 0.0f;
-        for (Pair<ScreenWidget, AnchorPosition> p : children) {
-            if (p.getLeft().getPrefHeight() > max)
-                max = p.getLeft().getPrefHeight();
+        for (ScreenWidget child : children) {
+            if (child.getPrefHeight() > max)
+                max = child.getPrefHeight();
         }
         return max;
     }
 
     protected float maxChildWidth() {
         float max = 0.0f;
-        for (Pair<ScreenWidget, AnchorPosition> p : children) {
-            if (p.getLeft().getPrefWidth() > max)
-                max = p.getLeft().getPrefWidth();
+        for (ScreenWidget child : children) {
+            if (child.getPrefWidth() > max)
+                max = child.getPrefWidth();
         }
         return max;
     }
@@ -107,7 +123,7 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         sb.setColor(ColorHelper.VERY_DIM_BLUE);
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, getLeft(), getBottom(), getPrefWidth(), getPrefHeight());
 
-        for (Pair<ScreenWidget, AnchorPosition> p : children)
-            p.getLeft().render(sb);
+        for (ScreenWidget child : children)
+            child.render(sb);
     }
 }

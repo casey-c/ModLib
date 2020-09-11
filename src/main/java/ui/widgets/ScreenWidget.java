@@ -5,7 +5,7 @@ import ui.layouts.AnchorPosition;
 
 public abstract class ScreenWidget<T extends ScreenWidget> {
     private float x, y, prefWidth, prefHeight;
-    protected AnchorPosition anchorPosition;
+    protected AnchorPosition anchorPosition = AnchorPosition.BOTTOM_LEFT;
 
     // --------------------------------------------------------------------------------
     // Getters
@@ -131,32 +131,10 @@ public abstract class ScreenWidget<T extends ScreenWidget> {
             return (T)this;
     }
 
-    public T anchoredGivenBottomLeft(float x,  float y, AnchorPosition pos) {
+    public void setAnchor(AnchorPosition pos) {
         this.anchorPosition = pos;
-        this.setBottomLeft(x, y);
-
-        // Move this layout to the proper spot
-//        if (pos == AnchorPosition.BOTTOM_LEFT)
-//            this.setBottomLeft(x, y);
-//        else if (pos == AnchorPosition.TOP_LEFT)
-//            this.setTopLeft(x, y);
-//        else if (pos == AnchorPosition.TOP_RIGHT)
-//            this.setTopRight(x, y);
-//        else if (pos == AnchorPosition.BOTTOM_RIGHT)
-//            this.setBottomRight(x, y);
-//        else if (pos == AnchorPosition.CENTER_LEFT)
-//            this.setCenterLeft(x, y);
-//        else if (pos == AnchorPosition.CENTER_RIGHT)
-//            this.setCenterRight(x, y);
-//        else if (pos == AnchorPosition.TOP_CENTER)
-//            this.setTopCenter(x, y);
-//        else if (pos == AnchorPosition.BOTTOM_CENTER)
-//            this.setBottomCenter(x, y);
-//        else if (pos == AnchorPosition.CENTER)
-//            this.setCenter(x, y);
-
-        return (T)this;
     }
+
 
     public T withDimensions(float prefWidth, float prefHeight) {
         this.setPrefWidthHeight(prefWidth, prefHeight);
@@ -167,7 +145,7 @@ public abstract class ScreenWidget<T extends ScreenWidget> {
 
     // Debug
     public void print() {
-        System.out.println("SCREEN WIDGET: (" + getLeft() + ", " + getBottom() + ")  --> (" + getRight() + ", " + getTop() + ")");
+        System.out.println( "SCREEN WIDGET: bl(" + getLeft() + ", " + getBottom() +  ")  --> c("  + getCenterX() + ", " + getCenterY() + ")  --> tr("  + getRight() + ", " + getTop() + ")  | (w, h): ("  + getPrefWidth() + ", " + getPrefHeight() + ")");
     }
 
     // --------------------------------------------------------------------------------

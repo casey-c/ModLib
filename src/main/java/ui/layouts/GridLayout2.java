@@ -104,16 +104,13 @@ public class GridLayout2 extends Layout<GridLayout2> {
 
 
     public GridLayout2 with_absolute_rows(float... heights) {
-        // -1, 80.0f;
         float sum = 0.0f;
         int numNegative = 0;
-        float paddingSoFar = 0.0f;
         for (float h : heights) {
             if (h < 0.0f)
                 numNegative++;
             else {
                 sum += h;
-                paddingSoFar += verticalPadding; // todo: might be off by 1?
             }
         }
 
@@ -122,9 +119,21 @@ public class GridLayout2 extends Layout<GridLayout2> {
             return this;
 
         // TODO: fix this bug (not accounting for the padding correctly - i'm too tired right now :(
-        float remaining = heightWithoutPadding(heights.length) - sum;
+        //float remaining = getPrefHeight - sum; //original, buggy
+        //float remaining = heightWithoutPadding(heights.length) - sum; // still buggy
         //float remaining = heightWithoutPadding(heights.length) - (sum - paddingSoFar);
+        //float remaining = heightWithoutPadding(heights.length) - sum - verticalPadding; // that's not it either rip
+        System.out.println("OJB: abs rows: getPrefHeight: " + getPrefHeight());
+        System.out.println("OJB: abs rows: sum: " + sum);
+        System.out.println("OJB: abs rows: heights.len: " + heights.length);
+        System.out.println("OJB: abs rows: num negative: " + numNegative);
+        System.out.println("OJB: abs rows: vertical padding: " + verticalPadding);
+
+        float remaining = getPrefHeight() - sum - ((heights.length - numNegative - 1) * verticalPadding) - (numNegative * verticalPadding);
+        System.out.println("OJB: abs rows: remaining: " + remaining);
+
         float balancedHeightForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
+        System.out.println("OJB: abs rows: per each remaining: " + balancedHeightForNegativeVals);
 
         rowHeights.clear();
         for (float h : heights) {
@@ -133,6 +142,11 @@ public class GridLayout2 extends Layout<GridLayout2> {
             else
                 rowHeights.add(h);
         }
+
+        System.out.println("OJB: abs row final length: " + rowHeights.size());
+        for (float h : rowHeights)
+            System.out.println("\t" + h);
+        System.out.println();
 
         return this;
     }
@@ -193,7 +207,8 @@ public class GridLayout2 extends Layout<GridLayout2> {
         if (sum < 0.0001f)
             return this;
 
-        float remaining = widthWithoutPadding(widths.length)- sum;
+        float remaining = getPrefWidth() - sum - ((widths.length - numNegative - 1) * horizontalPadding) - (numNegative * horizontalPadding);
+        //float remaining = widthWithoutPadding(widths.length)- sum;
         float balancedWidthForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
 
         columnWidths.clear();
@@ -213,28 +228,6 @@ public class GridLayout2 extends Layout<GridLayout2> {
         return (row < rowHeights.size()) && (col < columnWidths.size());
     }
 
-    // TODO: add in anchors for GRIDs
-    private <T extends Layout<T>> void fixRawLayout(int row, int col, T layout, AnchorPosition pos) {
-        layout.withDimensions(getLayoutWidth(col), getLayoutHeight(row));
-        //float x = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.TOP_LEFT) ? getLayoutX(col) : getLayoutX(col) + getLayoutWidth(col);
-        //float y = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.BOTTOM_RIGHT) ? getLayoutY(row) : getLayoutY(row) + getLayoutHeight(row);
-        //layout.anchoredAt(x, y, pos);
-        layout.setBottomLeft(getLayoutX(col), getLayoutY(row));
-        layout.setAnchor(pos);
-
-        layout.recomputeLayout();
-    }
-
-    public <T extends Layout<T>> T setRawLayout(int row, int col, T layout, AnchorPosition pos) {
-        if (!inBounds(row, col))
-            return layout;
-
-        fixRawLayout(row, col, layout, pos);
-
-        children.put(new DualIntegerKey(row, col), layout);
-        return layout;
-    }
-
     public <T extends ScreenWidget> T setWidget(int row, int col, T widget) {
         return setWidget(row, col, widget, AnchorPosition.CENTER);
     }
@@ -245,35 +238,11 @@ public class GridLayout2 extends Layout<GridLayout2> {
 
         // Fix the widget in place specified by this grid
         widget.setPrefWidthHeight(getLayoutWidth(col), getLayoutHeight(row));
-
-        float x = getLayoutX(col);
-//        if (AnchorPosition.isCentralX(pos))
-//            x = getLayoutX(col) + getLayoutWidth(col) / 2.0f;
-//        else if (AnchorPosition.isRight(pos))
-//            x = getLayoutX(col) + getLayoutWidth(col);
-
-        float y = getLayoutY(row);
-//        if (AnchorPosition.isCentralY(pos))
-//            y = getLayoutY(row) + getLayoutHeight(row) / 2.0f;
-//        else if (AnchorPosition.isRight(pos))
-//            y = getLayoutY(row) + getLayoutHeight(row);
-
-        widget.setBottomLeft(x, y);
-
-        // TODO: actual better per widget anchors? -- i don't think this will work (didn't really think about it at all - just a guess)
+        widget.setBottomLeft(getLayoutX(col), getLayoutY(row));
         widget.setAnchor(pos);
 
-//        if (pos == AnchorPosition.BOTTOM_LEFT)
-//            widget.setBottomLeft(getLayoutX(col), getLayoutY(row));
-//        else if (pos == AnchorPosition.TOP_LEFT)
-//            widget.setTopLeft(getLayoutX(col), getLayoutY(row) + getLayoutHeight(row));
-//        else if (pos == AnchorPosition.TOP_RIGHT)
-//            widget.setTopRight(getLayoutX(col) + getLayoutWidth(col), getLayoutY(row) + getLayoutHeight(row));
-//        else if (pos == AnchorPosition.BOTTOM_RIGHT)
-//            widget.setTopRight(getLayoutX(col) + getLayoutWidth(col), getLayoutY(row));
-
-        System.out.println("OJB: set widget success");
-        widget.print();
+        if (widget instanceof Layout)
+            ((Layout) widget).recomputeLayout();
 
         children.put(new DualIntegerKey(row, col), widget);
         return widget;
@@ -285,17 +254,13 @@ public class GridLayout2 extends Layout<GridLayout2> {
     private float getLayoutX(int col) {
         float pos = getLeft();
 
-        int index = 0;
-        for (float w : columnWidths) {
-            if (index++ >= col)
-                break;
-
-            pos += w;
+        for (int i = 0; i < col && i < columnWidths.size(); ++i) {
+            pos += columnWidths.get(i);
             pos += horizontalPadding;
         }
 
-        if (columnWidths.size() > 0)
-            pos -= horizontalPadding;
+        System.out.println("getLayoutX of col " + col + " is " + pos);
+        System.out.println("\t(left was " + getLeft() + "), columnWdiths.size was " + columnWidths.size());
 
         return pos;
     }
@@ -303,17 +268,13 @@ public class GridLayout2 extends Layout<GridLayout2> {
     private float getLayoutY(int row) {
         float pos = getBottom();
 
-        int index = 0;
-        for (float h : rowHeights) {
-            if (index++ >= row)
-                break;
-
-            pos += h;
+        for (int i = 0; i < row && i < rowHeights.size(); ++i) {
+            pos += rowHeights.get(i);
             pos += verticalPadding;
         }
 
-        if (rowHeights.size() > 0)
-            pos -= verticalPadding;
+        System.out.println("getLayoutY of row " + row + " is " + pos);
+        System.out.println("\t(bottom was " + getBottom() + "), rowHeights.size was " + rowHeights.size());
         return pos;
     }
 

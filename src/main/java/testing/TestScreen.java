@@ -41,7 +41,7 @@ public class TestScreen extends DynamicScreen<GridLayout2> {
         bottomLayout.addChild(new SimpleLabel("Hello 2"), AnchorPosition.CENTER);
         bottomLayout.addChild(new SimpleLabel("Hello 3"), AnchorPosition.CENTER);
 
-        mainLayout.setRawLayout(0, 0, bottomLayout, AnchorPosition.TOP_LEFT);
+        mainLayout.setWidget(0, 0, bottomLayout, AnchorPosition.TOP_LEFT);
 
         System.out.println("*********************************");
         bottomLayout.print();

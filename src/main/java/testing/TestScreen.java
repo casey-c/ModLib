@@ -7,23 +7,58 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
 import ui.widgets.labels.SimpleLabel;
+import ui.widgets.lines.VerticalLine;
 import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureManager;
 
 import java.util.ArrayList;
 
-public class TestScreen extends DynamicScreen<VerticalLayout> {
+public class TestScreen extends DynamicScreen<GridLayout2> {
 
     private ArrayList<Layout> tests = new ArrayList<>();
+
+    private AnchorPosition getTestPos(int i, int j) {
+        if (i == 0 && j == 0) return AnchorPosition.TOP_LEFT;
+        else if (i == 0 && j == 1) return AnchorPosition.TOP_CENTER;
+        else if (i == 0 && j == 2) return AnchorPosition.TOP_RIGHT;
+
+        else if (i == 1 && j == 0) return AnchorPosition.CENTER_LEFT;
+        else if (i == 1 && j == 1) return AnchorPosition.CENTER;
+        else if (i == 1 && j == 2) return AnchorPosition.CENTER_RIGHT;
+
+        else if (i == 2 && j == 0) return AnchorPosition.BOTTOM_LEFT;
+        else if (i == 2 && j == 1) return AnchorPosition.BOTTOM_CENTER;
+        else return AnchorPosition.BOTTOM_RIGHT;
+    }
 
     public TestScreen(int width, int height) {
         super(width, height);
 
         setContentPadding(100.0f, 60.0f);
 
+        int numRows = 3;
+        int numCols = 3;
+
+        mainLayout = GridLayout2
+                .build(getContentWidth(), getContentHeight())
+                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+                .withInternalPadding(10.0f, 10.0f)
+                .with_balanced_rows(numRows)
+                .with_balanced_cols(numCols);
+
+        for (int i = 0; i < numRows; ++i) {
+            for (int j = 0; j < numCols; ++j) {
+                mainLayout.setWidget(i, j, new SimpleLabel(i + ", " + j), getTestPos(i, j));
+            }
+        }
+
+        //mainLayout.setWidget(0, 2, new VerticalLine());
+        mainLayout.setRawLayout(0, 2, VerticalLayout.build(0, 0).withSpacing(20.0f).addChild(new SimpleLabel("Vert 1")).addChild(new SimpleLabel("Vert 2")), AnchorPosition.TOP_LEFT);
+
         //mainLayout = VerticalLayout .build(getContentWidth(), getContentHeight()) .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER) .withSpacing(40.0f);
 
+        /*
         addVerticalLayoutTest(getContentLeft(), getContentTop(), AnchorPosition.TOP_LEFT);
         addVerticalLayoutTest(getContentCenterX(), getContentTop(), AnchorPosition.TOP_CENTER);
         addVerticalLayoutTest(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT);
@@ -35,6 +70,7 @@ public class TestScreen extends DynamicScreen<VerticalLayout> {
         addVerticalLayoutTest(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT);
         addVerticalLayoutTest(getContentCenterX(), getContentBottom(), AnchorPosition.BOTTOM_CENTER);
         addVerticalLayoutTest(getContentRight(), getContentBottom(), AnchorPosition.BOTTOM_RIGHT);
+         */
 
     }
 

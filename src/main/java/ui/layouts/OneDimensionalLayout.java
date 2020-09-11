@@ -51,7 +51,7 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         return (T)this;
     }
 
-    protected float totalChildrenHeight() {
+    public float totalChildrenHeight() {
         float sum = 0.0f;
         for (ScreenWidget child : children) {
             sum += (dynamicHeight) ? child.getPrefHeight() : fixedHeight;
@@ -64,7 +64,7 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         return sum;
     }
 
-    protected float totalChildrenWidth() {
+    public float totalChildrenWidth() {
         float sum = 0.0f;
         for (ScreenWidget child : children) {
             sum += (dynamicWidth) ? child.getPrefWidth() : fixedWidth;
@@ -77,7 +77,7 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         return sum;
     }
 
-    protected float minChildHeight() {
+    public float minChildHeight() {
         float min = 100000.0f;
         for (ScreenWidget child : children) {
             if (child.getPrefHeight() < min)
@@ -86,7 +86,7 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         return min;
     }
 
-    protected float minChildWidth() {
+    public float minChildWidth() {
         float min = 100000.0f;
         for (ScreenWidget child : children) {
             if (child.getPrefWidth() < min)
@@ -95,7 +95,7 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         return min;
     }
 
-    protected float maxChildHeight() {
+    public float maxChildHeight() {
         float max = 0.0f;
         for (ScreenWidget child : children) {
             if (child.getPrefHeight() > max)
@@ -104,7 +104,7 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         return max;
     }
 
-    protected float maxChildWidth() {
+    public float maxChildWidth() {
         float max = 0.0f;
         for (ScreenWidget child : children) {
             if (child.getPrefWidth() > max)
@@ -112,8 +112,6 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         }
         return max;
     }
-
-    public void recomputeLayout() {}
 
     @Override
     public void render(SpriteBatch sb) {

@@ -52,13 +52,26 @@ public class GridLayout2 extends Layout<GridLayout2> {
 
     // --------------------------------------------------------------------------------
 
+    private float heightWithoutPadding(int count) {
+        float padding = (count > 0 ) ? (count - 1) * verticalPadding : 0.0f;
+        return getPrefHeight() - padding;
+    }
+
+    private float widthWithoutPadding(int count) {
+        float padding = (count > 0 ) ? (count - 1) * horizontalPadding : 0.0f;
+        return getPrefWidth() - padding;
+    }
+
+    // --------------------------------------------------------------------------------
+
     public GridLayout2 with_balanced_rows(int count) {
         if (count <= 0) {
             System.out.println("OJB: WARNING: nonpositive number of rows; not altering");
             return this;
         }
 
-        float rowHeight = getPrefHeight() / (float)count;
+        //float rowHeight = getPrefHeight() / (float)count;
+        float rowHeight = heightWithoutPadding(count) / (float)count;
         System.out.println("OJB: making " + count + " rows of size " + rowHeight);
 
         rowHeights.clear();
@@ -83,7 +96,7 @@ public class GridLayout2 extends Layout<GridLayout2> {
         rowHeights.clear();
 
         for (float r : ratios) {
-            rowHeights.add((r / sum) * getPrefHeight());
+            rowHeights.add((r / sum) * heightWithoutPadding(ratios.length));
         }
 
         return this;
@@ -94,18 +107,23 @@ public class GridLayout2 extends Layout<GridLayout2> {
         // -1, 80.0f;
         float sum = 0.0f;
         int numNegative = 0;
+        float paddingSoFar = 0.0f;
         for (float h : heights) {
             if (h < 0.0f)
                 numNegative++;
-            else
+            else {
                 sum += h;
+                paddingSoFar += verticalPadding; // todo: might be off by 1?
+            }
         }
 
         // epsilon safety check
         if (sum < 0.0001f)
             return this;
 
-        float remaining = getPrefHeight() - sum;
+        // TODO: fix this bug (not accounting for the padding correctly - i'm too tired right now :(
+        float remaining = heightWithoutPadding(heights.length) - sum;
+        //float remaining = heightWithoutPadding(heights.length) - (sum - paddingSoFar);
         float balancedHeightForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
 
         rowHeights.clear();
@@ -127,7 +145,8 @@ public class GridLayout2 extends Layout<GridLayout2> {
             return this;
         }
 
-        float colWidth = getPrefWidth() / (float)count;
+        //float colWidth = getPrefWidth() / (float)count;
+        float colWidth = widthWithoutPadding(count) / (float)count;
         System.out.println("OJB: making " + count + " cols of size " + colWidth);
         columnWidths.clear();
 
@@ -151,7 +170,7 @@ public class GridLayout2 extends Layout<GridLayout2> {
         columnWidths.clear();
 
         for (float r : ratios) {
-            columnWidths.add((r / sum) * getPrefWidth());
+            columnWidths.add((r / sum) * widthWithoutPadding(ratios.length));
         }
 
         return this;
@@ -174,7 +193,7 @@ public class GridLayout2 extends Layout<GridLayout2> {
         if (sum < 0.0001f)
             return this;
 
-        float remaining = getPrefWidth() - sum;
+        float remaining = widthWithoutPadding(widths.length)- sum;
         float balancedWidthForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
 
         columnWidths.clear();
@@ -197,9 +216,12 @@ public class GridLayout2 extends Layout<GridLayout2> {
     // TODO: add in anchors for GRIDs
     private <T extends Layout<T>> void fixRawLayout(int row, int col, T layout, AnchorPosition pos) {
         layout.withDimensions(getLayoutWidth(col), getLayoutHeight(row));
-        float x = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.TOP_LEFT) ? getLayoutX(col) : getLayoutX(col) + getLayoutWidth(col);
-        float y = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.BOTTOM_RIGHT) ? getLayoutY(row) : getLayoutY(row) + getLayoutHeight(row);
-        layout.anchoredAt(x, y, pos);
+        //float x = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.TOP_LEFT) ? getLayoutX(col) : getLayoutX(col) + getLayoutWidth(col);
+        //float y = (pos == AnchorPosition.BOTTOM_LEFT || pos == AnchorPosition.BOTTOM_RIGHT) ? getLayoutY(row) : getLayoutY(row) + getLayoutHeight(row);
+        //layout.anchoredAt(x, y, pos);
+        layout.setBottomLeft(getLayoutX(col), getLayoutY(row));
+        layout.setAnchor(pos);
+
         layout.recomputeLayout();
     }
 

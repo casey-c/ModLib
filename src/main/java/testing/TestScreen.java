@@ -3,10 +3,13 @@ package testing;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
 import ui.widgets.labels.SimpleLabel;
+import ui.widgets.lines.HorizontalLine;
 import ui.widgets.lines.VerticalLine;
 import utils.ColorHelper;
 import utils.RenderingHelper;
@@ -18,43 +21,32 @@ public class TestScreen extends DynamicScreen<GridLayout2> {
 
     private ArrayList<Layout> tests = new ArrayList<>();
 
-    private AnchorPosition getTestPos(int i, int j) {
-        if (i == 0 && j == 0) return AnchorPosition.TOP_LEFT;
-        else if (i == 0 && j == 1) return AnchorPosition.TOP_CENTER;
-        else if (i == 0 && j == 2) return AnchorPosition.TOP_RIGHT;
-
-        else if (i == 1 && j == 0) return AnchorPosition.CENTER_LEFT;
-        else if (i == 1 && j == 1) return AnchorPosition.CENTER;
-        else if (i == 1 && j == 2) return AnchorPosition.CENTER_RIGHT;
-
-        else if (i == 2 && j == 0) return AnchorPosition.BOTTOM_LEFT;
-        else if (i == 2 && j == 1) return AnchorPosition.BOTTOM_CENTER;
-        else return AnchorPosition.BOTTOM_RIGHT;
-    }
 
     public TestScreen(int width, int height) {
         super(width, height);
 
-        setContentPadding(100.0f, 60.0f);
-
-        int numRows = 3;
-        int numCols = 3;
+        setContentPadding(64.0f, 64.0f);
 
         mainLayout = GridLayout2
                 .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                .withInternalPadding(10.0f, 10.0f)
-                .with_balanced_rows(numRows)
-                .with_balanced_cols(numCols);
+                .withVerticalPadding(64.0f)
+                .with_absolute_rows(-1, 10.0f, 80.0f);
 
-        for (int i = 0; i < numRows; ++i) {
-            for (int j = 0; j < numCols; ++j) {
-                mainLayout.setWidget(i, j, new SimpleLabel(i + ", " + j), getTestPos(i, j));
-            }
-        }
+        VerticalLayout bottomLayout = VerticalLayout.build(0, 0).withSpacing(32.0f);
+        mainLayout.setWidget(2, 0, new SimpleLabel("Grid Test 3", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.CENTER);
+        mainLayout.setWidget(1, 0, new HorizontalLine());
 
-        //mainLayout.setWidget(0, 2, new VerticalLine());
-        mainLayout.setRawLayout(0, 2, VerticalLayout.build(0, 0).withSpacing(20.0f).addChild(new SimpleLabel("Vert 1")).addChild(new SimpleLabel("Vert 2")), AnchorPosition.TOP_LEFT);
+        bottomLayout.addChild(new SimpleLabel("Hello 1"), AnchorPosition.CENTER);
+        bottomLayout.addChild(new SimpleLabel("Hello 2"), AnchorPosition.CENTER);
+        bottomLayout.addChild(new SimpleLabel("Hello 3"), AnchorPosition.CENTER);
+
+        mainLayout.setRawLayout(0, 0, bottomLayout, AnchorPosition.TOP_LEFT);
+
+        System.out.println("*********************************");
+        bottomLayout.print();
+        System.out.println("*********************************");
+
 
         //mainLayout = VerticalLayout .build(getContentWidth(), getContentHeight()) .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER) .withSpacing(40.0f);
 
@@ -74,39 +66,75 @@ public class TestScreen extends DynamicScreen<GridLayout2> {
 
     }
 
-    private void addHorizontalLayoutTest(float x, float y, AnchorPosition pos) {
-        // Shorthand is cause the horizontal are too wide lol
-        String shorthand = "??";
-        if (pos == AnchorPosition.TOP_LEFT) shorthand = "TL";
-        else if (pos == AnchorPosition.TOP_CENTER) shorthand = "TC";
-        else if (pos == AnchorPosition.TOP_RIGHT) shorthand = "TR";
+//    private AnchorPosition getTestPos(int i, int j) {
+//        if (i == 0 && j == 0) return AnchorPosition.TOP_LEFT;
+//        else if (i == 0 && j == 1) return AnchorPosition.TOP_CENTER;
+//        else if (i == 0 && j == 2) return AnchorPosition.TOP_RIGHT;
+//
+//        else if (i == 1 && j == 0) return AnchorPosition.CENTER_LEFT;
+//        else if (i == 1 && j == 1) return AnchorPosition.CENTER;
+//        else if (i == 1 && j == 2) return AnchorPosition.CENTER_RIGHT;
+//
+//        else if (i == 2 && j == 0) return AnchorPosition.BOTTOM_LEFT;
+//        else if (i == 2 && j == 1) return AnchorPosition.BOTTOM_CENTER;
+//        else return AnchorPosition.BOTTOM_RIGHT;
+//    }
 
-        else if (pos == AnchorPosition.CENTER_LEFT) shorthand = "CL";
-        else if (pos == AnchorPosition.CENTER) shorthand = "CC";
-        else if (pos == AnchorPosition.CENTER_RIGHT) shorthand = "CR";
+//    private void newGridTest() {
+//        int numRows = 3;
+//        int numCols = 3;
+//
+//        mainLayout = GridLayout2
+//                .build(getContentWidth(), getContentHeight())
+//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+//                .withInternalPadding(10.0f, 10.0f)
+//                .with_balanced_rows(numRows)
+//                .with_balanced_cols(numCols);
+//
+//        for (int i = 0; i < numRows; ++i) {
+//            for (int j = 0; j < numCols; ++j) {
+//                mainLayout.setWidget(i, j, new SimpleLabel(i + ", " + j), getTestPos(i, j));
+//            }
+//        }
+//
+//        //mainLayout.setWidget(0, 2, new VerticalLine());
+//        mainLayout.setRawLayout(0, 2, VerticalLayout.build(0, 0).withSpacing(20.0f).addChild(new SimpleLabel("Vert 1")).addChild(new SimpleLabel("Vert 2")), AnchorPosition.TOP_LEFT);
+//
+//    }
 
-        else if (pos == AnchorPosition.BOTTOM_LEFT) shorthand = "BL";
-        else if (pos == AnchorPosition.BOTTOM_CENTER) shorthand = "BC";
-        else if (pos == AnchorPosition.BOTTOM_RIGHT) shorthand = "BR";
-
-        tests.add(HorizontalLayout
-                .build(getContentWidth(), getContentHeight())
-                .anchoredAt(x, y, pos)
-                .withSpacing(40.0f)
-                .addChild(new SimpleLabel(shorthand + " 1"))
-                .addChild(new SimpleLabel(shorthand + " 2"))
-        );
-    }
-
-    private void addVerticalLayoutTest(float x, float y, AnchorPosition pos) {
-        tests.add(VerticalLayout
-                .build(getContentWidth(), getContentHeight())
-                .anchoredAt(x, y, pos)
-                .withSpacing(40.0f)
-                .addChild(new SimpleLabel(pos.name() + " 1"))
-                .addChild(new SimpleLabel(pos.name() + " 2"))
-        );
-    }
+//    private void addHorizontalLayoutTest(float x, float y, AnchorPosition pos) {
+//        // Shorthand is cause the horizontal are too wide lol
+//        String shorthand = "??";
+//        if (pos == AnchorPosition.TOP_LEFT) shorthand = "TL";
+//        else if (pos == AnchorPosition.TOP_CENTER) shorthand = "TC";
+//        else if (pos == AnchorPosition.TOP_RIGHT) shorthand = "TR";
+//
+//        else if (pos == AnchorPosition.CENTER_LEFT) shorthand = "CL";
+//        else if (pos == AnchorPosition.CENTER) shorthand = "CC";
+//        else if (pos == AnchorPosition.CENTER_RIGHT) shorthand = "CR";
+//
+//        else if (pos == AnchorPosition.BOTTOM_LEFT) shorthand = "BL";
+//        else if (pos == AnchorPosition.BOTTOM_CENTER) shorthand = "BC";
+//        else if (pos == AnchorPosition.BOTTOM_RIGHT) shorthand = "BR";
+//
+//        tests.add(HorizontalLayout
+//                .build(getContentWidth(), getContentHeight())
+//                .anchoredAt(x, y, pos)
+//                .withSpacing(40.0f)
+//                .addChild(new SimpleLabel(shorthand + " 1"))
+//                .addChild(new SimpleLabel(shorthand + " 2"))
+//        );
+//    }
+//
+//    private void addVerticalLayoutTest(float x, float y, AnchorPosition pos) {
+//        tests.add(VerticalLayout
+//                .build(getContentWidth(), getContentHeight())
+//                .anchoredAt(x, y, pos)
+//                .withSpacing(40.0f)
+//                .addChild(new SimpleLabel(pos.name() + " 1"))
+//                .addChild(new SimpleLabel(pos.name() + " 2"))
+//        );
+//    }
 
     @Override
     public void print() {
@@ -120,6 +148,16 @@ public class TestScreen extends DynamicScreen<GridLayout2> {
     public Color getTrimColor() {
         return ColorHelper.rainbowColor();
         //return ColorHelper.ORANGE_COLOR;
+    }
+
+    @Override
+    protected void renderScreenBackground(SpriteBatch sb) {
+        super.renderScreenBackground(sb);
+
+        if (!visible)
+            return;
+
+        RenderingHelper.renderBoxFilled(sb, getContentLeft(), getContentBottom(), getContentWidth(), getContentHeight(), ColorHelper.ORANGE_COLOR);
     }
 
     // Clipping demonstration

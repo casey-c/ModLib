@@ -107,4 +107,9 @@ Specified by:
         sb.setColor(color);
         sb.draw(ImageMaster.DEBUG_HITBOX_IMG, x, y, width, height);
     }
+
+    public static void renderBoxFilled(SpriteBatch sb, float x, float y, float width, float height, Color color) {
+        sb.setColor(color);
+        sb.draw(ImageMaster.WHITE_SQUARE_IMG, x, y, width, height);
+    }
 }

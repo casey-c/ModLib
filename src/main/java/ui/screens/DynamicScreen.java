@@ -1,5 +1,6 @@
 package ui.screens;
 
+/*
 import basemod.BaseMod;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -86,7 +87,6 @@ Specified by:
     srcHeight - the source height in texels
     flipX - whether to flip the sprite horizontally
     flipY - whether to flip the sprite vertically
-     */
 
     private void easyDrawCenterPiece(SpriteBatch sb, float x, float y) {
         sb.setColor(getBaseColor());
@@ -133,37 +133,45 @@ Specified by:
         float left = getScreenLeft();
         float bottom = getScreenBottom();
 
-        for (int i = 0; i < rowChunks; ++i) {
-            float x = left + i * CHUNK_SIZE;
+        //todo: moving to v2
+//        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, left, y, 90.0f, false, false);
+//        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, left, y, 0.0f, false, false);
+//        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 90.0f, false, true);
+//        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 0.0f, true, false);
 
-            for (int j = 0; j < colChunks; ++j) {
-                float y = bottom + j * CHUNK_SIZE;
-
-                // CORNERS (default texture looks like top left corner)
-                if (i == 0 && j == 0)
-                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 90.0f, false, false);
-                else if (i == 0 && j == colChunks - 1)
-                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 0.0f, false, false);
-                else if (i == rowChunks - 1 && j == 0)
-                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 90.0f, false, true);
-                else if (i == rowChunks - 1 && j == colChunks - 1)
-                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 0.0f, true, false);
-
-                // EDGES
-                else if (i == 0)
-                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 90.0f, false, false);
-                else if (i == rowChunks - 1)
-                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 90.0f, false, true);
-                else if (j == 0)
-                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 0.0f, false, true);
-                else if (j == colChunks - 1)
-                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 0.0f, false, false);
-
-                // CENTER
-                else
-                    easyDrawCenterPiece(sb, x, y);
-            }
-        }
+//        for (int i = 0; i < rowChunks; ++i) {
+//            float x = left + i * CHUNK_SIZE;
+//
+//            for (int j = 0; j < colChunks; ++j) {
+//                float y = bottom + j * CHUNK_SIZE;
+//
+//                // CORNERS (default texture looks like top left corner)
+//                if (i == 0 && j == 0)
+//                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 90.0f, false, false);
+//                else if (i == 0 && j == colChunks - 1)
+//                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 0.0f, false, false);
+//                else if (i == rowChunks - 1 && j == 0)
+//                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 90.0f, false, true);
+//                else if (i == rowChunks - 1 && j == colChunks - 1)
+//                    easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, x, y, 0.0f, true, false);
+//
+//                // EDGES
+//                else if (i == 0)
+//                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 90.0f, false, false);
+//                else if (i == rowChunks - 1)
+//                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 90.0f, false, true);
+//                else if (j == 0)
+//                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 0.0f, false, true);
+//                else if (j == colChunks - 1)
+//                    easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, x, y, 0.0f, false, false);
+//
+//                // CENTER
+//                else
+//                    easyDrawCenterPiece(sb, x, y);
+//            }
+//        }
     }
 
 }
+
+*/

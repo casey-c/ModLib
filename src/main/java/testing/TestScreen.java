@@ -8,17 +8,16 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import config.Config;
 import ui.layouts.*;
-import ui.screens.DynamicScreen;
+import ui.screens.DynamicScreen2;
 import ui.widgets.labels.SimpleLabel;
 import ui.widgets.lines.HorizontalLine;
-import ui.widgets.lines.VerticalLine;
 import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureManager;
 
 import java.util.ArrayList;
 
-public class TestScreen extends DynamicScreen<GridLayout2> {
+public class TestScreen extends DynamicScreen2<GridLayout> {
 
     private ArrayList<Layout> tests = new ArrayList<>();
 
@@ -28,7 +27,7 @@ public class TestScreen extends DynamicScreen<GridLayout2> {
 
         setContentPadding(64.0f, 64.0f);
 
-        mainLayout = GridLayout2
+        mainLayout = GridLayout
                 .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
                 .withVerticalPadding(20.0f)

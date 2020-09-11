@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import config.Config;
 import ui.layouts.AnchorPosition;
 import ui.widgets.ScreenWidget;
 import utils.ColorHelper;
@@ -59,32 +60,12 @@ public class SimpleLabel extends ScreenWidget {
         else if (AnchorPosition.isTop(anchorPosition))
             posY = getTop() - textHeight;
 
-        sb.setColor(ColorHelper.VERY_DIM_GREEN);
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, getLeft(), getBottom(), getPrefWidth(), getPrefHeight());
+        if (Config.MOD_LIB_DEBUG_MODE) {
+            sb.setColor(ColorHelper.VERY_DIM_GREEN);
+            sb.draw(ImageMaster.WHITE_SQUARE_IMG, getLeft(), getBottom(), getPrefWidth(), getPrefHeight());
+        }
 
         FontHelper.renderFontLeftDownAligned(sb, font, text, posX, posY, color);
 
-//        if (anchorPosition == AnchorPosition.TOP_LEFT)
-//        else if (anchorPosition == AnchorPosition.TOP_CENTER)
-//        else if (anchorPosition == AnchorPosition.TOP_RIGHT)
-//
-//        else if (anchorPosition == AnchorPosition.CENTER_LEFT)
-//            FontHelper.renderFontLeftDownAligned(sb, font, text, getLeft(), getCenterY(), color);
-//        else if (anchorPosition == AnchorPosition.CENTER)
-//            FontHelper.renderFontCentered(sb, font, text, getCenterX(), getCenterY(), color);
-//        else if (anchorPosition == AnchorPosition.CENTER_RIGHT)
-//            FontHelper.renderFontRightAligned(sb, font, text, getLeft(), getCenterY(), color);
-//
-//        if (anchorPosition == AnchorPosition.BOTTOM_LEFT)
-//            FontHelper.renderFontLeftDownAligned(sb, font, text, getLeft(), getBottom(), color);
-//        else if (anchorPosition == AnchorPosition.BOTTOM_CENTER)
-//            FontHelper.renderFontCentered(sb, font, text, getLeft(), getBottom(), color);
-//        else if (anchorPosition == AnchorPosition.BOTTOM_RIGHT)
-//            FontHelper.renderFontRightAligned(sb, font, text, getLeft(), getBottom(), color);
-
-//        if (anchorPosition == AnchorPosition.BOTTOM_LEFT)
-//            FontHelper.renderFontLeftDownAligned(sb, font, text, getLeft(), getBottom(), color);
-//        else if (anchorPosition == AnchorPosition.)
-//            FontHelper.renderFontLeftDownAligned(sb, font, text, getLeft(), getBottom(), color);
     }
 }

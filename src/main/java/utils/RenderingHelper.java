@@ -1,8 +1,10 @@
 package utils;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 
 public class RenderingHelper {
     /*
@@ -99,5 +101,10 @@ Specified by:
                 flipX, flipY
                 );
 
+    }
+
+    public static void renderBox(SpriteBatch sb, float x, float y, float width, float height, Color color) {
+        sb.setColor(color);
+        sb.draw(ImageMaster.DEBUG_HITBOX_IMG, x, y, width, height);
     }
 }

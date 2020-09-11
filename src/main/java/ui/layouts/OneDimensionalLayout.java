@@ -3,9 +3,11 @@ package ui.layouts;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import config.Config;
 import org.apache.commons.lang3.tuple.Pair;
 import ui.widgets.ScreenWidget;
 import utils.ColorHelper;
+import utils.RenderingHelper;
 
 import java.util.ArrayList;
 
@@ -18,8 +20,6 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
 
     //protected ArrayList<Pair<ScreenWidget, AnchorPosition>> children = new ArrayList<>();
     protected ArrayList<ScreenWidget> children = new ArrayList<>();
-
-    //public <T extends OneDimensionalLayout<T>> OneDimensionalLayout<T> addChild(ScreenWidget child, AnchorPosition anchor) {
 
     // Convenience
     public T addChild(ScreenWidget child) {
@@ -34,13 +34,11 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         return (T)this;
     }
 
-    //public <T extends OneDimensionalLayout<T>> OneDimensionalLayout<T> withSpacing(float s) {
     public T withSpacing(float s) {
         this.spacing = s;
         return (T)this;
     }
 
-    //public <T extends OneDimensionalLayout<T>> OneDimensionalLayout<T> withFixedChildWidth(float w) {
     public T withFixedChildWidth(float w) {
         this.dynamicWidth = false;
         this.fixedWidth = w;
@@ -119,9 +117,11 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
 
     @Override
     public void render(SpriteBatch sb) {
-        // TODO: move to debug only
-        sb.setColor(ColorHelper.VERY_DIM_BLUE);
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, getLeft(), getBottom(), getPrefWidth(), getPrefHeight());
+        if (Config.MOD_LIB_DEBUG_MODE) {
+            //sb.setColor(ColorHelper.VERY_DIM_BLUE);
+            RenderingHelper.renderBox(sb, getLeft(), getBottom(), getPrefWidth(), getPrefHeight(), ColorHelper.VERY_DIM_BLUE);
+            //sb.draw(ImageMaster.WHITE_SQUARE_IMG, getLeft(), getBottom(), getPrefWidth(), getPrefHeight());
+        }
 
         for (ScreenWidget child : children)
             child.render(sb);

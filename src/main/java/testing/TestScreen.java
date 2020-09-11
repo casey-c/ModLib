@@ -3,146 +3,81 @@ package testing;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
-import ui.screens.LargeScreen;
-import ui.widgets.SimplePadding;
 import ui.widgets.labels.SimpleLabel;
-import ui.widgets.lines.HorizontalLine;
-import ui.widgets.lines.VerticalLine;
 import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureManager;
 
 import java.util.ArrayList;
 
-public class TestScreen extends DynamicScreen<HorizontalLayout2> {
+public class TestScreen extends DynamicScreen<VerticalLayout> {
+
+    private ArrayList<Layout> tests = new ArrayList<>();
+
     public TestScreen(int width, int height) {
         super(width, height);
 
         setContentPadding(100.0f, 60.0f);
-        //setContentPadding(100.0f, 100.0f, 60.0f, 100.0f);
 
-        mainLayout = HorizontalLayout2
+        //mainLayout = VerticalLayout .build(getContentWidth(), getContentHeight()) .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER) .withSpacing(40.0f);
+
+        addVerticalLayoutTest(getContentLeft(), getContentTop(), AnchorPosition.TOP_LEFT);
+        addVerticalLayoutTest(getContentCenterX(), getContentTop(), AnchorPosition.TOP_CENTER);
+        addVerticalLayoutTest(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT);
+
+        addVerticalLayoutTest(getContentLeft(), getContentCenterY(), AnchorPosition.CENTER_LEFT);
+        addVerticalLayoutTest(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER);
+        addVerticalLayoutTest(getContentRight(), getContentCenterY(), AnchorPosition.CENTER_RIGHT);
+
+        addVerticalLayoutTest(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT);
+        addVerticalLayoutTest(getContentCenterX(), getContentBottom(), AnchorPosition.BOTTOM_CENTER);
+        addVerticalLayoutTest(getContentRight(), getContentBottom(), AnchorPosition.BOTTOM_RIGHT);
+
+    }
+
+    private void addHorizontalLayoutTest(float x, float y, AnchorPosition pos) {
+        // Shorthand is cause the horizontal are too wide lol
+        String shorthand = "??";
+        if (pos == AnchorPosition.TOP_LEFT) shorthand = "TL";
+        else if (pos == AnchorPosition.TOP_CENTER) shorthand = "TC";
+        else if (pos == AnchorPosition.TOP_RIGHT) shorthand = "TR";
+
+        else if (pos == AnchorPosition.CENTER_LEFT) shorthand = "CL";
+        else if (pos == AnchorPosition.CENTER) shorthand = "CC";
+        else if (pos == AnchorPosition.CENTER_RIGHT) shorthand = "CR";
+
+        else if (pos == AnchorPosition.BOTTOM_LEFT) shorthand = "BL";
+        else if (pos == AnchorPosition.BOTTOM_CENTER) shorthand = "BC";
+        else if (pos == AnchorPosition.BOTTOM_RIGHT) shorthand = "BR";
+
+        tests.add(HorizontalLayout
                 .build(getContentWidth(), getContentHeight())
-                //.anchoredAt(getContentLeft(), getContentTop(), AnchorPosition.TOP_LEFT)
-                //.anchoredAt(getContentCenterX(), getContentTop(), AnchorPosition.TOP_CENTER)
-                //.anchoredAt(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT)
+                .anchoredAt(x, y, pos)
+                .withSpacing(40.0f)
+                .addChild(new SimpleLabel(shorthand + " 1"))
+                .addChild(new SimpleLabel(shorthand + " 2"))
+        );
+    }
 
-                //.anchoredAt(getContentLeft(), getContentCenterY(), AnchorPosition.CENTER_LEFT)
-                .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER)
-                //.anchoredAt(getContentRight(), getContentCenterY(), AnchorPosition.CENTER_RIGHT)
-
-                //.anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                //.anchoredAt(getContentCenterX(), getContentBottom(), AnchorPosition.BOTTOM_CENTER)
-                //.anchoredAt(getContentRight(), getContentBottom(), AnchorPosition.BOTTOM_RIGHT)
-
-                .withFixedChildWidth(250.0f)
-                .withFixedChildHeight(150.0f)
-                .withSpacing(40.0f);
-
-//        mainLayout.addChild(new SimpleLabel("Hello 1"), AnchorPosition.BOTTOM_RIGHT)
-//                  .addChild(new SimpleLabel("Hello 2"), AnchorPosition.BOTTOM_RIGHT)
-//                  .addChild(new SimpleLabel("Hello 3"), AnchorPosition.BOTTOM_RIGHT);
-
-        // note: can use AnchorPosition.values() instead to get all.
-        ArrayList<AnchorPosition> tests = new ArrayList<>();
-        for (AnchorPosition p : AnchorPosition.values())
-            tests.add(p);
-//        tests.add(AnchorPosition.BOTTOM_LEFT);
-//        tests.add(AnchorPosition.BOTTOM_CENTER);
-//        tests.add(AnchorPosition.BOTTOM_RIGHT);
-
-//        tests.add(AnchorPosition.TOP_LEFT);
-//        tests.add(AnchorPosition.TOP_CENTER);
-//        tests.add(AnchorPosition.TOP_RIGHT);
-
-        for (int i = 0; i < tests.size(); i += 2) {
-            mainLayout.addChild(new SimpleLabel(tests.get(i).name()), tests.get(i));
-        }
-
-
-                //.withSpacing(40.0f);
-
-//        AnchorPosition pos = AnchorPosition.BOTTOM_RIGHT;
-//        mainLayout = HorizontalLayout
-//                .build(getContentWidth(), getContentHeight())
-//                //.anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-//                .anchoredAt(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT)
-//                .withSpacing(40.0f)
-//                .withChildAnchor(pos);
-//
-//        mainLayout.addChild(new SimpleLabel(pos.name()));
-//        mainLayout.addChild(new SimpleLabel(pos.name()));
-
-//        mainLayout = GridLayout
-//                .build(getContentWidth(), getContentHeight())
-//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-//                .with_balanced_rows(AnchorPosition.values().length);
-                //.with_balanced_cols(1);
-
-//        mainLayout.print();
-
-//        int r = 0;
-//        for (AnchorPosition p : AnchorPosition.values()) {
-//            HorizontalLayout layout = mainLayout.setRawLayout(r++, 0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
-//            layout.addChild(new SimpleLabel(p.name()));
-//            //mainLayout.setWidget(r++, 0, new SimpleLabel(p.name()), p);
-//        }
-
-//        mainLayout = HorizontalLayout
-//                .build(getContentWidth(), getContentHeight())
-//                .withSpacing(40.0f)
-//                .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER_LEFT);
-
-//        mainLayout.addChild(new SimpleLabel("Test 1"));
-//        mainLayout.addChild(new SimpleLabel("Test 2"));
-//        mainLayout.addChild(new SimpleLabel("Test 3"));
-
-        //----
-//        mainLayout = GridLayout
-//                .build(getContentWidth(), getContentHeight())
-//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-//                .with_absolute_rows(-1, 20.0f, 40.0f)
-//                .with_balanced_cols(1);
-////                .with_absolute_rows(-1, 80.0f)
-////                .with_absolute_cols(-1, 40.0f);
-//
-//        mainLayout.setWidget(2, 0, new SimpleLabel("Hello", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.BOTTOM_LEFT);
-//        mainLayout.setWidget(1, 0, new HorizontalLine(), AnchorPosition.BOTTOM_LEFT);
-//
-//        GridLayout bottomGrid = mainLayout.setRawLayout(0, 0, GridLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT)
-//                .with_balanced_cols(4)
-//                .with_balanced_rows(4);
-//
-//        for (int i = 0; i < 4; ++i) {
-//            for (int j = 0; j < 4; ++j) {
-//                bottomGrid.setWidget(i, j, new SimpleLabel("Caw"), AnchorPosition.BOTTOM_LEFT);
-//            }
-//        }
-
-        //----
-
-//        HorizontalLayout upper = mainLayout.setRawLayout(1,0, HorizontalLayout.buildRaw(), AnchorPosition.BOTTOM_LEFT);
-//        upper.addChild(new SimpleLabel("TEST BANNER", FontHelper.bannerFont, Settings.GOLD_COLOR));
-//        upper.addChild(SimplePadding.horizontal(200.0f));
-//        upper.addChild(new SimpleLabel("Hello, world"));
-//
-//        VerticalLayout bottom = mainLayout.setRawLayout(0, 0, VerticalLayout.buildRaw(), AnchorPosition.TOP_LEFT).withSpacing(20.0f);
-//        bottom.addChild(SimplePadding.vertical(50.0f));
-//        for (int i = 0; i < 10; ++i)
-//            bottom.addChild(new SimpleLabel("Test " + i));
-
-        //mainLayout.setWidget(0, 1, new SimpleLabel("TEST"), AnchorPosition.BOTTOM_LEFT);
+    private void addVerticalLayoutTest(float x, float y, AnchorPosition pos) {
+        tests.add(VerticalLayout
+                .build(getContentWidth(), getContentHeight())
+                .anchoredAt(x, y, pos)
+                .withSpacing(40.0f)
+                .addChild(new SimpleLabel(pos.name() + " 1"))
+                .addChild(new SimpleLabel(pos.name() + " 2"))
+        );
     }
 
     @Override
     public void print() {
         super.print();
-        mainLayout.print();
+
+        if (mainLayout != null)
+            mainLayout.print();
     }
 
     @Override
@@ -160,12 +95,16 @@ public class TestScreen extends DynamicScreen<HorizontalLayout2> {
         if (!visible)
             return;
 
+        for (Layout l : tests)
+            l.render(sb);
+
         sb.setColor(Color.WHITE);
         RenderingHelper.renderClipped(sb, ERROR_TEX, InputHelper.mX - 32.0f, InputHelper.mY - 32.0f, false, false,
                 getScreenLeft(), getScreenRight(), getScreenBottom(), getScreenTop());
+
     }
 
-    private void dynGridTest() {
+//    private void dynGridTest() {
 //        int numRows = 4;
 //        int numCols = 3;
 //
@@ -182,9 +121,9 @@ public class TestScreen extends DynamicScreen<HorizontalLayout2> {
 //                layout.addChild(new SimpleLabel("Goodbye " + i + j));
 //            }
 //        }
-    }
+//    }
 
-    private void balancedGridTest() {
+//    private void balancedGridTest() {
 //        mainLayout = GridLayout.build(getContentWidth(), getContentHeight())
 //                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
 //                .with_balanced_cols(2)
@@ -219,9 +158,9 @@ public class TestScreen extends DynamicScreen<HorizontalLayout2> {
 //        System.out.println("------");
 //        mainLayout.print();
 //
-    }
+//    }
 
-    private void nestedLayoutTest() {
+//    private void nestedLayoutTest() {
 //        mainLayout = VerticalLayout
 //                .build( getContentWidth(), getContentHeight() )
 //                .anchoredAt(getContentLeft(), getContentTop(), AnchorPosition.TOP_LEFT)
@@ -241,5 +180,25 @@ public class TestScreen extends DynamicScreen<HorizontalLayout2> {
 //        innerLayout.addChild(new SimpleLabel("YESSSSSS", FontHelper.tipBodyFont, Settings.BLUE_TEXT_COLOR));
 //
 //        mainLayout.addChild(new SimpleLabel("Hello, world", FontHelper.tipBodyFont, Settings.CREAM_COLOR));
-    }
+//    }
+
+//    private void alignmentTest() {
+//        mainLayout = HorizontalLayout
+//                .build(getContentWidth(), getContentHeight())
+//                //.anchoredAt(getContentLeft(), getContentTop(), AnchorPosition.TOP_LEFT)
+//                //.anchoredAt(getContentCenterX(), getContentTop(), AnchorPosition.TOP_CENTER)
+//                //.anchoredAt(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT)
+//
+//                //.anchoredAt(getContentLeft(), getContentCenterY(), AnchorPosition.CENTER_LEFT)
+//                .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER)
+//                //.anchoredAt(getContentRight(), getContentCenterY(), AnchorPosition.CENTER_RIGHT)
+//
+//                //.anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+//                //.anchoredAt(getContentCenterX(), getContentBottom(), AnchorPosition.BOTTOM_CENTER)
+//                //.anchoredAt(getContentRight(), getContentBottom(), AnchorPosition.BOTTOM_RIGHT)
+//
+//                .withFixedChildWidth(250.0f)
+//                .withFixedChildHeight(150.0f)
+//                .withSpacing(40.0f);
+//    }
 }

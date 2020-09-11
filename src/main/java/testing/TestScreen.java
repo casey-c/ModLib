@@ -17,23 +17,46 @@ import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureManager;
 
-public class TestScreen extends DynamicScreen<HorizontalLayout> {
+public class TestScreen extends DynamicScreen<HorizontalLayout2> {
     public TestScreen(int width, int height) {
         super(width, height);
 
-        //setContentPadding(100.0f, 60.0f);
-        setContentPadding(100.0f, 100.0f, 60.0f, 100.0f);
+        setContentPadding(100.0f, 60.0f);
+        //setContentPadding(100.0f, 100.0f, 60.0f, 100.0f);
 
-        AnchorPosition pos = AnchorPosition.BOTTOM_RIGHT;
-        mainLayout = HorizontalLayout
+        mainLayout = HorizontalLayout2
                 .build(getContentWidth(), getContentHeight())
-                //.anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                .anchoredAt(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT)
-                .withSpacing(40.0f)
-                .withChildAnchor(pos);
+                //.anchoredAt(getContentLeft(), getContentTop(), AnchorPosition.TOP_LEFT)
+                //.anchoredAt(getContentCenterX(), getContentTop(), AnchorPosition.TOP_CENTER)
+                //.anchoredAt(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT)
 
-        mainLayout.addChild(new SimpleLabel(pos.name()));
-        mainLayout.addChild(new SimpleLabel(pos.name()));
+                //.anchoredAt(getContentLeft(), getContentCenterY(), AnchorPosition.CENTER_LEFT)
+                .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER)
+                //.anchoredAt(getContentRight(), getContentCenterY(), AnchorPosition.CENTER_RIGHT)
+
+                //.anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+                //.anchoredAt(getContentCenterX(), getContentBottom(), AnchorPosition.BOTTOM_CENTER)
+                //.anchoredAt(getContentRight(), getContentBottom(), AnchorPosition.BOTTOM_RIGHT)
+
+                //.withFixedChildWidth(150.0f) // will look weird centered because the label is not aligned internally yet (it seems to work, but each cell is internally left aligned)
+                .withSpacing(40.0f);
+
+        mainLayout.addChild(new SimpleLabel("Hello 1"), AnchorPosition.BOTTOM_RIGHT)
+                  .addChild(new SimpleLabel("Hello 2"), AnchorPosition.BOTTOM_RIGHT)
+                  .addChild(new SimpleLabel("Hello 3"), AnchorPosition.BOTTOM_RIGHT);
+
+                //.withSpacing(40.0f);
+
+//        AnchorPosition pos = AnchorPosition.BOTTOM_RIGHT;
+//        mainLayout = HorizontalLayout
+//                .build(getContentWidth(), getContentHeight())
+//                //.anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
+//                .anchoredAt(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT)
+//                .withSpacing(40.0f)
+//                .withChildAnchor(pos);
+//
+//        mainLayout.addChild(new SimpleLabel(pos.name()));
+//        mainLayout.addChild(new SimpleLabel(pos.name()));
 
 //        mainLayout = GridLayout
 //                .build(getContentWidth(), getContentHeight())

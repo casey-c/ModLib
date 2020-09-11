@@ -15,7 +15,7 @@ public class ModLib implements PostInitializeSubscriber {
         BaseMod.subscribe(this);
 
         // For debugging layouts
-        Config.MOD_LIB_DEBUG_MODE = true;
+        Config.MOD_LIB_DEBUG_MODE = false;
     }
 
     public static void initialize() {

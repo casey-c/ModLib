@@ -70,9 +70,7 @@ public class GridLayout2 extends Layout<GridLayout2> {
             return this;
         }
 
-        //float rowHeight = getPrefHeight() / (float)count;
         float rowHeight = heightWithoutPadding(count) / (float)count;
-        System.out.println("OJB: making " + count + " rows of size " + rowHeight);
 
         rowHeights.clear();
 
@@ -118,22 +116,8 @@ public class GridLayout2 extends Layout<GridLayout2> {
         if (sum < 0.0001f)
             return this;
 
-        // TODO: fix this bug (not accounting for the padding correctly - i'm too tired right now :(
-        //float remaining = getPrefHeight - sum; //original, buggy
-        //float remaining = heightWithoutPadding(heights.length) - sum; // still buggy
-        //float remaining = heightWithoutPadding(heights.length) - (sum - paddingSoFar);
-        //float remaining = heightWithoutPadding(heights.length) - sum - verticalPadding; // that's not it either rip
-        System.out.println("OJB: abs rows: getPrefHeight: " + getPrefHeight());
-        System.out.println("OJB: abs rows: sum: " + sum);
-        System.out.println("OJB: abs rows: heights.len: " + heights.length);
-        System.out.println("OJB: abs rows: num negative: " + numNegative);
-        System.out.println("OJB: abs rows: vertical padding: " + verticalPadding);
-
         float remaining = getPrefHeight() - sum - ((heights.length - numNegative - 1) * verticalPadding) - (numNegative * verticalPadding);
-        System.out.println("OJB: abs rows: remaining: " + remaining);
-
         float balancedHeightForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
-        System.out.println("OJB: abs rows: per each remaining: " + balancedHeightForNegativeVals);
 
         rowHeights.clear();
         for (float h : heights) {
@@ -142,11 +126,6 @@ public class GridLayout2 extends Layout<GridLayout2> {
             else
                 rowHeights.add(h);
         }
-
-        System.out.println("OJB: abs row final length: " + rowHeights.size());
-        for (float h : rowHeights)
-            System.out.println("\t" + h);
-        System.out.println();
 
         return this;
     }
@@ -159,9 +138,7 @@ public class GridLayout2 extends Layout<GridLayout2> {
             return this;
         }
 
-        //float colWidth = getPrefWidth() / (float)count;
         float colWidth = widthWithoutPadding(count) / (float)count;
-        System.out.println("OJB: making " + count + " cols of size " + colWidth);
         columnWidths.clear();
 
         for (int i = 0; i < count; ++i)
@@ -208,7 +185,6 @@ public class GridLayout2 extends Layout<GridLayout2> {
             return this;
 
         float remaining = getPrefWidth() - sum - ((widths.length - numNegative - 1) * horizontalPadding) - (numNegative * horizontalPadding);
-        //float remaining = widthWithoutPadding(widths.length)- sum;
         float balancedWidthForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
 
         columnWidths.clear();
@@ -259,9 +235,6 @@ public class GridLayout2 extends Layout<GridLayout2> {
             pos += horizontalPadding;
         }
 
-        System.out.println("getLayoutX of col " + col + " is " + pos);
-        System.out.println("\t(left was " + getLeft() + "), columnWdiths.size was " + columnWidths.size());
-
         return pos;
     }
 
@@ -273,8 +246,6 @@ public class GridLayout2 extends Layout<GridLayout2> {
             pos += verticalPadding;
         }
 
-        System.out.println("getLayoutY of row " + row + " is " + pos);
-        System.out.println("\t(bottom was " + getBottom() + "), rowHeights.size was " + rowHeights.size());
         return pos;
     }
 

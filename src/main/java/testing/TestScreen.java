@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import config.Config;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
 import ui.widgets.labels.SimpleLabel;
@@ -30,8 +31,8 @@ public class TestScreen extends DynamicScreen<GridLayout2> {
         mainLayout = GridLayout2
                 .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-                .withVerticalPadding(64.0f)
-                .with_absolute_rows(-1, 10.0f, 80.0f);
+                .withVerticalPadding(20.0f)
+                .with_absolute_rows(-1, 10.0f, 60.0f);
 
         VerticalLayout bottomLayout = VerticalLayout.build(0, 0).withSpacing(32.0f);
         mainLayout.setWidget(2, 0, new SimpleLabel("Grid Test 3", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.CENTER);
@@ -41,16 +42,11 @@ public class TestScreen extends DynamicScreen<GridLayout2> {
         bottomLayout.addChild(new SimpleLabel("Hello 2"), AnchorPosition.CENTER);
         bottomLayout.addChild(new SimpleLabel("Hello 3"), AnchorPosition.CENTER);
 
-        mainLayout.setWidget(0, 0, bottomLayout, AnchorPosition.TOP_LEFT);
+        mainLayout.setWidget(0, 0, bottomLayout, AnchorPosition.CENTER);
+    }
 
-        System.out.println("*********************************");
-        bottomLayout.print();
-        System.out.println("*********************************");
-
-
-        //mainLayout = VerticalLayout .build(getContentWidth(), getContentHeight()) .anchoredAt(getContentCenterX(), getContentCenterY(), AnchorPosition.CENTER) .withSpacing(40.0f);
-
-        /*
+/*
+    private void verticalLayoutTests() {
         addVerticalLayoutTest(getContentLeft(), getContentTop(), AnchorPosition.TOP_LEFT);
         addVerticalLayoutTest(getContentCenterX(), getContentTop(), AnchorPosition.TOP_CENTER);
         addVerticalLayoutTest(getContentRight(), getContentTop(), AnchorPosition.TOP_RIGHT);
@@ -62,9 +58,8 @@ public class TestScreen extends DynamicScreen<GridLayout2> {
         addVerticalLayoutTest(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT);
         addVerticalLayoutTest(getContentCenterX(), getContentBottom(), AnchorPosition.BOTTOM_CENTER);
         addVerticalLayoutTest(getContentRight(), getContentBottom(), AnchorPosition.BOTTOM_RIGHT);
-         */
-
     }
+ */
 
 //    private AnchorPosition getTestPos(int i, int j) {
 //        if (i == 0 && j == 0) return AnchorPosition.TOP_LEFT;
@@ -157,7 +152,8 @@ public class TestScreen extends DynamicScreen<GridLayout2> {
         if (!visible)
             return;
 
-        RenderingHelper.renderBoxFilled(sb, getContentLeft(), getContentBottom(), getContentWidth(), getContentHeight(), ColorHelper.ORANGE_COLOR);
+        if (Config.MOD_LIB_DEBUG_MODE)
+            RenderingHelper.renderBoxFilled(sb, getContentLeft(), getContentBottom(), getContentWidth(), getContentHeight(), ColorHelper.ORANGE_COLOR);
     }
 
     // Clipping demonstration

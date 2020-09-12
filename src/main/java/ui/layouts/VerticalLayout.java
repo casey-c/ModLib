@@ -15,6 +15,8 @@ public class VerticalLayout extends OneDimensionalLayout<VerticalLayout> {
 
     @Override
     public void recomputeLayout() {
+        updateSync();
+
         float childPosX = getLeft();
 
         if (AnchorPosition.isRight(anchorPosition))
@@ -24,7 +26,6 @@ public class VerticalLayout extends OneDimensionalLayout<VerticalLayout> {
 
         float childPosY = getBottom() + totalChildrenHeight();
         if (AnchorPosition.isTop(anchorPosition))
-            //childPosY = getTop() - getFirstChildHeight();
             childPosY = getTop();
         else if (AnchorPosition.isCentralY(anchorPosition))
             childPosY = getCenterY() + (totalChildrenHeight() * 0.5f);

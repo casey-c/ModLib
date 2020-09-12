@@ -11,10 +11,10 @@ public class SimplePadding extends ScreenWidget {
     public void render(SpriteBatch sb) { }
 
     public static SimplePadding vertical(float h) {
-        return new SimplePadding(10000.0f, h);
+        return new SimplePadding(1.0f, h);
     }
 
     public static SimplePadding horizontal(float w) {
-        return new SimplePadding(w, 10000.0f);
+        return new SimplePadding(w, 1.0f);
     }
 }

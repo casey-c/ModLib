@@ -18,6 +18,8 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
     protected boolean dynamicWidth = true;
     protected boolean dynamicHeight = true;
 
+    protected boolean syncToLargestWidth, syncToLargestHeight;
+
     //protected ArrayList<Pair<ScreenWidget, AnchorPosition>> children = new ArrayList<>();
     protected ArrayList<ScreenWidget> children = new ArrayList<>();
 
@@ -48,6 +50,16 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
     public T withFixedChildHeight(float h) {
         this.dynamicHeight = false;
         this.fixedHeight = h;
+        return (T)this;
+    }
+
+    public T syncToLargestWidth(boolean val) {
+        this.syncToLargestWidth = val;
+        return (T)this;
+    }
+
+    public T syncToLargestHeight(boolean val) {
+        this.syncToLargestHeight = val;
         return (T)this;
     }
 
@@ -141,5 +153,12 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
     public void hide() {
         for (ScreenWidget w : children)
             w.hide();
+    }
+
+    protected void updateSync() {
+        if (syncToLargestWidth)
+            withFixedChildWidth(maxChildWidth());
+        if (syncToLargestHeight)
+            withFixedChildHeight(maxChildHeight());
     }
 }

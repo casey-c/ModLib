@@ -45,30 +45,47 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Screen
         return (T)this;
     }
 
-    public void setOnClick(Consumer<AbstractButton> onClick) { this.onClick = onClick; }
-    public void setOnHoverEnter(Consumer<AbstractButton> onHoverEnter) { this.onHoverEnter = onHoverEnter; }
-    public void setOnHoverLeave(Consumer<AbstractButton> onHoverLeave) { this.onHoverLeave = onHoverLeave; }
-    public void setOnRightClick(Consumer<AbstractButton> onRightClick) { this.onRightClick = onRightClick; }
+    public T setOnClick(Consumer<AbstractButton> onClick) { this.onClick = onClick; return (T)this;}
+    public T setOnHoverEnter(Consumer<AbstractButton> onHoverEnter) { this.onHoverEnter = onHoverEnter; return (T)this; }
+    public T setOnHoverLeave(Consumer<AbstractButton> onHoverLeave) { this.onHoverLeave = onHoverLeave; return (T)this; }
+    public T setOnRightClick(Consumer<AbstractButton> onRightClick) { this.onRightClick = onRightClick; return (T)this; }
 
+    private boolean hovering;
     @Override
     public void update() {
         hb.update();
 
-        if (hb.justHovered) {
-            System.out.println("OJB: hb.justHovered");
-            SoundHelper.playUIHover();
+        // Hover-leave
+        if (hovering && !hb.hovered) {
+            if (onHoverLeave != null)
+                onHoverLeave.accept(this);
+
+            hovering = false;
         }
 
+        // Hover-start
+        if (!hovering && hb.justHovered) {
+            SoundHelper.playUIHover();
+
+            hovering = true;
+
+            if (onHoverEnter != null)
+                onHoverEnter.accept(this);
+        }
+
+        // Click started
         if (InputHelper.justClickedLeft && hb.hovered) {
             SoundHelper.playUIClick();
             hb.clickStarted = true;
         }
 
+        // Click finished
         if (hb.clicked) {
             hb.clicked = false;
 
             // Handle
-            onClick.accept(this);
+            if (onClick != null)
+                onClick.accept(this);
         }
 
 

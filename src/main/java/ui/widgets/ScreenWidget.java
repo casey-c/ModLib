@@ -106,6 +106,11 @@ public abstract class ScreenWidget<T extends ScreenWidget> {
         this.y = y - (prefHeight * 0.5f);
     }
 
+    // Convienience
+    public T anchoredAt(float x, float y) {
+        return anchoredAt(x, y, AnchorPosition.BOTTOM_LEFT);
+    }
+
     public T anchoredAt(float x,  float y, AnchorPosition pos) {
             this.anchorPosition = pos;
 

@@ -11,6 +11,8 @@ public class HorizontalLayout extends OneDimensionalLayout<HorizontalLayout> {
 
     @Override
     public void recomputeLayout() {
+        updateSync();
+
         float childPosX = getLeft();
 
         if (AnchorPosition.isRight(anchorPosition))

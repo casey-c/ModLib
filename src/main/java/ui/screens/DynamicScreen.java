@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import ui.layouts.Layout;
 import utils.ColorHelper;
+import utils.RenderingHelper;
 import utils.TextureHelper;
 
 public class DynamicScreen<T extends Layout<T>> extends AbstractScreen<T> {
@@ -76,28 +77,38 @@ public class DynamicScreen<T extends Layout<T>> extends AbstractScreen<T> {
         float left = getScreenLeft();
         float bottom = getScreenBottom();
 
-        float centerStartX = left + CORNER_SIZE;
-        float centerEndX = left + CORNER_SIZE + centerWidth;
-
-        float centerStartY = bottom + CORNER_SIZE;
-        float centerEndY = bottom + CORNER_SIZE + centerHeight;
+        RenderingHelper.renderDynamicPieces(sb,
+                TEX_CORNER_BASE,
+                TEX_CORNER_TRIM,
+                TEX_EDGE_TRIM,
+                left,
+                bottom,
+                left + CORNER_SIZE,
+                left + CORNER_SIZE + centerWidth,
+                bottom + CORNER_SIZE,
+                bottom + CORNER_SIZE + centerHeight,
+                centerWidth,
+                centerHeight,
+                getBaseColor(),
+                getTrimColor(),
+                CORNER_SIZE);
 
 
         // CORNERS
-        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, left, bottom, CORNER_SIZE, CORNER_SIZE, 90.0f, false, false); // bottom left
-        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, left, centerEndY, CORNER_SIZE, CORNER_SIZE, 0.0f, false, false); // top left
-        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, centerEndX, bottom, CORNER_SIZE, CORNER_SIZE, 90.0f, false, true); // bottom right
-        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, centerEndX, centerEndY, CORNER_SIZE, CORNER_SIZE, 0.0f, true, false); // top right
-
-        // EDGES
-        easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, left, centerStartY, centerHeight, CORNER_SIZE, 90.0f, false, false); // left
-        easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, centerStartX, bottom, centerWidth, CORNER_SIZE, 0.0f, false, true); // bottom
-        easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, centerEndX, centerStartY, centerHeight, CORNER_SIZE, 90.0f, false, true); // right
-        easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, centerStartX, centerEndY, centerWidth, CORNER_SIZE, 0.0f, false, false); // top
-
-        // CENTER
-        // TODO: scale based on resolution
-        sb.setColor(getBaseColor());
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, centerStartX, centerStartY, centerWidth, centerHeight);
+//        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, left, bottom, CORNER_SIZE, CORNER_SIZE, 90.0f, false, false); // bottom left
+//        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, left, centerEndY, CORNER_SIZE, CORNER_SIZE, 0.0f, false, false); // top left
+//        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, centerEndX, bottom, CORNER_SIZE, CORNER_SIZE, 90.0f, false, true); // bottom right
+//        easyDraw(sb, TEX_CORNER_BASE, TEX_CORNER_TRIM, centerEndX, centerEndY, CORNER_SIZE, CORNER_SIZE, 0.0f, true, false); // top right
+//
+//        // EDGES
+//        easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, left, centerStartY, centerHeight, CORNER_SIZE, 90.0f, false, false); // left
+//        easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, centerStartX, bottom, centerWidth, CORNER_SIZE, 0.0f, false, true); // bottom
+//        easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, centerEndX, centerStartY, centerHeight, CORNER_SIZE, 90.0f, false, true); // right
+//        easyDraw(sb, TEX_CENTER, TEX_EDGE_TRIM, centerStartX, centerEndY, centerWidth, CORNER_SIZE, 0.0f, false, false); // top
+//
+//        // CENTER
+//        // TODO: scale based on resolution
+//        sb.setColor(getBaseColor());
+//        sb.draw(ImageMaster.WHITE_SQUARE_IMG, centerStartX, centerStartY, centerWidth, centerHeight);
     }
 }

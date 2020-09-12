@@ -124,4 +124,22 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         for (ScreenWidget child : children)
             child.render(sb);
     }
+
+    @Override
+    public void update() {
+        for (ScreenWidget w : children)
+            w.update();
+    }
+
+    @Override
+    public void show() {
+        for (ScreenWidget w : children)
+            w.show();
+    }
+
+    @Override
+    public void hide() {
+        for (ScreenWidget w : children)
+            w.hide();
+    }
 }

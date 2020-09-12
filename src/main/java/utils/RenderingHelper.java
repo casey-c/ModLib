@@ -112,4 +112,90 @@ Specified by:
         sb.setColor(color);
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, x, y, width, height);
     }
+
+    // TODO: scale based on resolution
+    private static void easyDraw(SpriteBatch sb,
+                                 Texture baseTex,
+                                 Texture trimTex,
+                                 float x,
+                                 float y,
+                                 int width,
+                                 int height,
+                                 float rot,
+                                 boolean flipX,
+                                 boolean flipY,
+                                 Color baseColor,
+                                 Color trimColor,
+                                 int cornerSize) {
+        // Base
+        sb.setColor(baseColor);
+        sb.draw(baseTex,
+                x, y,
+                cornerSize / 2, cornerSize / 2,
+                width, height,
+                Settings.scale, Settings.scale,
+                rot,
+                0, 0,
+                width, height,
+                flipX, flipY );
+
+        // Trim
+        sb.setColor(trimColor);
+        sb.draw(trimTex,
+                x, y,
+                cornerSize / 2, cornerSize / 2,
+                width, height,
+                Settings.scale, Settings.scale,
+                rot,
+                0, 0,
+                width, height,
+                flipX, flipY );
+    }
+
+    public static void renderDynamicPieces(SpriteBatch sb, Texture topLeftCornerBase, Texture topLeftCornerTrim, Texture topEdgeTrim,
+                                           float left, float bottom, float centerStartX, float centerEndX,
+                                           float centerStartY, float centerEndY, int centerWidth, int centerHeight,
+                                           Color baseColor, Color trimColor, int cornerSize ) {
+
+        // CORNERS
+        easyDraw(sb, topLeftCornerBase, topLeftCornerTrim, left, bottom, cornerSize, cornerSize, 90.0f, false, false,  baseColor, trimColor, cornerSize); // bottom left
+        easyDraw(sb, topLeftCornerBase, topLeftCornerTrim, left, centerEndY, cornerSize, cornerSize, 0.0f, false, false, baseColor, trimColor, cornerSize); // top left
+        easyDraw(sb, topLeftCornerBase, topLeftCornerTrim, centerEndX, bottom, cornerSize, cornerSize, 90.0f, false, true, baseColor, trimColor, cornerSize); // bottom right
+        easyDraw(sb, topLeftCornerBase, topLeftCornerTrim, centerEndX, centerEndY, cornerSize, cornerSize, 0.0f, true, false, baseColor, trimColor, cornerSize); // top right
+
+        // EDGES
+        easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, left, centerStartY, centerHeight, cornerSize, 90.0f, false, false, baseColor, trimColor, cornerSize); // left
+        easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, centerStartX, bottom, centerWidth, cornerSize, 0.0f, false, true, baseColor, trimColor, cornerSize); // bottom
+        easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, centerEndX, centerStartY, centerHeight, cornerSize, 90.0f, false, true, baseColor, trimColor, cornerSize); // right
+        easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, centerStartX, centerEndY, centerWidth, cornerSize, 0.0f, false, false, baseColor, trimColor, cornerSize); // top
+
+        // CENTER
+        // TODO: scale based on resolution
+        sb.setColor(baseColor);
+        sb.draw(ImageMaster.WHITE_SQUARE_IMG, centerStartX, centerStartY, centerWidth, centerHeight);
+    }
+
+    /*
+       TODO:
+       ACTUAL, GOOD CLIPPING  (this works!)
+
+        sb.flush();
+        Rectangle scissors = new Rectangle();
+
+        // TODO: may need more adjustments to the camera (for other resolutions?) -- for now just use this camera offset cheat
+        float cameraOffsetX = - Gdx.graphics.getWidth() / 2.0f;
+        float cameraOffsetY = - Gdx.graphics.getHeight() / 2.0f;
+
+        Rectangle clipBounds = new Rectangle( getContentLeft() + cameraOffsetX, getContentBottom() + cameraOffsetY, getContentWidth(), getContentHeight());
+
+        OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        ScissorStack.calculateScissors(camera, sb.getTransformMatrix(), clipBounds, scissors);
+        ScissorStack.pushScissors(scissors); // TODO: pretty sure im supposed to put an if around this + draw calls
+
+        [ DRAW CALLS GO RIGHT HERE ]
+
+        sb.flush();
+        ScissorStack.popScissors();
+     */
 }

@@ -353,4 +353,22 @@ public class GridLayout extends Layout<GridLayout> {
         for (ScreenWidget w : children.values())
             w.render(sb);
     }
+
+    @Override
+    public void update() {
+        for (ScreenWidget w : children.values())
+            w.update();
+    }
+
+    @Override
+    public void show() {
+        for (ScreenWidget w : children.values())
+            w.show();
+    }
+
+    @Override
+    public void hide() {
+        for (ScreenWidget w : children.values())
+            w.hide();
+    }
 }

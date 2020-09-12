@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ui.layouts.AnchorPosition;
 
 public abstract class ScreenWidget<T extends ScreenWidget> {
-    private float x, y, prefWidth, prefHeight;
+    private float x, y;
+    private float prefWidth, prefHeight;
     protected AnchorPosition anchorPosition = AnchorPosition.BOTTOM_LEFT;
-    protected boolean active = false;
 
     // --------------------------------------------------------------------------------
     // Getters
@@ -136,7 +136,6 @@ public abstract class ScreenWidget<T extends ScreenWidget> {
         this.anchorPosition = pos;
     }
 
-    public void setActive(boolean val) { this.active = val; }
 
     public T withDimensions(float prefWidth, float prefHeight) {
         this.setPrefWidthHeight(prefWidth, prefHeight);
@@ -153,4 +152,8 @@ public abstract class ScreenWidget<T extends ScreenWidget> {
     // --------------------------------------------------------------------------------
 
     public abstract void render(SpriteBatch sb);
+    public void update() {}
+
+    public void show() {};
+    public void hide() {};
 }

@@ -10,6 +10,14 @@ public class ColorHelper {
     public static final Color VERY_DIM_BLUE = new Color(0.0f, 0.0f, 1.0f, 0.3f);
     public static final Color VERY_DIM_GREEN = new Color(0.0f, 1.0f, 0.0f, 0.3f);
 
+    public static final Color BUTTON_DEFAULT_BASE = new Color(0.173f, 0.192f, 0.212f, 1.0f);
+
+    //public static final Color BUTTON_TRIM = new Color(0.129f, 0.133f, 0.137f, 1.0f); // lighter, original version
+    public static final Color BUTTON_TRIM = new Color(0.094f, 0.094f, 0.094f, 1.0f);
+
+    public static final Color BUTTON_HOVER_BASE = new Color( 0.329f, 0.365f, 0.408f, 1.0f );
+    public static final Color BUTTON_CLICK_BASE = new Color(0.173f, 0.349f, 0.565f, 1.0f);
+
     public static Color rainbowColor() {
         float r = (MathUtils.cosDeg((float) (System.currentTimeMillis() / 10L % 360L)) + 1.25F) / 2.3F;
         float g = (MathUtils.cosDeg((float)((System.currentTimeMillis() + 1000L) / 10L % 360L)) + 1.25F) / 2.3F;

@@ -1,5 +1,6 @@
 package ui.screens;
 
+import basemod.interfaces.PostUpdateSubscriber;
 import basemod.interfaces.RenderSubscriber;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,7 +12,7 @@ import ui.widgets.ScreenWidget;
 
 import java.util.ArrayList;
 
-public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubscriber {
+public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubscriber, PostUpdateSubscriber {
     protected boolean visible;
 
     protected Texture SCREEN_BG;
@@ -45,7 +46,6 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
     // --------------------------------------------------------------------------------
 
     protected T mainLayout;
-    protected ArrayList<ScreenWidget> activeChildWidgets = new ArrayList<>();
 
     // --------------------------------------------------------------------------------
 
@@ -53,19 +53,15 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
         return visible;
     }
 
-    protected void setAllChildrenActive(boolean val) {
-        for (ScreenWidget child : activeChildWidgets)
-            child.setActive(val);
-    }
-
     public void show() {
         if (visible)
             return;
 
         visible = true;
-        setAllChildrenActive(true);
-
         ScreenHelper.showCustomScreen("DECK_OPEN");
+
+        if (mainLayout != null)
+            mainLayout.show();
     }
 
     public void hide() {
@@ -73,9 +69,10 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
             return;
 
         visible = false;
-        setAllChildrenActive(false);
-
         ScreenHelper.closeCustomScreen("DECK_CLOSE");
+
+        if (mainLayout != null)
+            mainLayout.hide();
     }
 
     public void saveAndClose() { hide(); }
@@ -87,9 +84,6 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
                 ((float) Settings.WIDTH - SCREEN_W * Settings.scale) * 0.5f,
                 ((float) Settings.HEIGHT - SCREEN_H * Settings.scale) * 0.5f
         );
-
-
-
     }
 
     protected void renderScreenForeground(SpriteBatch sb) {
@@ -129,5 +123,14 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
         System.out.println("SCREEN CONTENT bottom left (x, y): " + getContentLeft() + ", " + getContentBottom());
         System.out.println("SCREEN CONTENT upper right (x, y): " + getContentRight() + ", " + getContentTop());
         System.out.println();
+    }
+
+    @Override
+    public void receivePostUpdate() {
+        if (!visible)
+            return;
+
+        if (mainLayout != null)
+            mainLayout.update();
     }
 }

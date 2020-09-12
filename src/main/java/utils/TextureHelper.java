@@ -15,6 +15,10 @@ public class TextureHelper {
         SCREEN_EDGE_TRIM("ModLib/images/screens/screen_edge_trim.png"),
         SCREEN_CENTER("ModLib/images/screens/screen_center_v2.png"),
 
+        BUTTON_CORNER_BASE("ModLib/images/widgets/button/button_corner_base.png"),
+        BUTTON_CORNER_TRIM("ModLib/images/widgets/button/button_corner_trim.png"),
+        BUTTON_EDGE_TRIM("ModLib/images/widgets/button/button_edge_trim.png"),
+
         ICON("ModLib/images/icon.png")
         ;
 

@@ -19,6 +19,11 @@ public class TextureHelper {
         BUTTON_CORNER_TRIM("ModLib/images/widgets/button/button_corner_trim.png"),
         BUTTON_EDGE_TRIM("ModLib/images/widgets/button/button_edge_trim.png"),
 
+        BUTTON_HIGHLIGHT_CORNER("ModLib/images/widgets/button/button_highlight_corner.png"),
+        BUTTON_HIGHLIGHT_TOP_EDGE("ModLib/images/widgets/button/button_highlight_top_edge.png"),
+        BUTTON_HIGHLIGHT_LEFT_EDGE("ModLib/images/widgets/button/button_highlight_left_edge.png"),
+        BUTTON_HIGHLIGHT_CENTER("ModLib/images/widgets/button/button_highlight_center.png"),
+
         ICON("ModLib/images/icon.png")
         ;
 

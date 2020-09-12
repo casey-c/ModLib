@@ -152,6 +152,73 @@ Specified by:
                 flipX, flipY );
     }
 
+    private static void easyDrawRegular(SpriteBatch sb, Texture tex, float x, float y, int width, int height, float rot, boolean flipX, boolean flipY, Color color, int cornerSize) {
+        sb.setColor(color);
+        sb.draw(tex,
+                x, y,
+                cornerSize / 2, cornerSize / 2,
+                width, height,
+                Settings.scale, Settings.scale,
+                rot,
+                0, 0,
+                width, height,
+                flipX, flipY );
+    }
+
+    // TODO: scale based on resolution
+    private static void easyDrawWithHighlight(SpriteBatch sb,
+                                 Texture baseTex,
+                                 Texture trimTex,
+                                 Texture highlightTex,
+                                 float x,
+                                 float y,
+                                 int width,
+                                 int height,
+                                 float rot,
+                                 boolean flipX,
+                                 boolean flipY,
+                                 Color baseColor,
+                                 Color trimColor,
+                                 Color highlighColor,
+                                 int cornerSize) {
+        // Base
+        easyDrawRegular(sb, baseTex, x, y, width, height, rot, flipX, flipY, baseColor, cornerSize);
+//        sb.setColor(baseColor);
+//        sb.draw(baseTex,
+//                x, y,
+//                cornerSize / 2, cornerSize / 2,
+//                width, height,
+//                Settings.scale, Settings.scale,
+//                rot,
+//                0, 0,
+//                width, height,
+//                flipX, flipY );
+
+        // Highlight
+        sb.setColor(highlighColor);
+        sb.draw(highlightTex,
+                x, y,
+                cornerSize / 2, cornerSize / 2,
+                width, height,
+                Settings.scale, Settings.scale,
+                rot,
+                0, 0,
+                width, height,
+                flipX, flipY );
+
+        // Trim
+        sb.setColor(trimColor);
+        sb.draw(trimTex,
+                x, y,
+                cornerSize / 2, cornerSize / 2,
+                width, height,
+                Settings.scale, Settings.scale,
+                rot,
+                0, 0,
+                width, height,
+                flipX, flipY );
+    }
+
     public static void renderDynamicPieces(SpriteBatch sb, Texture topLeftCornerBase, Texture topLeftCornerTrim, Texture topEdgeTrim,
                                            float left, float bottom, float centerStartX, float centerEndX,
                                            float centerStartY, float centerEndY, int centerWidth, int centerHeight,
@@ -173,6 +240,87 @@ Specified by:
         // TODO: scale based on resolution
         sb.setColor(baseColor);
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, centerStartX, centerStartY, centerWidth, centerHeight);
+    }
+
+    public static void renderDynamicPiecesWithHighlight(SpriteBatch sb,
+                                                        Texture topLeftCornerBase, Texture topLeftCornerTrim, Texture topEdgeTrim,
+                                                        Texture topLeftCornerHighlight, Texture topEdgeHighlight, Texture leftEdgeHighlight, Texture centerHighlight,
+                                                        float left, float bottom, float centerStartX, float centerEndX,
+                                                        float centerStartY, float centerEndY, int centerWidth, int centerHeight,
+                                                        Color baseColor, Color trimColor, int cornerSize ) {
+
+        // CORNERS
+        // BOTTOM LEFT
+        easyDrawRegular(sb, topLeftCornerBase, left, bottom, cornerSize, cornerSize, 90.0f, false, false, baseColor, cornerSize);
+        easyDrawRegular(sb, topLeftCornerTrim, left, bottom, cornerSize, cornerSize, 90.0f, false, false, trimColor, cornerSize);
+
+        // TOP LEFT
+        easyDrawRegular(sb, topLeftCornerBase, left, centerEndY, cornerSize, cornerSize, 0.0f, false, false, baseColor, cornerSize);
+        easyDrawRegular(sb, topLeftCornerHighlight, left, centerEndY, cornerSize, cornerSize, 0.0f, false, false, ColorHelper.BUTTON_HIGHLIGHT, cornerSize);
+        easyDrawRegular(sb, topLeftCornerTrim, left, centerEndY, cornerSize, cornerSize, 0.0f, false, false, trimColor, cornerSize);
+
+        // TOP RIGHT
+        easyDrawRegular(sb, topLeftCornerBase, centerEndX, centerEndY, cornerSize, cornerSize, 0.0f, true, false, baseColor, cornerSize);
+        easyDrawRegular(sb, topLeftCornerHighlight, centerEndX, centerEndY, cornerSize, cornerSize, 0.0f, true, false, ColorHelper.BUTTON_HIGHLIGHT, cornerSize);
+        easyDrawRegular(sb, topLeftCornerTrim, centerEndX, centerEndY, cornerSize, cornerSize, 0.0f, true, false, trimColor, cornerSize);
+
+        // BOTTOM RIGHT
+        easyDrawRegular(sb, topLeftCornerBase, centerEndX, bottom, cornerSize, cornerSize, 90.0f, false, true, baseColor, cornerSize);
+        easyDrawRegular(sb, topLeftCornerTrim, centerEndX, bottom, cornerSize, cornerSize, 90.0f, false, true, trimColor, cornerSize);
+
+        //easyDrawWithHighlight(sb, topLeftCornerBase, topLeftCornerTrim, topLeftCornerHighlight, left, bottom, cornerSize, cornerSize, 90.0f, false, false, baseColor, trimColor, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // bottom left
+        //easyDrawWithHighlight(sb, topLeftCornerBase, topLeftCornerTrim, topLeftCornerHighlight, left, centerEndY, cornerSize, cornerSize, 0.0f, false, false, baseColor, trimColor, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // top left
+        //easyDrawWithHighlight(sb, topLeftCornerBase, topLeftCornerTrim, topLeftCornerHighlight, centerEndX, centerEndY, cornerSize, cornerSize, 0.0f, true, false, baseColor, trimColor, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // top right
+
+        // CENTER
+        // TODO: scale based on resolution
+        sb.setColor(baseColor);
+        sb.draw(ImageMaster.WHITE_SQUARE_IMG, centerStartX, centerStartY, centerWidth, centerHeight);
+
+        //easyDrawWithHighlight(sb, topLeftCornerBase, topLeftCornerTrim, topLeftCornerHighlight, centerEndX, bottom, cornerSize, cornerSize, 90.0f, false, true, baseColor, trimColor, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // bottom right
+
+        // EDGES
+        //todo
+
+        // EDGE BASES
+        easyDrawRegular(sb, ImageMaster.WHITE_SQUARE_IMG, centerStartX, centerEndY, centerWidth, cornerSize, 0.0f, false, false, baseColor, cornerSize); // top
+        easyDrawRegular(sb, ImageMaster.WHITE_SQUARE_IMG, left, centerStartY, centerHeight, cornerSize, 90.0f, false, false, baseColor, cornerSize); // left
+        easyDrawRegular(sb, ImageMaster.WHITE_SQUARE_IMG, centerEndX, centerStartY, centerHeight, cornerSize, 90.0f, false, true, baseColor, cornerSize); // right
+        easyDrawRegular(sb, ImageMaster.WHITE_SQUARE_IMG, centerStartX, bottom, centerWidth, cornerSize, 0.0f, false, true, baseColor, cornerSize); // bottom
+
+        // EDGE HIGHLIGHTS
+        easyDrawRegular(sb, topEdgeHighlight, centerStartX, centerEndY, centerWidth, cornerSize, 0.0f, false, false, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // top
+
+        sb.setColor(ColorHelper.BUTTON_HIGHLIGHT);
+        sb.draw(centerHighlight, left, centerStartY, centerWidth + 2 * cornerSize, centerHeight);
+
+//        easyDrawRegular(sb, leftEdgeHighlight, left, centerStartY, cornerSize, centerHeight, 0.0f, false, false, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // left
+//        easyDrawRegular(sb, leftEdgeHighlight, centerEndX, centerStartY, cornerSize, centerHeight, 0.0f, true, false, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // right
+
+        // EDGE TRIMS
+        easyDrawRegular(sb, topEdgeTrim, centerStartX, centerEndY, centerWidth, cornerSize, 0.0f, false, false, trimColor, cornerSize); // top
+        easyDrawRegular(sb, topEdgeTrim, left, centerStartY, centerHeight, cornerSize, 90.0f, false, false, trimColor, cornerSize); // left
+        easyDrawRegular(sb, topEdgeTrim, centerEndX, centerStartY, centerHeight, cornerSize, 90.0f, false, true, trimColor, cornerSize); // right
+        easyDrawRegular(sb, topEdgeTrim, centerStartX, bottom, centerWidth, cornerSize, 0.0f, false, true, trimColor, cornerSize); // bottom
+
+
+        //easyDrawWithHighlight(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, topEdgeHighlight, centerStartX, bottom, centerWidth, cornerSize, 0.0f, false, true, baseColor, trimColor, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // bottom
+        //easyDrawWithHighlight(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, topEdgeHighlight, centerEndX, centerStartY, centerHeight, cornerSize, 90.0f, false, true, baseColor, trimColor, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // right
+        //easyDrawWithHighlight(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, topEdgeHighlight, left, centerStartY, centerHeight, cornerSize, 90.0f, false, false, baseColor, trimColor, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // left
+        //easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, centerStartX, centerEndY, centerWidth, cornerSize, 0.0f, false, false, baseColor, trimColor, cornerSize); // top
+//        easyDrawWithHighlight(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, topEdgeHighlight, centerStartX, centerEndY, centerWidth, cornerSize, 0.0f, false, false, baseColor, trimColor, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // top
+//        easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, centerStartX, bottom, centerWidth, cornerSize, 0.0f, false, true, baseColor, trimColor, cornerSize); // bottom
+
+        // todo
+//        easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, left, centerStartY, centerHeight, cornerSize, 90.0f, false, false, baseColor, trimColor, cornerSize); // left
+//        easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, centerStartX, bottom, centerWidth, cornerSize, 0.0f, false, true, baseColor, trimColor, cornerSize); // bottom
+//        easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, centerEndX, centerStartY, centerHeight, cornerSize, 90.0f, false, true, baseColor, trimColor, cornerSize); // right
+//        easyDraw(sb, ImageMaster.WHITE_SQUARE_IMG, topEdgeTrim, centerStartX, centerEndY, centerWidth, cornerSize, 0.0f, false, false, baseColor, trimColor, cornerSize); // top
+
+
+        //sb.setColor(ColorHelper.BUTTON_HIGHLIGHT);
+//        sb.setColor(Color.RED);
+//        sb.draw(centerHighlight, centerStartX, centerStartY, centerWidth, centerHeight);
     }
 
     /*

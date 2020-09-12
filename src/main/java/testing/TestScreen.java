@@ -35,70 +35,42 @@ public class TestScreen extends DynamicScreen<GridLayout> {
         super(width, height);
 
         setContentPadding(64.0f, 64.0f);
-
-        //gridButtonTest();
-        //verticalLayoutButtonTest();
-
         mainLayout = GridLayout
                 .build(getContentWidth(), getContentHeight())
-                .anchoredAt(getContentLeft(), getContentBottom())
-                .withHorizontalPadding(50.0f)
-                .withVerticalPadding(20.0f)
-                .with_absolute_rows(-1, 10.0f, 80.0f)
-                .with_absolute_cols(-1, 160.0f);
+                .anchoredAt(getContentLeft(), getContentBottom());
 
-        mainLayout.setWidget(2, 0, new SimpleLabel("Grid Button Test 2", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.CENTER_LEFT);
-        mainLayout.setWidget(1, 0, new HorizontalLine());
+        mainLayout.setWidget(0, 0, new TextButton("Test Button")).withDynamicHeight().withDynamicWidth();
+    }
 
-        GridLayout bottomLayout = mainLayout.setWidget(0, 0, new GridLayout()).with_balanced_cols(2).with_balanced_rows(2);
-        bottomLayout.setWidget(0, 0, new SimpleLabel("0, 0"));
-        bottomLayout.setWidget(1, 0, new SimpleLabel("1, 0"));
-        bottomLayout.setWidget(0, 1, new TextButton("0, 1")).withDynamicWidth().withDynamicHeight();
-        bottomLayout.setWidget(1, 1, new SimpleLabel("1, 1"));
-
-        VerticalLayout rightLayout = mainLayout.setWidget(2, 1, new VerticalLayout(), AnchorPosition.TOP_LEFT)
-                .withSpacing(30.0f)
-                .syncToLargestWidth(true);
-
-        rightLayout.addChild(new TextButton("Button One"));
-        rightLayout.addChild(new TextButton("Button 2"));
-        rightLayout.addChild(new TextButton("Caw").withOnClick(button -> {
-            SoundHelper.cawCaw();
-        }));
-
-//        int size = 3;
+//    private void gridButtonTest2() {
 //        mainLayout = GridLayout
 //                .build(getContentWidth(), getContentHeight())
-//                .anchoredAt(getContentLeft(), getContentBottom(), AnchorPosition.BOTTOM_LEFT)
-//                .withHorizontalPadding(20)
-//                .withVerticalPadding(20)
-//                .with_balanced_cols(size)
-//                .with_balanced_rows(size);
-
-//        for (int i = 0; i < size; ++i) {
-//            for (int j = 0; j < size; ++j) {
-//                String text = (i == 1 && j == 1) ? "LONGER TEXT" : (i + ", " + j);
+//                .anchoredAt(getContentLeft(), getContentBottom())
+//                .withHorizontalPadding(50.0f)
+//                .withVerticalPadding(20.0f)
+//                .with_absolute_rows(-1, 10.0f, 80.0f)
+//                .with_absolute_cols(-1, 160.0f);
 //
-//                mainLayout.setWidget(i, j, new TextButton(text), AnchorPosition.BOTTOM_CENTER).setOnClick(button -> {
-//                    SoundHelper.cawCaw();
-//                }).withDynamicHeight().withDynamicWidth();
-//            }
-//        }
-
-//        mainLayout = VerticalLayout
-//                .build(getContentWidth(), getContentHeight())
-//                .anchoredAt(getContentCenterX(), getContentTop(), AnchorPosition.TOP_CENTER)
+//        mainLayout.setWidget(2, 0, new SimpleLabel("Grid Button Test 2", FontHelper.bannerFont, Settings.GOLD_COLOR), AnchorPosition.CENTER_LEFT);
+//        mainLayout.setWidget(1, 0, new HorizontalLine());
+//
+//        GridLayout bottomLayout = mainLayout.setWidget(0, 0, new GridLayout()).with_balanced_cols(2).with_balanced_rows(2);
+//        bottomLayout.setWidget(0, 0, new SimpleLabel("0, 0"));
+//        bottomLayout.setWidget(1, 0, new SimpleLabel("1, 0"));
+//        bottomLayout.setWidget(0, 1, new TextButton("0, 1")).withDynamicWidth().withDynamicHeight();
+//        bottomLayout.setWidget(1, 1, new SimpleLabel("1, 1"));
+//
+//        VerticalLayout rightLayout = mainLayout.setWidget(2, 1, new VerticalLayout(), AnchorPosition.TOP_LEFT)
 //                .withSpacing(30.0f)
-//                .withFixedChildHeight(200.0f)
-//                .withFixedChildWidth(200.0f);
-//                //.withFixedChildWidth(300.0f).withFixedChildHeight(40.0f) // buggy
-//        ;
+//                .syncToLargestWidth(true);
 //
-//        mainLayout.addChild(new TextButton("Caw Caw").withOnClick(button -> {
+//        rightLayout.addChild(new TextButton("Button One"));
+//        rightLayout.addChild(new TextButton("Button 2"));
+//        rightLayout.addChild(new TextButton("Caw").withOnClick(button -> {
 //            SoundHelper.cawCaw();
 //        }));
-
-    }
+//
+//    }
 
     private AnchorPosition getTestPos(int i, int j) {
         if (i == 0 && j == 0) return AnchorPosition.TOP_LEFT;

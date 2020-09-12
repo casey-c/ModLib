@@ -19,12 +19,10 @@ public class TextButton extends AbstractButton<TextButton> {
     private static final BitmapFont font = FontHelper.tipBodyFont;
     private static final int CORNER_SIZE = 20;
 
-
     private static final Texture TEX_CORNER_BASE = TextureHelper.getTexture(TextureHelper.TextureItem.BUTTON_CORNER_BASE);
     private static final Texture TEX_CORNER_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.BUTTON_CORNER_TRIM);
     private static final Texture TEX_EDGE_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.BUTTON_EDGE_TRIM);
 
-    private int centerWidth, centerHeight;
     private float textWidth, textHeight;
 
     private boolean dynamicWidth = true;
@@ -54,31 +52,7 @@ public class TextButton extends AbstractButton<TextButton> {
 
         hb.width = getDynamicWidth();
         hb.height = getDynamicHeight();
-
-//        withDynamicWidth();
-//        withDynamicHeight();
     }
-
-//    private void computeDynamicHeight() {
-//        //this.centerHeight = (int)(textHeight + 2 * TEXT_VERTICAL_PADDING);
-//        //this.setPrefHeight(centerHeight + 2 * CORNER_SIZE);
-//        this.setPrefHeight(getDynamicHeight());
-//
-//        this.dynamicHeight = true;
-//        this.hb.height = getPrefHeight();
-//    }
-//
-//    private void computeDynamicWidth() {
-////        this.centerWidth = (int)(textWidth + 2 * TEXT_HORIZONTAL_PADDING);
-////        this.setPrefWidth(centerWidth + 2 * CORNER_SIZE);
-//
-//        withDynamicWidth();
-//
-////        this.setPrefWidth(getDynamicWidth());
-////
-////        this.dynamicWidth = true;
-////        this.hb.width = getPrefWidth();
-//    }
 
     public TextButton fixToDynamicHeight() {
         this.setPrefHeight(getDynamicHeight());
@@ -213,45 +187,21 @@ public class TextButton extends AbstractButton<TextButton> {
             sb.draw(ImageMaster.WHITE_SQUARE_IMG, getLeft(), getBottom(), getPrefWidth(), getPrefHeight());
         }
 
-        // TODO: improve obviously
-//        float buttonWidth;
-//        float left = getLeft();
-//        if (dynamicWidth) {
-//            buttonWidth = getDynamicWidth();
-//            if (AnchorPosition.isCentralX(anchorPosition))
-//                left = getCenterX() - (0.5f * buttonWidth);
-//            else if (AnchorPosition.isRight(anchorPosition))
-//                left = getRight() - buttonWidth;
-//        }
-//        else {
-//            buttonWidth = getPrefWidth();
-//        }
-//
-//        float buttonHeight;
-//        float bottom = getBottom();
-//        if (dynamicHeight) {
-//            buttonHeight = getDynamicHeight();
-//            if (AnchorPosition.isCentralY(anchorPosition)) {
-//                bottom = getCenterY() - (0.5f * buttonHeight);
-//            }
-//            else if (AnchorPosition.isTop(anchorPosition)) {
-//                bottom = getCenterY() - (0.5f * buttonHeight);
-//            }
-//        }
-//        else {
-//            buttonHeight = getPrefHeight();
-//        }
-
         float left = getButtonLeft();
         float bottom = getButtonBottom();
 
         int cw = (int)((dynamicWidth) ? getDynamicCenterWidth() : getFixedCenterWidth());
         int ch = (int)((dynamicHeight) ? getDynamicCenterHeight() : getFixedCenterHeight());
 
-        RenderingHelper.renderDynamicPieces(sb,
+        //RenderingHelper.renderDynamicPieces(sb,
+        RenderingHelper.renderDynamicPiecesWithHighlight(sb,
                 TEX_CORNER_BASE,
                 TEX_CORNER_TRIM,
                 TEX_EDGE_TRIM,
+                TextureHelper.getTexture(TextureHelper.TextureItem.BUTTON_HIGHLIGHT_CORNER),
+                TextureHelper.getTexture(TextureHelper.TextureItem.BUTTON_HIGHLIGHT_TOP_EDGE),
+                TextureHelper.getTexture(TextureHelper.TextureItem.BUTTON_HIGHLIGHT_LEFT_EDGE),
+                TextureHelper.getTexture(TextureHelper.TextureItem.BUTTON_HIGHLIGHT_CENTER),
                 left,
                 bottom,
                 left + CORNER_SIZE,
@@ -264,14 +214,6 @@ public class TextButton extends AbstractButton<TextButton> {
                 getTrimColor(),
                 CORNER_SIZE);
 
-
-//        if (hb.hovered)
-//            sb.setColor(Color.WHITE);
-//        else
-//            sb.setColor(Color.ORANGE);
-//
-//        sb.draw(ImageMaster.WHITE_SQUARE_IMG, getLeft(), getBottom(), getPrefWidth(), getPrefHeight());
-
         // Text
         sb.setColor(Color.WHITE);
         FontHelper.renderFontLeftDownAligned(sb, font, text,
@@ -282,14 +224,4 @@ public class TextButton extends AbstractButton<TextButton> {
 
         hb.render(sb);
     }
-
-//    @Override
-//    public void update() {
-//        super.update();
-////        System.out.println("OJB: text button updated");
-//        System.out.println("hb: " + hb.x + ", " + hb.y + " | wh: " + hb.width + ", " + hb.height);
-////        print();
-////        System.out.println();
-////        System.out.println();
-//    }
 }

@@ -2,6 +2,7 @@ package ui.screens;
 
 import basemod.interfaces.RenderSubscriber;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
@@ -86,6 +87,9 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
                 ((float) Settings.WIDTH - SCREEN_W * Settings.scale) * 0.5f,
                 ((float) Settings.HEIGHT - SCREEN_H * Settings.scale) * 0.5f
         );
+
+
+
     }
 
     protected void renderScreenForeground(SpriteBatch sb) {

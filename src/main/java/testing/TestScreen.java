@@ -1,10 +1,16 @@
 package testing;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import config.Config;
 import ui.layouts.*;
@@ -166,6 +172,48 @@ public class TestScreen extends DynamicScreen<GridLayout> {
 
         if (!visible)
             return;
+
+        // source is anything new; dest is what is there already
+//        sb.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
+//        sb.draw(ImageMaster.WHITE_SQUARE_IMG, 100, 100, 400, 400);
+
+        sb.flush();
+
+        Rectangle scissors = new Rectangle();
+        float cameraOffsetX = - Gdx.graphics.getWidth() / 2.0f;
+        float cameraOffsetY = - Gdx.graphics.getHeight() / 2.0f;
+
+        Rectangle clipBounds = new Rectangle( getContentLeft() + cameraOffsetX, getContentBottom() + cameraOffsetY, getContentWidth(), getContentHeight());
+
+        OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        // TODO: may need more adjustments to the camera (for other resolutions?)
+
+        ScissorStack.calculateScissors(camera, sb.getTransformMatrix(), clipBounds, scissors);
+        ScissorStack.pushScissors(scissors);
+
+        // it works!
+//        sb.setColor(Color.RED);
+//        sb.draw(ImageMaster.WHITE_SQUARE_IMG, 0, 0, 1920, 1080);
+        sb.setColor(Color.WHITE);
+        FontHelper.renderFontLeftDownAligned(sb, FontHelper.bannerFont, "This is not a dream... We are using your brain's electrical system as a receiver. We are unable to transmit through conscious neural interference ... We are transmitting from the year one-nine-nine-nine", getScreenLeft(), getScreenBottom() + getScreenHeight() / 2.0f, Color.WHITE);
+
+
+
+        sb.flush();
+        ScissorStack.popScissors();
+
+
+//        int src = sb.getBlendSrcFunc();
+//        int dst = sb.getBlendDstFunc();
+//        System.out.println("OJB: rendering a background screen; the default blend is: " + src + ", " + dst);
+        // 770, 771 is the default (SRC_ALPHA -> ONE_MINUS_SRC_ALPHA)
+
+        // Reset back to default
+        //sb.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+//        sb.setBlendFunction(770, 1);
+//        sb.setBlendFunction(770, 771);
+//        sb.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA, GL20.GL_ONE);
 
         if (Config.MOD_LIB_DEBUG_MODE)
             RenderingHelper.renderBoxFilled(sb, getContentLeft(), getContentBottom(), getContentWidth(), getContentHeight(), ColorHelper.ORANGE_COLOR);

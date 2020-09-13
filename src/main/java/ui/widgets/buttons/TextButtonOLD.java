@@ -7,14 +7,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import config.Config;
 import ui.layouts.AnchorPosition;
 import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureHelper;
 
-public class TextButton extends AbstractButton<TextButton> {
+public class TextButtonOLD extends AbstractButtonOLD<TextButtonOLD> {
     private String text;
     private static final BitmapFont font = FontHelper.tipBodyFont;
     private static final int CORNER_SIZE = 20;
@@ -34,11 +33,11 @@ public class TextButton extends AbstractButton<TextButton> {
     private static final float TEXT_HORIZONTAL_PADDING = 4.0f;
     private static final float TEXT_VERTICAL_PADDING = 4.0f;
 
-    public TextButton(String text) {
+    public TextButtonOLD(String text) {
         this(text, AnchorPosition.CENTER);
     }
 
-    public TextButton(String text, AnchorPosition pos) {
+    public TextButtonOLD(String text, AnchorPosition pos) {
         this.text = text;
         this.anchorPosition = pos;
 
@@ -54,17 +53,17 @@ public class TextButton extends AbstractButton<TextButton> {
         hb.height = getDynamicHeight();
     }
 
-    public TextButton fixToDynamicHeight() {
+    public TextButtonOLD fixToDynamicHeight() {
         this.setPrefHeight(getDynamicHeight());
         return this;
     }
 
-    public TextButton fixToDynamicWidth() {
+    public TextButtonOLD fixToDynamicWidth() {
         this.setPrefHeight(getDynamicWidth());
         return this;
     }
 
-    public TextButton withDynamicHeight() {
+    public TextButtonOLD withDynamicHeight() {
         //setPrefHeight(getDynamicHeight());
         this.dynamicHeight = true;
         //this.hb.height = getPrefHeight();
@@ -72,7 +71,7 @@ public class TextButton extends AbstractButton<TextButton> {
         return this;
     }
 
-    public TextButton withDynamicWidth() {
+    public TextButtonOLD withDynamicWidth() {
         //setPrefWidth(getDynamicWidth());
         this.dynamicWidth = true;
         //this.hb.width = getPrefWidth();
@@ -80,12 +79,12 @@ public class TextButton extends AbstractButton<TextButton> {
         return this;
     }
 
-    public TextButton withFixedWidth(float width) {
+    public TextButtonOLD withFixedWidth(float width) {
         setPrefWidth(width);
         return this;
     }
 
-    public TextButton withFixedHeight(float height) {
+    public TextButtonOLD withFixedHeight(float height) {
         setPrefHeight(height);
         return this;
     }

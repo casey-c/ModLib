@@ -1,24 +1,13 @@
 package testing;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import config.Config;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
-import ui.widgets.SimplePadding;
-import ui.widgets.buttons.TextButton;
-import ui.widgets.labels.SimpleLabel;
-import ui.widgets.lines.HorizontalLine;
+import ui.widgets.buttons.TextButtonOLD;
 import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.SoundHelper;
@@ -35,11 +24,26 @@ public class TestScreen extends DynamicScreen<GridLayout> {
         super(width, height);
 
         setContentPadding(64.0f, 64.0f);
+
+//        mainLayout = VerticalLayout
+//                .build(getContentWidth(), getContentHeight())
+//                .anchoredAt(getContentLeft(), getContentBottom())
+//                .withSpacing(30.0f)
+//                .syncToLargestWidth(true);
+//
+//        for (int i = 0; i < 4; ++i)
+//            mainLayout.addChild(new TextButton("Hello " + i + " | fake: " + getTestPos(i, 0).name()));
+
         mainLayout = GridLayout
                 .build(getContentWidth(), getContentHeight())
                 .anchoredAt(getContentLeft(), getContentBottom());
 
-        mainLayout.setWidget(0, 0, new TextButton("Test Button")).withDynamicHeight().withDynamicWidth();
+        mainLayout.setWidget(0, 0, new TextButtonOLD("Test Button"))
+                .withDynamicWidth()
+                .withDynamicHeight()
+                .setOnClick(button -> {
+                    SoundHelper.cawCaw();
+                });
     }
 
 //    private void gridButtonTest2() {

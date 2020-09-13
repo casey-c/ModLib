@@ -1,56 +1,54 @@
 package ui.widgets.buttons;
 
-import basemod.BaseMod;
-import basemod.interfaces.PostUpdateSubscriber;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import ui.layouts.AnchorPosition;
-import ui.widgets.ScreenWidget;
+import ui.widgets.Widget;
 import utils.SoundHelper;
 
 import java.util.function.Consumer;
 
-// TODO: clarify the differences between ACTIVE, VISIBLE, and ENABLED
-//   * active means this widget is subscribed to updates and should process them / ignore them
-//   * visible means this widget should be rendered
-//   * enabled means a widget has certain display properies / behavior (e.g. a button can be set inactive and not be clickable -- grayed out or something)
+public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget {
+    protected Consumer<T> onHoverEnter, onHoverLeave, onClick, onRightClick;
+    protected Hitbox hb;
+    protected boolean hovering;
 
-public abstract class AbstractButton<T extends AbstractButton<T>> extends ScreenWidget<T> {
-    protected Consumer<AbstractButton> onHoverEnter, onHoverLeave, onClick, onRightClick;
-    protected Hitbox hb = new Hitbox(0, 0);
+//    public void setOnClick(Consumer<AbstractButton> onClick) { this.onClick = onClick; }
+//    public void setOnHoverEnter(Consumer<AbstractButton> onHoverEnter) { this.onHoverEnter = onHoverEnter; }
+//    public void setOnHoverLeave(Consumer<AbstractButton> onHoverLeave) { this.onHoverLeave = onHoverLeave; }
+//    public void setOnRightClick(Consumer<AbstractButton> onRightClick) { this.onRightClick = onRightClick; }
 
-    protected AbstractButton() { }
+    // --------------------------------------------------------------------------------
+    // TODO: if I end up making a button factory class, these should probably go there instead?
 
-    public AbstractButton(float width, float height) {
-        hb.width = width;
-        hb.height = height;
-
-        setPrefWidthHeight(width, height);
-    }
-
-    @Override
-    public T anchoredAt(float x, float y, AnchorPosition pos) {
-        super.anchoredAt(x, y, pos);
-
-        System.out.println("OJB: abstract button called anchored at. ");
-        print();
-
-        hb.move(getLeft(), getBottom());
+    public T withOnClick(Consumer<T> onClick) {
+        this.onClick = onClick;
         return (T)this;
     }
 
-    public T withOnClick(Consumer<AbstractButton> onClick) {
-        setOnClick(onClick);
+    public T withOnHoverEnter(Consumer<T> onHoverEnter) {
+        this.onHoverEnter = onHoverEnter;
         return (T)this;
     }
 
-    public T setOnClick(Consumer<AbstractButton> onClick) { this.onClick = onClick; return (T)this;}
-    public T setOnHoverEnter(Consumer<AbstractButton> onHoverEnter) { this.onHoverEnter = onHoverEnter; return (T)this; }
-    public T setOnHoverLeave(Consumer<AbstractButton> onHoverLeave) { this.onHoverLeave = onHoverLeave; return (T)this; }
-    public T setOnRightClick(Consumer<AbstractButton> onRightClick) { this.onRightClick = onRightClick; return (T)this; }
+    public T withOnHoverLeave(Consumer<T> onHoverLeave) {
+        this.onHoverLeave = onHoverLeave;
+        return (T)this;
+    }
 
-    private boolean hovering;
+    public T withOnRightClick(Consumer<T> onRightClick) {
+        this.onRightClick = onRightClick;
+        return (T)this;
+    }
+
+    // --------------------------------------------------------------------------------
+
+    @Override public void showFixed(float x, float y, AnchorPosition pos, float width, float height) { hb.move(getCenterX(x, width, pos), getCenterY(y, height, pos)); }
+    @Override public void hide() { hb.move(-10000.0f, -10000.0f); }
+
+    // --------------------------------------------------------------------------------
+
     @Override
     public void update() {
         hb.update();
@@ -58,7 +56,7 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Screen
         // Hover-leave
         if (hovering && !hb.hovered) {
             if (onHoverLeave != null)
-                onHoverLeave.accept(this);
+                onHoverLeave.accept((T)this);
 
             hovering = false;
         }
@@ -70,7 +68,7 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Screen
             hovering = true;
 
             if (onHoverEnter != null)
-                onHoverEnter.accept(this);
+                onHoverEnter.accept((T)this);
         }
 
         // Click started
@@ -85,20 +83,10 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Screen
 
             // Handle
             if (onClick != null)
-                onClick.accept(this);
+                onClick.accept((T)this);
         }
 
 
         // TODO: click checking? right click checking? hover enter/leave, etc. etc.
-    }
-
-    @Override
-    public void show() {
-        hb.move(getLeft() + (0.5f * getPrefWidth()), getBottom() + (0.5f * getPrefHeight()));
-    }
-
-    @Override
-    public void hide() {
-        hb.move(-10000.0f, -10000.0f);
     }
 }

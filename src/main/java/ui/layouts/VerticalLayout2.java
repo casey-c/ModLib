@@ -1,7 +1,10 @@
 package ui.layouts;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 
+/*
 public class VerticalLayout2 extends OneDimensionalLayout2 {
     private VerticalLayoutPolicy layoutPolicy;
 
@@ -50,12 +53,25 @@ public class VerticalLayout2 extends OneDimensionalLayout2 {
         float startX = getChildrenStartX();
         float startY = getChildrenStartY();
 
-        if (layoutPolicy == VerticalLayoutPolicy.PREFERRED_CHILD_WIDTH) {
-            for (LayoutObject object : children) {
-                //todo
-//                if ()
-//                object.x = sta
-            }
+        for (LayoutObject object : children) {
+            object.x = startX;
+            object.y = startY;
+
+            startY += object.widget.getPrefHeight();
+            startY += verticalSpacing;
         }
     }
+
+    @Override
+    public void renderFixed(SpriteBatch sb, float x, float y, AnchorPosition pos, float width, float height) {
+        sb.setColor(Color.WHITE);
+        sb.draw(ImageMaster.WHITE_SQUARE_IMG, x, y, width, height);
+
+//        for (LayoutObject child : children) {
+//            child.widget.renderFixedWidth(sb, child.x, child.y, child.anchorPosition, width);
+//        }
+
+    }
 }
+
+ */

@@ -1,10 +1,11 @@
 package ui.layouts;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import ui.GrowthPolicy;
 import ui.widgets.Widget;
 
 import java.util.ArrayList;
 
+/*
 public abstract class OneDimensionalLayout2 extends Layout2 {
     protected ArrayList<LayoutObject> children = new ArrayList<>();
 
@@ -27,7 +28,12 @@ public abstract class OneDimensionalLayout2 extends Layout2 {
     }
 
     public Widget addChild(Widget child, GrowthPolicy policy) {
-        children.add(new LayoutObject(child, policy));
+        children.add(new LayoutObject(child, policy, AnchorPosition.CENTER));
+        return child;
+    }
+
+    public Widget addChild(Widget child, GrowthPolicy policy, AnchorPosition childAnchor) {
+        children.add(new LayoutObject(child, policy, childAnchor));
         return child;
     }
 
@@ -124,8 +130,6 @@ public abstract class OneDimensionalLayout2 extends Layout2 {
     @Override public float getPrefWidth() { return minChildWidth(); }
     @Override public float getPrefHeight() { return minChildHeight(); }
 
-    @Override
-    public void renderFixed(SpriteBatch sb, float x, float y, AnchorPosition pos, float width, float height) {
-
-    }
 }
+
+ */

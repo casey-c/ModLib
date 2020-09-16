@@ -9,6 +9,7 @@ import utils.SoundHelper;
 
 import java.util.function.Consumer;
 
+/*
 public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget {
     protected Consumer<T> onHoverEnter, onHoverLeave, onClick, onRightClick;
     protected Hitbox hb;
@@ -90,3 +91,5 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
         // TODO: click checking? right click checking? hover enter/leave, etc. etc.
     }
 }
+
+ */

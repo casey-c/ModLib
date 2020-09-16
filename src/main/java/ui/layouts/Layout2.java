@@ -1,37 +1,46 @@
 package ui.layouts;
 
+import ui.widgets.ContainerWidget;
 import ui.widgets.Widget;
 
-public abstract class Layout2 extends Widget {
+public abstract class Layout2<T extends Layout2<T>> extends ContainerWidget {
+    protected float verticalSpacing, horizontalSpacing;
+
     // These define the actual space the layout is given -- should be set by the constructor
-    private float x, y;
-    private float width, height;
+//    private float x, y;
+//    private float width, height;
+//
+//    public Layout2(float x, float y, float width, float height, AnchorPosition pos) {
+//        this.x = getLeft(x, width, pos);
+//        this.y = getBottom(y, height, pos);
+//        this.width = width;
+//        this.height = height;
+//    }
 
-    public Layout2(float x, float y, float width, float height, AnchorPosition pos) {
-        this.x = getLeft(x, width, pos);
-        this.y = getBottom(y, height, pos);
-        this.width = width;
-        this.height = height;
-    }
+    protected abstract float totalChildrenHeight();
+    protected abstract float totalChildrenWidth();
 
-    public abstract float totalChildrenHeight();
-    public abstract float totalChildrenWidth();
+    protected abstract float minChildWidth();
+    protected abstract float maxChildWidth();
 
-    public abstract float minChildWidth();
-    public abstract float maxChildWidth();
+    protected abstract float minChildHeight();
+    protected abstract float maxChildHeight();
 
-    public abstract float minChildHeight();
-    public abstract float maxChildHeight();
-
-    public abstract void computeLayout();
+    protected abstract void computeLayout();
 
     // --------------------------------------------------------------------------------
 
-    public float getLayoutLeft() { return x; }
-    public float getLayoutCenterX() { return x + (width / 2.0f); }
-    public float getLayoutRight() { return x + width; }
+    public T withVerticalSpacing(float spacing) {
+        this.verticalSpacing = spacing;
+        return (T)this;
+    }
 
-    public float getLayoutBottom() { return y; }
-    public float getLayoutCenterY() { return y + (height / 2.0f); }
-    public float getLayoutTop() { return y + height; }
+    public T withHorizontalSpacing(float spacing) {
+        this.horizontalSpacing = spacing;
+        return (T)this;
+    }
+
+
+    // --------------------------------------------------------------------------------
+
 }

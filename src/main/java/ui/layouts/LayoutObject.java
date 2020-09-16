@@ -1,5 +1,6 @@
 package ui.layouts;
 
+import ui.GrowthPolicy;
 import ui.widgets.Widget;
 
 public class LayoutObject {
@@ -11,10 +12,10 @@ public class LayoutObject {
     public float width, height;
 
 
-    public LayoutObject(Widget widget, AnchorPosition anchorPosition, GrowthPolicy policy) {
+    public LayoutObject(Widget widget, GrowthPolicy policy, AnchorPosition anchorPosition) {
         this.widget = widget;
-        this.anchorPosition = anchorPosition;
         this.policy = policy;
+        this.anchorPosition = anchorPosition;
     }
 
 

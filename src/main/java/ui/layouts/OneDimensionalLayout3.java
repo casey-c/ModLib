@@ -9,6 +9,7 @@ import utils.ColorHelper;
 
 import java.util.ArrayList;
 
+/*
 public abstract class OneDimensionalLayout3<T extends OneDimensionalLayout3<T>> extends Layout2<T> {
     protected ArrayList<Widget> children = new ArrayList<>();
     protected AnchorPosition childAnchor = AnchorPosition.CENTER;
@@ -137,3 +138,5 @@ public abstract class OneDimensionalLayout3<T extends OneDimensionalLayout3<T>> 
             w.render(sb);
     }
 }
+
+ */

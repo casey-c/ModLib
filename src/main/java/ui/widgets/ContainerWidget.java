@@ -2,6 +2,7 @@ package ui.widgets;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/*
 public abstract class ContainerWidget<T extends ContainerWidget<T>> extends Widget {
     protected float MARGIN_LEFT, MARGIN_TOP, MARGIN_RIGHT, MARGIN_BOTTOM;
 
@@ -65,3 +66,5 @@ public abstract class ContainerWidget<T extends ContainerWidget<T>> extends Widg
         super.print();
     }
 }
+
+ */

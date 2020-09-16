@@ -3,6 +3,7 @@ package ui.layouts;
 import ui.GrowthPolicy;
 import ui.widgets.Widget;
 
+/*
 public class VerticalLayout3 extends OneDimensionalLayout3<VerticalLayout3> {
 
     public VerticalLayout3() {
@@ -38,3 +39,5 @@ public class VerticalLayout3 extends OneDimensionalLayout3<VerticalLayout3> {
         }
     }
 }
+
+ */

@@ -1,8 +1,8 @@
 package ui.layouts;
 
-import ui.widgets.ContainerWidget;
 import ui.widgets.Widget;
 
+/*
 public abstract class Layout2<T extends Layout2<T>> extends ContainerWidget {
     protected float verticalSpacing, horizontalSpacing;
 
@@ -44,3 +44,5 @@ public abstract class Layout2<T extends Layout2<T>> extends ContainerWidget {
     // --------------------------------------------------------------------------------
 
 }
+
+ */

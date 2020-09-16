@@ -1,17 +1,13 @@
 package ui;
 
 public enum GrowthPolicy {
-    BOTH_PREFERRED,
-    FIXED_WIDTH,
-    FIXED_HEIGHT,
-    BOTH_FIXED;
+    PREFERRED_BOTH,
+    EXPANDING_X,
+    EXPANDING_Y,
+    EXPANDING_BOTH;
 
-    public boolean bothPreferred() { return (this == BOTH_PREFERRED); }
-    public boolean bothFixed() { return (this == BOTH_FIXED); }
-
-    public boolean preferredWidth() { return (this == BOTH_PREFERRED || this == FIXED_HEIGHT); }
-    public boolean preferredHeight() { return (this == BOTH_PREFERRED || this == FIXED_WIDTH); }
-
-    public boolean fixedWidth() { return (this == BOTH_FIXED || this == FIXED_WIDTH); }
-    public boolean fixedHeight() { return (this == BOTH_FIXED || this == FIXED_HEIGHT); }
+    public boolean isPreferredWidth() { return (this == PREFERRED_BOTH) || (this == EXPANDING_Y); }
+    public boolean isPreferredHeight() { return (this == PREFERRED_BOTH) || (this == EXPANDING_X); }
+    public boolean isExpandingWidth() { return (this == EXPANDING_BOTH) || (this == EXPANDING_X); }
+    public boolean isExpandingHeight() { return (this == EXPANDING_BOTH) || (this == EXPANDING_Y); }
 }

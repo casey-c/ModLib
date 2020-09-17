@@ -24,11 +24,6 @@ public class VerticalLayout3 extends OneDimensionalLayout3<VerticalLayout3> {
         return this;
     }
 
-
-//    public VerticalLayout3(Widget parent) {
-//        setActualFromAnchor(parent.getContentLeft(), parent.getContentBottom(), parent.getContentWidth(), parent.getContentHeight(), AnchorPosition.BOTTOM_LEFT);
-//    }
-
     public <T extends Widget> T addChild(T w, AnchorPosition childAnchor) {
         children.add(w);
         w.setContentAnchorPosition(childAnchor);
@@ -46,7 +41,19 @@ public class VerticalLayout3 extends OneDimensionalLayout3<VerticalLayout3> {
         float x = getContentLeft();
         float y = getContentTop();
 
-        float maxChildWidth = horizontalLayoutPolicy == HorizontalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_MAX ? getMaxChildWidth() : 0;
+        // Obey the global anchor position
+        if (globalChildAnchor.isCentralX())
+            x = getContentCenterX() - (maxChildPrefWidth() * 0.5f);
+        else if (globalChildAnchor.isRight())
+            x = getContentRight() - maxChildPrefWidth();
+
+        if (globalChildAnchor.isCentralY())
+            y = getContentCenterY() + (sumChildPrefHeight() * 0.5f);
+        else if (globalChildAnchor.isBottom())
+            y = getContentBottom() + sumChildPrefHeight();
+
+        // Width
+        float maxChildWidth = horizontalLayoutPolicy == HorizontalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_MAX ? maxChildPrefWidth() : 0;
 
         for (Widget child : children) {
             float height = (dynamicChildHeight) ? child.getPrefHeight() : fixedHeight;
@@ -66,7 +73,9 @@ public class VerticalLayout3 extends OneDimensionalLayout3<VerticalLayout3> {
                     break;
             }
 
-            child.setActualFromAnchor(x, y, width, height, AnchorPosition.TOP_LEFT);
+            // TODO: this is bugged. figure out what the proper thing to do is
+            //child.setActualFromAnchor(x, y, width, height, AnchorPosition.TOP_LEFT);
+            child.setActualFromAnchor(x, y, width, height, globalChildAnchor);
 
             y = y - height - verticalSpacing;
         }

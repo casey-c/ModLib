@@ -18,10 +18,13 @@ public class Screen2 extends DynamicScreen2<Screen2> {
 
         layout = new VerticalLayout3()
                 .anchoredAt(this)
-                .withVerticalSpacing(30.0f);
+                .withVerticalSpacing(30.0f)
+                .withGlobalChildAnchor(AnchorPosition.TOP_LEFT);
 
-        for (AnchorPosition ignored : AnchorPosition.values()) {
-            layout.addChild(new DebugWidget(80, 40));
+        int offset = 0;
+        for (int i = 0; i < 6; ++i) {
+            layout.addChild(new DebugWidget(20 + offset, 40), AnchorPosition.CENTER);
+            offset += 20;
         }
 
         layout.computeLayout();

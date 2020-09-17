@@ -5,36 +5,96 @@ import ui.GrowthPolicy;
 import ui.widgets.Widget;
 
 import java.util.LinkedList;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public abstract class OneDimensionalLayout3<T extends OneDimensionalLayout3<T>> extends Layout2<T> {
     protected LinkedList<Widget> children = new LinkedList<>();
 
-//    @Override
-//    public float totalChildrenHeight() {
+    protected AnchorPosition globalChildAnchor = AnchorPosition.TOP_LEFT;
+
+    public void setGlobalChildAnchor(AnchorPosition globalChildAnchor) { this.globalChildAnchor = globalChildAnchor; }
+    public T withGlobalChildAnchor(AnchorPosition globalChildAnchor) {
+        setGlobalChildAnchor(globalChildAnchor);
+        return (T)this;
+    }
+
+    // --------------------------------------------------------------------------------
+
+    public float max(LinkedList<Widget> list, Function<Widget, Float> func) {
+        if (list.isEmpty())
+            return 0;
+
+        float max = -100000.0f;
+        for (Widget w : list) {
+            float val = func.apply(w);
+            if (val > max)
+                max = val;
+        }
+
+        return max;
+    }
+
+    public float min(LinkedList<Widget> list, Function<Widget, Float> func) {
+        if (list.isEmpty())
+            return 0;
+
+        float min = 100000.0f;
+        for (Widget w : list) {
+            float val = func.apply(w);
+            if (val < min)
+                min = val;
+        }
+
+        return min;
+    }
+
+    public float sum(LinkedList<Widget> list, Function<Widget, Float> func) {
+        float sum = 0;
+        for (Widget w : list)
+            sum += func.apply(w);
+
+        return sum;
+    }
+
+    // --------------------------------------------------------------------------------
+
+    public float sumChildPrefWidth() { return sum(children, Widget::getPrefWidth); }
+    public float sumChildPrefHeight() { return sum(children, Widget::getPrefHeight); }
+
+    public float minChildPrefWidth() { return min(children, Widget::getPrefWidth); }
+    public float minChildPrefHeight() { return min(children, Widget::getPrefHeight); }
+
+    public float maxChildPrefWidth() { return max(children, Widget::getPrefWidth); }
+    public float maxChildPrefHeight() { return max(children, Widget::getPrefHeight); }
+
+    // --------------------------------------------------------------------------------
+
+
+//    public float sumChildPrefHeight() {
 //        float sum = 0.0f;
 //        for (Widget child : children)
-//            sum += (child.getGrowthPolicy().isExpandingHeight()) ? child.getActualHeight() : child.getPrefHeight();
+//            sum += child.getPrefHeight();
 //
 //        return sum;
 //    }
 //
-//    @Override
-//    public float totalChildrenWidth() {
+//    public float sumChildPrefWidth() {
 //        float sum = 0.0f;
-//        for (LayoutObject child : children)
-//            sum += (GrowthPolicy.isPreferredWidth(child.policy)) ? child.widget.getPrefWidth() : fixedWidthSize;
+//        for (Widget child : children)
+//            sum += child.getPrefWidth();
 //
 //        return sum;
 //    }
 //
-//    @Override
-//    public float minChildWidth() {
+//
+//    public float minChildPrefWidth() {
 //        if (children.size() == 0)
 //            return 0;
 //
 //        float min = 100000.0f;
-//        for (LayoutObject child : children) {
-//            float width = (GrowthPolicy.isPreferredWidth(child.policy)) ? child.widget.getPrefWidth() : fixedWidthSize;
+//        for (Widget child : children) {
+//            float width = child.getPrefWidth();
 //
 //            if (width < min)
 //                min = width;
@@ -43,46 +103,31 @@ public abstract class OneDimensionalLayout3<T extends OneDimensionalLayout3<T>> 
 //        return min;
 //    }
 //
-
-    public float getMaxChildWidth() {
-        if (children.size() == 0)
-            return 0;
-
-        float max = -10000.0f;
-        for (Widget child : children) {
-            float width = child.getPrefWidth();
-
-            if (width > max)
-                max = width;
-        }
-
-        return max;
-    }
 //
-//    @Override
-//    public float minChildHeight() {
-//        if (children.size() == 0)
-//            return 0;
-//
-//        float min = 100000.0f;
-//        for (LayoutObject child : children) {
-//            float height = (GrowthPolicy.isPreferredHeight(child.policy)) ? child.widget.getPrefHeight() : fixedHejghtSize;
-//
-//            if (height < min)
-//                min = height;
-//        }
-//
-//        return min;
-//    }
-//
-//    @Override
-//    public float maxChildHeight() {
+//    public float maxChildPrefWidth() {
 //        if (children.size() == 0)
 //            return 0;
 //
 //        float max = -10000.0f;
-//        for (LayoutObject child : children) {
-//            float height = (GrowthPolicy.isPreferredHeight(child.policy)) ? child.widget.getPrefHeight() : fixedHejghtSize;
+//        for (Widget child : children) {
+//            float width = child.getPrefWidth();
+//
+//            if (width > max)
+//                max = width;
+//        }
+//
+//        return max;
+//    }
+
+
+
+//    public float maxChildPrefHeight() {
+//        if (children.size() == 0)
+//            return 0;
+//
+//        float max = -10000.0f;
+//        for (Widget child : children) {
+//            float height = child.getPrefHeight();
 //
 //            if (height > max)
 //                max = height;

@@ -18,6 +18,7 @@ public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> imp
         this.SCREEN_WIDTH = width;
         this.SCREEN_HEIGHT = height;
 
+
         setActualFromAnchor(
                 getGlobalCenterX(SCREEN_WIDTH),
                 getGlobalCenterY(SCREEN_HEIGHT),
@@ -27,10 +28,6 @@ public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> imp
         );
 
         BaseMod.subscribe(this);
-    }
-
-    public AbstractScreen2() {
-        this(500.0f, 500.0f);
     }
 
     // Convenience

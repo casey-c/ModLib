@@ -15,11 +15,6 @@ public class DebugWidget extends Widget<DebugWidget> {
         this.height = height;
     }
 
-//    public DebugWidget(Widget parent) {
-//        this(parent.getContentWidth(), parent.getContentHeight());
-//        setActualFromAnchor(parent.getContentLeft(), parent.getContentBottom(), parent.getContentWidth(), parent.getContentHeight(), AnchorPosition.BOTTOM_LEFT);
-//    }
-
     @Override public float getPrefWidth() { return width; }
     @Override public float getPrefHeight() { return height; }
 

@@ -37,8 +37,5 @@ public class Screen2 extends DynamicScreen2<Screen2> {
         super.renderForeground(sb, bottomLeftX, bottomLeftY, width, height);
 
         layout.render(sb);
-
-//        for (DebugWidget dw : widgets)
-//            dw.render(sb);
     }
 }

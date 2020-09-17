@@ -16,7 +16,7 @@ public abstract class Layout2<T extends Layout2<T>> extends Widget<T> {
 //    protected abstract float minChildHeight();
 //    protected abstract float maxChildHeight();
 
-    protected abstract void computeLayout();
+    public abstract void computeLayout();
 
     // --------------------------------------------------------------------------------
 

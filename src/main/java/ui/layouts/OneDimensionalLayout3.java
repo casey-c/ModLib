@@ -1,5 +1,6 @@
 package ui.layouts;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ui.widgets.Widget;
 
 import java.util.LinkedList;
@@ -65,4 +66,20 @@ public abstract class OneDimensionalLayout3<T extends OneDimensionalLayout3<T>> 
     public float maxChildPrefWidth() { return max(children, Widget::getPrefWidth); }
     public float maxChildPrefHeight() { return max(children, Widget::getPrefHeight); }
 
+    // --------------------------------------------------------------------------------
+
+    public <T extends Widget> T addChild(T w) {
+        children.add(w);
+        w.setContentAnchorPosition(AnchorPosition.TOP_LEFT);
+        return w;
+    }
+
+    @Override
+    public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+        // todo: add a debug draw
+
+        // render all children of this layout
+        for (Widget w : children)
+            w.render(sb);
+    }
 }

@@ -7,8 +7,18 @@ public class ColorHelper {
     public static final Color TRANSPARENT_WHITE = new Color(1.0f, 1.0f, 1.0f, 0.75f);
     public static final Color SCREEN_BASE_COLOR = new Color(0.133f, 0.165f, 0.169f, 0.8f);
     public static final Color ORANGE_COLOR = new Color(0.847f, 0.361f, 0.11f, 1.0f);
-    public static final Color VERY_DIM_BLUE = new Color(0.0f, 0.0f, 1.0f, 0.3f);
+
+    // --------------------------------------------------------------------------------
+
+    public static final Color VERY_DIM_RED = new Color(1.0f, 0.0f, 0.0f, 0.3f);
     public static final Color VERY_DIM_GREEN = new Color(0.0f, 1.0f, 0.0f, 0.3f);
+    public static final Color VERY_DIM_BLUE = new Color(0.0f, 0.0f, 1.0f, 0.3f);
+
+    public static final Color VERY_DIM_YELLOW = new Color(1.0f, 1.0f, 0.0f, 0.3f);
+    public static final Color VERY_DIM_MAGENTA = new Color(1.0f, 0.0f, 1.0f, 0.3f);
+    public static final Color VERY_DIM_CYAN = new Color(0.0f, 1.0f, 1.0f, 0.3f);
+
+    // --------------------------------------------------------------------------------
 
     public static final Color BUTTON_DEFAULT_BASE = new Color(0.173f, 0.192f, 0.212f, 1.0f);
 

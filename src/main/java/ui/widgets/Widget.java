@@ -69,6 +69,8 @@ public abstract class Widget<T extends Widget<T>> {
         return (T)this;
     }
 
+    public GrowthPolicy getGrowthPolicy() { return growthPolicy; }
+
     // --------------------------------------------------------------------------------
     //  Margins
     // --------------------------------------------------------------------------------
@@ -124,8 +126,8 @@ public abstract class Widget<T extends Widget<T>> {
 
     // --------------------------------------------------------------------------------
 
-    protected abstract float getPrefWidth();
-    protected abstract float getPrefHeight();
+    public abstract float getPrefWidth();
+    public abstract float getPrefHeight();
     public float getActualWidth() { return actualWidth; }
     public float getActualHeight() { return actualHeight; }
 

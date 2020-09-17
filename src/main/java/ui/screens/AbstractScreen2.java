@@ -2,6 +2,7 @@ package ui.screens;
 
 import basemod.BaseMod;
 import basemod.interfaces.PostRenderSubscriber;
+import basemod.interfaces.RenderSubscriber;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
@@ -9,7 +10,7 @@ import ui.layouts.AnchorPosition;
 import ui.widgets.Widget;
 import utils.ColorHelper;
 
-public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> implements PostRenderSubscriber {
+public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> implements RenderSubscriber {
     private boolean visible;
     protected float SCREEN_WIDTH, SCREEN_HEIGHT;
 
@@ -36,8 +37,8 @@ public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> imp
     protected float getGlobalCenterX(float width) { return (Settings.WIDTH - width) * 0.5f; }
     protected float getGlobalCenterY(float height) { return (Settings.HEIGHT - height) * 0.5f; }
 
-    @Override protected float getPrefWidth() { return SCREEN_WIDTH; }
-    @Override protected float getPrefHeight() { return SCREEN_HEIGHT; }
+    @Override public float getPrefWidth() { return SCREEN_WIDTH; }
+    @Override public float getPrefHeight() { return SCREEN_HEIGHT; }
 
     // --------------------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> imp
             return;
 
         this.visible = true;
+        ScreenHelper.showCustomScreen("DECK_OPEN");
     }
 
     @Override
@@ -58,6 +60,7 @@ public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> imp
             return;
 
         this.visible = false;
+        ScreenHelper.closeCustomScreen("DECK_CLOSE");
     }
 
     // --------------------------------------------------------------------------------
@@ -78,7 +81,7 @@ public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> imp
     }
 
     @Override
-    public void receivePostRender(SpriteBatch sb) {
+    public void receiveRender(SpriteBatch sb) {
         if (!visible)
             return;
 

@@ -2,6 +2,7 @@ package ui.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import ui.GrowthPolicy;
 import ui.layouts.AnchorPosition;
 import ui.layouts.HorizontalLayoutPolicy;
 import ui.layouts.VerticalLayout3;
@@ -19,11 +20,13 @@ public class Screen2 extends DynamicScreen2<Screen2> {
         layout = new VerticalLayout3()
                 .anchoredAt(this)
                 .withVerticalSpacing(30.0f)
-                .withGlobalChildAnchor(AnchorPosition.TOP_LEFT);
+                .withGlobalChildAnchor(AnchorPosition.CENTER)
+                .withHorizontalLayoutPolicy(HorizontalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_MAX)
+                .withFixedRowHeight(60);
 
         int offset = 0;
-        for (int i = 0; i < 6; ++i) {
-            layout.addChild(new DebugWidget(20 + offset, 40), AnchorPosition.CENTER);
+        for (int i = 0; i < 4; ++i) {
+            layout.addChild(new DebugWidget(20 + offset, 40));
             offset += 20;
         }
 

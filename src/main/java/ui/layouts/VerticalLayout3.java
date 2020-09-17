@@ -18,17 +18,18 @@ public class VerticalLayout3 extends OneDimensionalLayout3<VerticalLayout3> {
         return this;
     }
 
-    public VerticalLayout3 withFixedHeight(float height) {
+    public VerticalLayout3 withFixedRowHeight(float height) {
         this.dynamicChildHeight = false;
         this.fixedHeight = height;
         return this;
     }
 
-    public <T extends Widget> T addChild(T w, AnchorPosition childAnchor) {
-        children.add(w);
-        w.setContentAnchorPosition(childAnchor);
-        return w;
-    }
+    // this is probably never actually needed
+//    public <T extends Widget> T addChild(T w, AnchorPosition childAnchor) {
+//        children.add(w);
+//        w.setContentAnchorPosition(childAnchor);
+//        return w;
+//    }
 
     public <T extends Widget> T addChild(T w) {
         children.add(w);
@@ -36,29 +37,48 @@ public class VerticalLayout3 extends OneDimensionalLayout3<VerticalLayout3> {
         return w;
     }
 
+    private float totalVerticalSpacing() { return (children.isEmpty()) ? 0.0f : (children.size() - 1) * verticalSpacing; }
+
     @Override
     public void computeLayout() {
         float x = getContentLeft();
         float y = getContentTop();
 
+        float maxChildWidth = maxChildPrefWidth();
+        float sumChildHeight = (dynamicChildHeight) ? sumChildPrefHeight() : (children.size() * fixedHeight);
+        sumChildHeight += totalVerticalSpacing();
+
         // Obey the global anchor position
         if (globalChildAnchor.isCentralX())
-            x = getContentCenterX() - (maxChildPrefWidth() * 0.5f);
+            x = getContentCenterX();
         else if (globalChildAnchor.isRight())
-            x = getContentRight() - maxChildPrefWidth();
+            x = getContentRight();
 
         if (globalChildAnchor.isCentralY())
-            y = getContentCenterY() + (sumChildPrefHeight() * 0.5f);
+            y = getContentCenterY() + (sumChildHeight * 0.5f);
         else if (globalChildAnchor.isBottom())
-            y = getContentBottom() + sumChildPrefHeight();
+            y = getContentBottom() + sumChildHeight;
 
-        // Width
-        float maxChildWidth = horizontalLayoutPolicy == HorizontalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_MAX ? maxChildPrefWidth() : 0;
+//        // Obey the global anchor position
+//        if (globalChildAnchor.isCentralX())
+//            x = getContentCenterX() - (maxChildWidth * 0.5f);
+//        else if (globalChildAnchor.isRight())
+//            x = getContentRight() - maxChildWidth;
+//
+//        if (globalChildAnchor.isCentralY())
+//            y = getContentCenterY() + (sumChildHeight * 0.5f);
+//        else if (globalChildAnchor.isBottom())
+//            y = getContentBottom() + sumChildHeight;
 
+        // Update each child's position
         for (Widget child : children) {
+            float width = getContentWidth();
             float height = (dynamicChildHeight) ? child.getPrefHeight() : fixedHeight;
 
-            float width = getContentWidth();
+            if (globalChildAnchor.isCentralY())
+                y -= (height * 0.5f);
+            else if (globalChildAnchor.isBottom())
+                y -= height;
 
             switch (horizontalLayoutPolicy) {
                 case CHILD_PREFERRED_WIDTH:
@@ -76,8 +96,14 @@ public class VerticalLayout3 extends OneDimensionalLayout3<VerticalLayout3> {
             // TODO: this is bugged. figure out what the proper thing to do is
             //child.setActualFromAnchor(x, y, width, height, AnchorPosition.TOP_LEFT);
             child.setActualFromAnchor(x, y, width, height, globalChildAnchor);
+            child.setContentAnchorPosition(globalChildAnchor);
 
-            y = y - height - verticalSpacing;
+            if (globalChildAnchor.isTop())
+                y -= height;
+            else if (globalChildAnchor.isCentralY())
+                y -= (height * 0.5f);
+
+            y -= verticalSpacing;
         }
     }
 

@@ -16,7 +16,7 @@ import java.util.HashMap;
 // todo: maybe make this not required; but can call computeLayout() to force a recompute of all children
 // after you're done adding children; call computeLayout() to set all the children into the proper anchored positions
 
-public class GridLayout3 extends Layout2<GridLayout3> {
+public class GridLayout extends Layout<GridLayout> {
     private HashMap<DualIntegerKey, Widget> children = new HashMap<>();
     private HashMap<DualIntegerKey, DualIntegerKey> childSpans = new HashMap<>();
 
@@ -126,7 +126,7 @@ public class GridLayout3 extends Layout2<GridLayout3> {
             colWidths.add(widthPerCol);
     }
 
-    public GridLayout3 withBalancedCols(int numCols) {
+    public GridLayout withBalancedCols(int numCols) {
         this.setBalancedCols(numCols);
         return this;
     }
@@ -143,7 +143,7 @@ public class GridLayout3 extends Layout2<GridLayout3> {
             rowHeights.add(heightPerCol);
     }
 
-    public GridLayout3 withBalancedRows(int numRows) {
+    public GridLayout withBalancedRows(int numRows) {
         this.setBalancedRows(numRows);
         return this;
     }
@@ -180,7 +180,7 @@ public class GridLayout3 extends Layout2<GridLayout3> {
         }
     }
 
-    public GridLayout3 withRelativeRows(float... ratios) {
+    public GridLayout withRelativeRows(float... ratios) {
         setRelativeRows(ratios);
         return this;
     }
@@ -203,7 +203,7 @@ public class GridLayout3 extends Layout2<GridLayout3> {
         }
     }
 
-    public GridLayout3 withRelativeCols(float... ratios) {
+    public GridLayout withRelativeCols(float... ratios) {
         setRelativeCols(ratios);
         return this;
     }
@@ -237,7 +237,7 @@ public class GridLayout3 extends Layout2<GridLayout3> {
         }
     }
 
-    public GridLayout3 withAbsoluteRows(float... heights) {
+    public GridLayout withAbsoluteRows(float... heights) {
         setAbsoluteRows(heights);
         return this;
     }
@@ -270,7 +270,7 @@ public class GridLayout3 extends Layout2<GridLayout3> {
         }
     }
 
-    public GridLayout3 withAbsoluteCols(float... widths) {
+    public GridLayout withAbsoluteCols(float... widths) {
         setAbsoluteCols(widths);
         return this;
     }
@@ -296,17 +296,9 @@ public class GridLayout3 extends Layout2<GridLayout3> {
 
     }
 
-    @Override
-    public float getPrefWidth() {
-        // TODO? -- maybe sum(maxColWidth)?
-        return 0;
-    }
-
-    @Override
-    public float getPrefHeight() {
-        // TODO? -- maybe sum(maxRowHeight)?
-        return 0;
-    }
+    // TODO: maybe make these based off of the row / col dimensions? -- currently not needed so ignoring
+    @Override public float getPrefWidth() { return getActualWidth(); }
+    @Override public float getPrefHeight() { return getActualHeight(); }
 
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {

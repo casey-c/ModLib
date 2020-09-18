@@ -2,7 +2,7 @@ package ui.layouts;
 
 import ui.widgets.Widget;
 
-public abstract class Layout2<T extends Layout2<T>> extends Widget<T> {
+public abstract class Layout<T extends Layout<T>> extends Widget<T> {
     protected float verticalSpacing, horizontalSpacing;
 
     // --------------------------------------------------------------------------------

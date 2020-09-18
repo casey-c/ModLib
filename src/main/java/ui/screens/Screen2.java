@@ -7,21 +7,21 @@ import ui.widgets.DebugWidget;
 import utils.ColorHelper;
 
 public class Screen2 extends DynamicScreen2<Screen2> {
-    private GridLayout3 layout;
+    private GridLayout layout;
 
     public Screen2(int width, int height) {
         super(width, height);
 
         setMargins(80);
 
-        layout = new GridLayout3()
+        layout = new GridLayout()
                 .anchoredAt(this)
                 .withSpacing(30.0f)
                 .withAbsoluteRows(120.0f, -1)
                 .withRelativeCols(1, 2);
 
         layout.setWidget(0,0, 0, 1, new DebugWidget(100, 100));
-        layout.setWidget(1, 0, new VerticalLayout3())
+        layout.setWidget(1, 0, new VerticalLayout())
                 .withVerticalSpacing(30)
                 .withChild(new DebugWidget(100, 100))
                 .withChild(new DebugWidget(100, 100))

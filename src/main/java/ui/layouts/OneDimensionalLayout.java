@@ -6,7 +6,7 @@ import ui.widgets.Widget;
 import java.util.LinkedList;
 import java.util.function.Function;
 
-public abstract class OneDimensionalLayout3<T extends OneDimensionalLayout3<T>> extends Layout2<T> {
+public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> extends Layout<T> {
     protected LinkedList<Widget> children = new LinkedList<>();
 
     protected AnchorPosition globalChildAnchor = AnchorPosition.TOP_LEFT;

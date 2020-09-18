@@ -1,10 +1,9 @@
 package ui.layouts;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ui.GrowthPolicy;
 import ui.widgets.Widget;
 
-public class HorizontalLayout3 extends OneDimensionalLayout3<HorizontalLayout3> {
+public class HorizontalLayout extends OneDimensionalLayout<HorizontalLayout> {
 
     private HorizontalLayoutPolicy horizontalLayoutPolicy = HorizontalLayoutPolicy.CHILD_PREFERRED_HEIGHT;
 
@@ -13,12 +12,12 @@ public class HorizontalLayout3 extends OneDimensionalLayout3<HorizontalLayout3> 
 
     // --------------------------------------------------------------------------------
 
-    public HorizontalLayout3 withChildExpansionPolicy(HorizontalLayoutPolicy policy) {
+    public HorizontalLayout withChildExpansionPolicy(HorizontalLayoutPolicy policy) {
         this.horizontalLayoutPolicy = policy;
         return this;
     }
 
-    public HorizontalLayout3 withFixedColumnWidth(float width) {
+    public HorizontalLayout withFixedColumnWidth(float width) {
         this.dynamicChildWidth = false;
         this.fixedWidth = width;
         return this;

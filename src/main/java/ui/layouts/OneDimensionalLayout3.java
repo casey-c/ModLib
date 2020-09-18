@@ -68,10 +68,14 @@ public abstract class OneDimensionalLayout3<T extends OneDimensionalLayout3<T>> 
 
     // --------------------------------------------------------------------------------
 
-    public <T extends Widget> T addChild(T w) {
-        children.add(w);
-        w.setContentAnchorPosition(AnchorPosition.TOP_LEFT);
-        return w;
+    public void addChild(Widget widget) {
+        children.add(widget);
+        widget.setContentAnchorPosition(AnchorPosition.TOP_LEFT);
+    }
+
+    public T withChild(Widget widget) {
+        addChild(widget);
+        return (T)this;
     }
 
     @Override

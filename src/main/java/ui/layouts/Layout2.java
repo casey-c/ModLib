@@ -32,6 +32,16 @@ public abstract class Layout2<T extends Layout2<T>> extends Widget<T> {
         return (T)this;
     }
 
+    public void setSpacing(float spacing) {
+        setVerticalSpacing(spacing);
+        setHorizontalSpacing(spacing);
+    }
+
+    public T withSpacing(float spacing) {
+        setSpacing(spacing);
+        return (T)this;
+    }
+
     // --------------------------------------------------------------------------------
 
 }

@@ -14,14 +14,12 @@ public class Screen2 extends DynamicScreen2<Screen2> {
 
         setMargins(80);
 
-        int numRows = 2;
-        int numCols = 2;
 
         layout = new GridLayout3()
                 .anchoredAt(this)
                 .withSpacing(30.0f)
-                .withBalancedRows(numRows)
-                .withBalancedCols(numCols);
+                .withRelativeRows(1, 4)
+                .withRelativeCols(1, 2);
 
         layout.setWidget(0,0, 0, 1, new DebugWidget(100, 100));
         layout.setWidget(1, 0, new VerticalLayout3())

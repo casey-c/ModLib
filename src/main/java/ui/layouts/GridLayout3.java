@@ -75,6 +75,8 @@ public class GridLayout3 extends Layout2<GridLayout3> {
         return getRowTop(row) - getRowHeight(row);
     }
 
+    // --------------------------------------------------------------------------------
+
     private void moveChildIntoPlace(int row, int col, Widget w) {
         w.setActualFromAnchor(getColLeft(col), getRowBottom(row), getColWidth(col), getRowHeight(row), AnchorPosition.BOTTOM_LEFT);
     }
@@ -144,6 +146,66 @@ public class GridLayout3 extends Layout2<GridLayout3> {
 
     public GridLayout3 withBalancedRows(int numRows) {
         this.setBalancedRows(numRows);
+        return this;
+    }
+
+    // --------------------------------------------------------------------------------
+
+    private float heightWithoutSpacing(int count) {
+        float spacing = (count > 0 ) ? (count - 1) * verticalSpacing : 0.0f;
+        return getContentHeight() - spacing;
+    }
+
+    private float widthWithoutSpacing(int count) {
+        float spacing = (count > 0 ) ? (count - 1) * horizontalSpacing : 0.0f;
+        return getContentWidth() - spacing;
+    }
+
+    // --------------------------------------------------------------------------------
+
+    public void setRelativeRows(int... ratios) {
+        float sum = 0.0f;
+        for (float r : ratios) {
+            if (r <= 0.0f) return;
+            sum += r;
+        }
+
+        // epsilon safety threshold?
+        if (sum < 0.001f)
+            return;
+
+        rowHeights.clear();
+
+        for (float r : ratios) {
+            rowHeights.add((r / sum) * heightWithoutSpacing(ratios.length));
+        }
+    }
+
+    public GridLayout3 withRelativeRows(int... ratios) {
+        setRelativeRows(ratios);
+        return this;
+    }
+
+    public void setRelativeCols(int... ratios) {
+        float sum = 0.0f;
+        for (float r : ratios) {
+            if (r <= 0.0f) return;
+            sum += r;
+        }
+
+        // epsilon safety threshold?
+        if (sum < 0.001f)
+            return;
+
+        colWidths.clear();
+
+        for (float r : ratios) {
+            colWidths.add((r / sum) * widthWithoutSpacing(ratios.length));
+        }
+    }
+
+    public GridLayout3 withRelativeCols(int... ratios) {
+        setRelativeCols(ratios);
         return this;
     }
 

@@ -181,8 +181,8 @@ public abstract class Widget<T extends Widget<T>> {
         System.out.println("\tCONTENT BOTTOM: " + getContentBottom());
         System.out.println("\tCONTENT TOP: " + getContentTop());
         System.out.println();
-        System.out.println("\tWIDTH: " + getPrefWidth());
-        System.out.println("\tHEIGHT: " + getPrefHeight());
+        System.out.println("\tPREF WIDTH: " + getPrefWidth());
+        System.out.println("\tPREF HEIGHT: " + getPrefHeight());
         System.out.println("-----------------------------");
     }
 

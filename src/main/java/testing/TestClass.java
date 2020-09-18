@@ -1,11 +1,10 @@
 package testing;
 
 import basemod.TopPanelItem;
-import ui.screens.Screen2;
 import utils.TextureHelper;
 
 public class TestClass extends TopPanelItem {
-    private Screen2 screen;
+    private TestScreen screen;
 
     public TestClass() {
         super(TextureHelper.getTexture(TextureHelper.TextureItem.ICON), TextureHelper.MOD_ID + ":ICON");
@@ -17,7 +16,7 @@ public class TestClass extends TopPanelItem {
         System.out.println("OJB: top panel item clicked");
 
         if (screen == null)
-            screen = new Screen2(780, 650);
+            screen = new TestScreen(780, 650);
 
         //screen.print();
 

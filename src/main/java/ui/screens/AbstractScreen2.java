@@ -18,10 +18,9 @@ public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> imp
         this.SCREEN_WIDTH = width;
         this.SCREEN_HEIGHT = height;
 
-
         setActualFromAnchor(
-                getGlobalCenterX(SCREEN_WIDTH),
-                getGlobalCenterY(SCREEN_HEIGHT),
+                ScreenHelper.getGlobalCenterX(SCREEN_WIDTH),
+                ScreenHelper.getGlobalCenterY(SCREEN_HEIGHT),
                 SCREEN_WIDTH,
                 SCREEN_HEIGHT,
                 AnchorPosition.BOTTOM_LEFT
@@ -31,8 +30,6 @@ public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> imp
     }
 
     // Convenience
-    protected float getGlobalCenterX(float width) { return (Settings.WIDTH - width) * 0.5f; }
-    protected float getGlobalCenterY(float height) { return (Settings.HEIGHT - height) * 0.5f; }
 
     @Override public float getPrefWidth() { return SCREEN_WIDTH; }
     @Override public float getPrefHeight() { return SCREEN_HEIGHT; }

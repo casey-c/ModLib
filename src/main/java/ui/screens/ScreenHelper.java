@@ -1,9 +1,13 @@
 package ui.screens;
 
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 public class ScreenHelper {
+    public static float getGlobalCenterX(float width) { return (Settings.WIDTH - width) * 0.5f; }
+    public static float getGlobalCenterY(float height) { return (Settings.HEIGHT - height) * 0.5f; }
+
     public static void showCustomScreen() {
         if (!CardCrawlGame.isInARun())
             return;

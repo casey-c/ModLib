@@ -14,7 +14,6 @@ public class Screen2 extends DynamicScreen2<Screen2> {
 
         setMargins(80);
 
-
         layout = new GridLayout3()
                 .anchoredAt(this)
                 .withSpacing(30.0f)
@@ -29,26 +28,6 @@ public class Screen2 extends DynamicScreen2<Screen2> {
                 .computeLayout();
 
         layout.setWidget(1, 1, new DebugWidget(100, 100)).withContentAnchorPosition(AnchorPosition.BOTTOM_RIGHT);
-
-//        for (int i = 0; i < numRows; ++i) {
-//            for (int j = 0; j < numCols; ++j) {
-//                DebugWidget w = layout.setWidget(i, j, new DebugWidget(100, 100));
-//                if (i == 0)
-//                    w.setContentAnchorPosition(AnchorPosition.TOP_LEFT);
-//            }
-//        }
-
-                //.withGlobalChildAnchor(AnchorPosition.CENTER)
-                //.withChildExpansionPolicy(HorizontalLayoutPolicy.CHILD_EXPAND_HEIGHT_TO_MAX)
-                //.withFixedColumnWidth(120)
-
-//        int offset = 0;
-//        for (int i = 0; i < 4; ++i) {
-//            layout.addChild(new DebugWidget(20 + offset, 40 + offset));
-//            offset += 20;
-//        }
-//
-//        layout.computeLayout();
     }
 
     @Override public Color getTrimColor() { return ColorHelper.rainbowColor(); }

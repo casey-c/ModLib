@@ -18,12 +18,10 @@ import java.util.HashMap;
 
 public class GridLayout3 extends Layout2<GridLayout3> {
     private HashMap<DualIntegerKey, Widget> children = new HashMap<>();
+    private HashMap<DualIntegerKey, DualIntegerKey> childSpans = new HashMap<>();
+
     private ArrayList<Float> rowHeights = new ArrayList<>();
     private ArrayList<Float> colWidths = new ArrayList<>();
-
-    public GridLayout3() {
-        // todo?
-    }
 
     // --------------------------------------------------------------------------------
 
@@ -91,6 +89,7 @@ public class GridLayout3 extends Layout2<GridLayout3> {
         float height = top - bot;
 
         w.setActualFromAnchor(left, bot, width, height, AnchorPosition.BOTTOM_LEFT);
+        childSpans.put(new DualIntegerKey(topRow, leftCol), new DualIntegerKey(botRow, rightCol));
     }
 
     public <T extends Widget<T>> T setWidget(int row, int col, T w) {
@@ -285,9 +284,14 @@ public class GridLayout3 extends Layout2<GridLayout3> {
             int col = key.y;
             Widget w = children.get(key);
 
-            // TODO: recompute span. (children are only set into the hashmap at their top/left - nothing is stored
-            //   to remind them they need to span more
-            moveChildIntoPlace(row, col, w);
+            // Make sure to span correctly if the child was originally spanned
+            if (childSpans.containsKey(key)) {
+                DualIntegerKey br = childSpans.get(key);
+                moveChildIntoSpan(row, br.x, col, br.y, w);
+            }
+            else {
+                moveChildIntoPlace(row, col, w);
+            }
         }
 
     }

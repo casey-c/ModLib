@@ -19,6 +19,7 @@ import java.util.HashMap;
 public class GridLayout extends Layout<GridLayout> {
 
     private HashMap<DualIntegerKey, ScreenWidget> children = new HashMap<>();
+
     private ArrayList<Float> columnWidths = new ArrayList<>();
     private ArrayList<Float> rowHeights = new ArrayList<>();
 

@@ -1,5 +1,6 @@
 package ui.screens;
 
+/*
 import basemod.BaseMod;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -112,3 +113,5 @@ public class DynamicScreen<T extends Layout<T>> extends AbstractScreen<T> {
 //        sb.draw(ImageMaster.WHITE_SQUARE_IMG, centerStartX, centerStartY, centerWidth, centerHeight);
     }
 }
+
+ */

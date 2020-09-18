@@ -21,17 +21,6 @@ public enum AnchorPosition {
 
     public boolean isCentralX() { return (this == TOP_CENTER || this ==  CENTER || this ==  BOTTOM_CENTER); }
     public boolean isCentralY() { return (this == CENTER_LEFT || this ==  CENTER || this ==  CENTER_RIGHT); }
-
-//    public static boolean isCentral(AnchorPosition p) {
-//        return p == CENTER_LEFT || p == CENTER || p == ;
-//    }
-
-    @Deprecated public static boolean isCentralX(AnchorPosition p) { return p == TOP_CENTER || p == CENTER || p == BOTTOM_CENTER; }
-    @Deprecated public static boolean isCentralY(AnchorPosition p) { return p == CENTER_LEFT || p == CENTER || p == CENTER_RIGHT; }
-    @Deprecated public static boolean isLeft(AnchorPosition p) { return p == TOP_LEFT || p == CENTER_LEFT || p == BOTTOM_LEFT; }
-    @Deprecated public static boolean isRight(AnchorPosition p) { return p == TOP_RIGHT || p == CENTER_RIGHT || p == BOTTOM_RIGHT; }
-    @Deprecated public static boolean isTop(AnchorPosition p) { return p == TOP_LEFT || p == TOP_CENTER || p == TOP_RIGHT; }
-    @Deprecated public static boolean isBottom(AnchorPosition p) { return p == BOTTOM_LEFT || p == BOTTOM_CENTER || p == BOTTOM_RIGHT; }
 }
 
 /*

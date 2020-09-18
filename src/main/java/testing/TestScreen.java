@@ -1,5 +1,6 @@
 package testing;
 
+/*
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -182,7 +183,6 @@ public class TestScreen extends DynamicScreen<GridLayout> {
         rightLayout.addChild(new SimpleLabel("Vert 5"));
         rightLayout.addChild(new SimpleLabel("Vert 6"));
     }
-     */
 
 /*
     private void verticalLayoutTests() {
@@ -198,7 +198,6 @@ public class TestScreen extends DynamicScreen<GridLayout> {
         addVerticalLayoutTest(getContentCenterX(), getContentBottom(), AnchorPosition.BOTTOM_CENTER);
         addVerticalLayoutTest(getContentRight(), getContentBottom(), AnchorPosition.BOTTOM_RIGHT);
     }
- */
 
 //    private AnchorPosition getTestPos(int i, int j) {
 //        if (i == 0 && j == 0) return AnchorPosition.TOP_LEFT;
@@ -411,3 +410,5 @@ public class TestScreen extends DynamicScreen<GridLayout> {
 //                .withSpacing(40.0f);
 //    }
 }
+
+ */

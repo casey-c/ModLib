@@ -1,5 +1,6 @@
 package ui.screens;
 
+/*
 import basemod.interfaces.PostUpdateSubscriber;
 import basemod.interfaces.RenderSubscriber;
 import com.badlogic.gdx.graphics.Color;
@@ -134,3 +135,5 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
             mainLayout.update();
     }
 }
+
+ */

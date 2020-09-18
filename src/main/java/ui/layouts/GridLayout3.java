@@ -298,11 +298,13 @@ public class GridLayout3 extends Layout2<GridLayout3> {
 
     @Override
     public float getPrefWidth() {
+        // TODO? -- maybe sum(maxColWidth)?
         return 0;
     }
 
     @Override
     public float getPrefHeight() {
+        // TODO? -- maybe sum(maxRowHeight)?
         return 0;
     }
 

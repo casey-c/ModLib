@@ -8,7 +8,8 @@ import ui.layouts.*;
 import ui.screens.DynamicScreen2;
 import ui.widgets.DebugWidget;
 import ui.widgets.labels.SimpleLabel;
-import ui.widgets.lines.HorizontalLine2;
+import ui.widgets.lines.HorizontalLine;
+import ui.widgets.lines.VerticalLine;
 import utils.ColorHelper;
 
 public class TestScreen extends DynamicScreen2<TestScreen> {
@@ -32,13 +33,14 @@ public class TestScreen extends DynamicScreen2<TestScreen> {
         layout.setWidget(1, 0, new VerticalLayout())
                 .withVerticalSpacing(30)
                 .withChild(new SimpleLabel("Row 1"))
-                .withChild(new HorizontalLine2(true))
+                .withChild(new HorizontalLine(true))
                 .withChild(new SimpleLabel("Row 2"))
                 .computeLayout();
 
 
         layout.setWidget(1, 1, new DebugWidget(100, 100));
         //layout.setWidget(1, 1, new HorizontalLine2());
+        //layout.setWidget(1, 1, new VerticalLine());
     }
 
     @Override public Color getTrimColor() { return ColorHelper.rainbowColor(); }

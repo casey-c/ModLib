@@ -18,7 +18,7 @@ public class Screen2 extends DynamicScreen2<Screen2> {
         layout = new GridLayout3()
                 .anchoredAt(this)
                 .withSpacing(30.0f)
-                .withRelativeRows(1, 4)
+                .withAbsoluteRows(120.0f, -1)
                 .withRelativeCols(1, 2);
 
         layout.setWidget(0,0, 0, 1, new DebugWidget(100, 100));

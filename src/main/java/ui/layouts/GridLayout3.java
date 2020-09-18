@@ -163,7 +163,7 @@ public class GridLayout3 extends Layout2<GridLayout3> {
 
     // --------------------------------------------------------------------------------
 
-    public void setRelativeRows(int... ratios) {
+    public void setRelativeRows(float... ratios) {
         float sum = 0.0f;
         for (float r : ratios) {
             if (r <= 0.0f) return;
@@ -181,12 +181,12 @@ public class GridLayout3 extends Layout2<GridLayout3> {
         }
     }
 
-    public GridLayout3 withRelativeRows(int... ratios) {
+    public GridLayout3 withRelativeRows(float... ratios) {
         setRelativeRows(ratios);
         return this;
     }
 
-    public void setRelativeCols(int... ratios) {
+    public void setRelativeCols(float... ratios) {
         float sum = 0.0f;
         for (float r : ratios) {
             if (r <= 0.0f) return;
@@ -204,8 +204,75 @@ public class GridLayout3 extends Layout2<GridLayout3> {
         }
     }
 
-    public GridLayout3 withRelativeCols(int... ratios) {
+    public GridLayout3 withRelativeCols(float... ratios) {
         setRelativeCols(ratios);
+        return this;
+    }
+
+    // --------------------------------------------------------------------------------
+
+    public void setAbsoluteRows(float... heights) {
+        float sum = 0.0f;
+        int numNegative = 0;
+        for (float h : heights) {
+            if (h < 0.0f)
+                numNegative++;
+            else {
+                sum += h;
+            }
+        }
+
+        // epsilon safety check
+        if (sum < 0.0001f)
+            return;
+
+        float remaining = getContentHeight() - sum - ((heights.length - numNegative - 1) * verticalSpacing) - (numNegative * verticalSpacing);
+        float balancedHeightForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
+
+        rowHeights.clear();
+        for (float h : heights) {
+            if (h < 0.0f)
+                rowHeights.add(balancedHeightForNegativeVals);
+            else
+                rowHeights.add(h);
+        }
+    }
+
+    public GridLayout3 withAbsoluteRows(float... heights) {
+        setAbsoluteRows(heights);
+        return this;
+    }
+
+    public void setAbsoluteCols(float... widths) {
+        float sum = 0.0f;
+        int numNegative = 0;
+        for (float w : widths) {
+            if (w < 0.0f) {
+                numNegative++;
+                continue;
+            }
+
+            sum += w;
+        }
+
+        // epsilon safety check
+        if (sum < 0.0001f)
+            return;
+
+        float remaining = getContentWidth() - sum - ((widths.length - numNegative - 1) * horizontalSpacing) - (numNegative * horizontalSpacing);
+        float balancedWidthForNegativeVals = (numNegative > 0 && remaining > 0.0f) ? (remaining / numNegative) : 0.0f;
+
+        colWidths.clear();
+        for (float w : widths) {
+            if (w < 0.0f)
+                colWidths.add(balancedWidthForNegativeVals);
+            else
+                colWidths.add(w);
+        }
+    }
+
+    public GridLayout3 withAbsoluteCols(float... widths) {
+        setAbsoluteCols(widths);
         return this;
     }
 
@@ -218,6 +285,8 @@ public class GridLayout3 extends Layout2<GridLayout3> {
             int col = key.y;
             Widget w = children.get(key);
 
+            // TODO: recompute span. (children are only set into the hashmap at their top/left - nothing is stored
+            //   to remind them they need to span more
             moveChildIntoPlace(row, col, w);
         }
 

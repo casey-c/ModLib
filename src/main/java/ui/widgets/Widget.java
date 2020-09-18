@@ -90,6 +90,11 @@ public abstract class Widget<T extends Widget<T>> {
         return (T)this;
     }
 
+    public T withMargins(float all) {
+        setMargins(all);
+        return (T)this;
+    }
+
     public void setMargins(float all) {
         this.MARGIN_LEFT = all;
         this.MARGIN_RIGHT = all;

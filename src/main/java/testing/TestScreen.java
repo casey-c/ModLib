@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import ui.layouts.*;
 import ui.screens.DynamicScreen2;
 import ui.widgets.DebugWidget;
-import ui.widgets.labels.SimpleLabel2;
+import ui.widgets.labels.SimpleLabel;
 import utils.ColorHelper;
 
 public class TestScreen extends DynamicScreen2<TestScreen> {
@@ -24,14 +24,14 @@ public class TestScreen extends DynamicScreen2<TestScreen> {
                 .withAbsoluteRows(60.0f, -1)
                 .withRelativeCols(1, 2);
 
-        layout.setWidget(0,0, 0, 1, new SimpleLabel2("Spanning Text", FontHelper.bannerFont, Settings.GOLD_COLOR))
+        layout.setWidget(0,0, 0, 1, new SimpleLabel("Spanning Text", FontHelper.bannerFont, Settings.GOLD_COLOR))
                 .withContentAnchorPosition(AnchorPosition.CENTER)
                 .print();
 
         layout.setWidget(1, 0, new VerticalLayout())
                 .withVerticalSpacing(30)
-                .withChild(new SimpleLabel2("Row 1"))
-                .withChild(new SimpleLabel2("Row 2"))
+                .withChild(new SimpleLabel("Row 1"))
+                .withChild(new SimpleLabel("Row 2"))
                 .computeLayout();
 
         layout.setWidget(1, 1, new DebugWidget(100, 100));

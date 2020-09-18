@@ -1,10 +1,7 @@
 package ui.widgets;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import ui.GrowthPolicy;
-import ui.layouts.AnchorPosition;
 import utils.ColorHelper;
 
 public class DebugWidget extends Widget<DebugWidget> {
@@ -14,6 +11,8 @@ public class DebugWidget extends Widget<DebugWidget> {
         this.width = width;
         this.height = height;
     }
+
+    public DebugWidget() { this(100, 100); }
 
     @Override public float getPrefWidth() { return width; }
     @Override public float getPrefHeight() { return height; }

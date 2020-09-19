@@ -28,7 +28,7 @@ public class ColorHelper {
     public static final Color BUTTON_HOVER_BASE = new Color( 0.329f, 0.365f, 0.408f, 1.0f );
     public static final Color BUTTON_CLICK_BASE = new Color(0.173f, 0.349f, 0.565f, 1.0f);
 
-    public static final Color BUTTON_HIGHLIGHT = new Color(1.0f, 1.0f, 1.0f, 0.5f); // todo: adjust opacity
+    public static final Color BUTTON_HIGHLIGHT = new Color(1.0f, 1.0f, 1.0f, 0.3f); // todo: adjust opacity
 
 
     // --------------------------------------------------------------------------------

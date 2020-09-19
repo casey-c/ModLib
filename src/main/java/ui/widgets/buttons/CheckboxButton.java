@@ -12,7 +12,10 @@ public class CheckboxButton extends SimpleButton<CheckboxButton> {
     private static final Texture TEX_CHECK = TextureHelper.TextureItem.CHECKBOX_CHECK.get();
 
     private Color baseColorUnchecked = ColorHelper.BUTTON_DEFAULT_BASE;
-    private Color baseColorChecked = ColorHelper.CHECKBOX_CHECKED_BASE;
+
+    //private Color baseColorChecked = ColorHelper.CHECKBOX_CHECKED_BASE;
+    private Color baseColorChecked = ColorHelper.BUTTON_CLICK_BASE;
+
     private Color trimColorUnchecked = ColorHelper.BUTTON_HOVER_BASE;
     private Color trimColorChecked = ColorHelper.BUTTON_CLICK_BASE;
     private Color checkColor = ColorHelper.BUTTON_TRIM;

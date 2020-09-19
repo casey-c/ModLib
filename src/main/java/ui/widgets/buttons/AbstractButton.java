@@ -9,41 +9,41 @@ import utils.SoundHelper;
 import java.util.function.Consumer;
 
 public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget<T> {
-    protected Consumer<AbstractButton> onHoverEnter, onHoverLeave, onClick, onRightClick;
+    protected Consumer<T> onHoverEnter, onHoverLeave, onClick, onRightClick;
     protected Hitbox hb;
 
     protected boolean hovering;
 
-    public void setOnClick(Consumer<AbstractButton> onClick) { this.onClick = onClick; }
-    public void setOnRightClick(Consumer<AbstractButton> onRightClick) { this.onRightClick = onRightClick; }
-    public void setOnHoverEnter(Consumer<AbstractButton> onHoverEnter) { this.onHoverEnter = onHoverEnter; }
-    public void setOnHoverLeave(Consumer<AbstractButton> onHoverLeave) { this.onHoverLeave = onHoverLeave; }
+    public void setOnClick(Consumer<T> onClick) { this.onClick = onClick; }
+    public void setOnRightClick(Consumer<T> onRightClick) { this.onRightClick = onRightClick; }
+    public void setOnHoverEnter(Consumer<T> onHoverEnter) { this.onHoverEnter = onHoverEnter; }
+    public void setOnHoverLeave(Consumer<T> onHoverLeave) { this.onHoverLeave = onHoverLeave; }
 
-    public T withOnClick(Consumer<AbstractButton> onClick) { setOnClick(onClick); return (T)this;}
-    public T withOnRightClick(Consumer<AbstractButton> onRightClick) { setOnRightClick(onRightClick);return (T)this; }
-    public T withOnHoverEnter(Consumer<AbstractButton> onHoverEnter) { setOnHoverEnter(onHoverEnter); return (T) this; }
-    public T withOnHoverLeave(Consumer<AbstractButton> onHoverLeave) { setOnHoverLeave(onHoverLeave); return (T)this; }
+    public T withOnClick(Consumer<T> onClick) { setOnClick(onClick); return (T)this;}
+    public T withOnRightClick(Consumer<T> onRightClick) { setOnRightClick(onRightClick);return (T)this; }
+    public T withOnHoverEnter(Consumer<T> onHoverEnter) { setOnHoverEnter(onHoverEnter); return (T) this; }
+    public T withOnHoverLeave(Consumer<T> onHoverLeave) { setOnHoverLeave(onHoverLeave); return (T)this; }
 
     // --------------------------------------------------------------------------------
 
     public void click() {
         if (onClick != null)
-            onClick.accept(this);
+            onClick.accept((T)this);
     }
 
     public void rightClick() {
         if (onRightClick != null)
-            onRightClick.accept(this);
+            onRightClick.accept((T)this);
     }
 
     public void hoverEnter() {
         if (onHoverEnter != null)
-            onHoverEnter.accept(this);
+            onHoverEnter.accept((T)this);
     }
 
     public void hoverLeave() {
         if (onHoverLeave != null)
-            onHoverLeave.accept(this);
+            onHoverLeave.accept((T)this);
     }
 
     // --------------------------------------------------------------------------------
@@ -93,8 +93,10 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
             hb.height = height;
             hb.move(bottomLeftX + (width * 0.5f), bottomLeftY + (height * 0.5f));
 
+            //System.out.println(getClass().toString() + " just fixed its hitbox, moved to " + bottomLeftX + ", " + bottomLeftY);
+
             hitboxNeedsFixing = false;
-            print();
+            //print();
         }
 
     }

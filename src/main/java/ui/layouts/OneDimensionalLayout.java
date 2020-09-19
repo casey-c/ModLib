@@ -68,9 +68,10 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
 
     // --------------------------------------------------------------------------------
 
-    public void addChild(Widget widget) {
+    public <W extends Widget> W addChild(W widget) {
         children.add(widget);
         widget.setContentAnchorPosition(AnchorPosition.TOP_LEFT);
+        return widget;
     }
 
     public T withChild(Widget widget) {
@@ -95,6 +96,8 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         for (Widget child : children)
             child.update();
     }
+
+    public LinkedList<Widget> getChildren() { return children; }
 
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {

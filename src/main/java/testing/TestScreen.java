@@ -12,6 +12,7 @@ import ui.widgets.buttons.ButtonFactory;
 import ui.widgets.buttons.CheckboxButton;
 import ui.widgets.buttons.TextButton;
 import ui.widgets.dropdown.DropDownController;
+import ui.widgets.dropdown.DropDownController2;
 import ui.widgets.labels.SimpleLabel;
 import ui.widgets.lines.HorizontalLine;
 import ui.widgets.lines.VerticalLine;
@@ -41,7 +42,11 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 //.withBalancedRows(1)
                 .withBalancedCols(2);
 
-        DropDownController dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
+        //DropDownController dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
+        DropDownController2 dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController2()).withContentAnchorPosition(AnchorPosition.TOP_LEFT);
+        dropDown.addItem("Choice 1 ", x -> { System.out.println("Choice 1 selected"); });
+        dropDown.addItem("Choice 2 ", x -> { System.out.println("Choice 2 selected"); SoundHelper.cawCaw(); });
+        dropDown.addItem("Much longer and wordy Choice Three (the best) ", x -> { System.out.println("Choice 3 selected"); });
 
         layout.setWidget(0, 0, new TextButton("Cycle Position")).withOnClick( onClick -> {
             AnchorPosition next = nextAnchor();

@@ -52,7 +52,7 @@ public class DropDownItem extends AbstractButton<DropDownItem> {
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float w, float h) {
         // Neccessary for hitboxes
-        super.renderAt(sb, bottomLeftX, bottomLeftY, w, h);
+        //super.renderAt(sb, bottomLeftX, bottomLeftY, w, h);
 
         // TODO: draw actual textures
         if (hb.hovered) sb.setColor(ColorHelper.VERY_DIM_MAGENTA);

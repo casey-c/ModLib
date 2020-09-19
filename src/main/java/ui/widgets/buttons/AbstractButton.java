@@ -3,6 +3,7 @@ package ui.widgets.buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import ui.layouts.AnchorPosition;
 import ui.widgets.Widget;
 import utils.SoundHelper;
 
@@ -50,6 +51,9 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
 
     @Override
     public void update() {
+        if (hb == null)
+            return;
+
         hb.update();
 
         // Hover-leave
@@ -82,13 +86,21 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
     }
 
     private boolean hitboxNeedsFixing = true;
+    public void setHitboxNeedsFixing() {
+        hitboxNeedsFixing = true;
+    }
 
     @Override public void show() { hitboxNeedsFixing = true; }
     @Override public void hide() { hb.move(-10000.0f, -10000.0f); }
 
-    @Override
-    public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
-        if (hitboxNeedsFixing)  {
+//    @Override
+//    public void setActualFromAnchor(float x, float y, float width, float height, AnchorPosition anchor) {
+//        super.setActualFromAnchor(x, y, width, height, anchor);
+//        //fixHitbox(getLeft(), getBottom(), width, height);
+//    }
+
+    public void fixHitbox(float bottomLeftX, float bottomLeftY, float width, float height) {
+        if (hitboxNeedsFixing && hb != null)  {
             hb.width = width;
             hb.height = height;
             hb.move(bottomLeftX + (width * 0.5f), bottomLeftY + (height * 0.5f));
@@ -98,6 +110,10 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
             hitboxNeedsFixing = false;
             //print();
         }
+    }
 
+    @Override
+    public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+        fixHitbox(bottomLeftX, bottomLeftY, width, height);
     }
 }

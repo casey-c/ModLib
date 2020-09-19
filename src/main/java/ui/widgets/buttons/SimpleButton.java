@@ -90,7 +90,8 @@ public class SimpleButton<T extends SimpleButton<T>> extends AbstractButton<T> {
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
         // Necessary for hitbox fixes
-        super.renderAt(sb, bottomLeftX, bottomLeftY, width, height);
+        //super.renderAt(sb, bottomLeftX, bottomLeftY, width, height);
+        fixHitbox(bottomLeftX, bottomLeftY, width, height);
 
         renderBackground(sb, bottomLeftX, bottomLeftY, width, height);
         renderForeground(sb, bottomLeftX, bottomLeftY, width, height);

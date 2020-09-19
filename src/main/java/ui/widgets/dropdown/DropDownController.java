@@ -159,7 +159,7 @@ public class DropDownController extends AbstractButton<DropDownController> {
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
         // Necessary for hitbox updates
-        super.renderAt(sb, bottomLeftX, bottomLeftY, width, height);
+        //super.renderAt(sb, bottomLeftX, bottomLeftY, width, height);
 
         if (dropDownVisible) {
             layout.render(sb);

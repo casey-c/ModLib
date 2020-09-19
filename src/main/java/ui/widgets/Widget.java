@@ -33,6 +33,11 @@ public abstract class Widget<T extends Widget<T>> {
         return (T)this;
     }
 
+    public T anchoredAt(float x, float y, AnchorPosition anchor) {
+        setActualFromAnchor(x, y, getPrefWidth(), getPrefHeight(), anchor);
+        return (T)this;
+    }
+
 
     public void setActualFromAnchor(float x, float y, float width, float height, AnchorPosition anchor) {
         // Dimensions
@@ -95,26 +100,13 @@ public abstract class Widget<T extends Widget<T>> {
         return (T)this;
     }
 
-    public void setMargins(float all) {
-        this.MARGIN_LEFT = all;
-        this.MARGIN_RIGHT = all;
-        this.MARGIN_TOP = all;
-        this.MARGIN_BOTTOM = all;
-    }
+    public void setMargins(float all) { setMargins(all, all, all, all); }
+    public void setHorizontalMargins(float left, float right) { setMargins(left, right, MARGIN_TOP, MARGIN_BOTTOM); }
+    public void setVerticalMargins(float top, float bottom) { setMargins(MARGIN_LEFT, MARGIN_RIGHT, top, bottom); }
 
     public void setMargins(float left, float right, float top, float bottom) {
         this.MARGIN_LEFT = left;
         this.MARGIN_RIGHT = right;
-        this.MARGIN_TOP = top;
-        this.MARGIN_BOTTOM = bottom;
-    }
-
-    public void setHorizontalMargins(float left, float right) {
-        this.MARGIN_LEFT = left;
-        this.MARGIN_RIGHT = right;
-    }
-
-    public void setVerticalMargins(float top, float bottom) {
         this.MARGIN_TOP = top;
         this.MARGIN_BOTTOM = bottom;
     }

@@ -15,14 +15,18 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     private Consumer<DropDownController2> onSelect;
 
     private static final float HORIZONTAL_OFFSET = 8;
-    private static final float VERTICAL_OFFSET = 12;
+    private static final float VERTICAL_OFFSET = 0;
     private static final float HORIZONTAL_PADDING = 40;
     private static final float VERTICAL_PADDING = 20;
 
     public DropDownItem2(DropDownController2 parent, String text, Consumer<DropDownController2> onSelect) {
         this.parent = parent;
         this.onSelect = onSelect;
-        this.label = new SimpleLabel(text).withOffsets(HORIZONTAL_OFFSET, VERTICAL_OFFSET);
+
+        this.label = new SimpleLabel(text);
+
+        float centeredHeight = (label.getPrefHeight() * 0.5f) + VERTICAL_OFFSET;
+        label.withOffsets(HORIZONTAL_OFFSET, centeredHeight);
 
         this.onClick = item -> { parent.select(this); };
 

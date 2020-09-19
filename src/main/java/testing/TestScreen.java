@@ -38,28 +38,48 @@ public class TestScreen extends DynamicScreen<TestScreen> {
         layout = new GridLayout()
                 .anchoredAt(this)
                 .withSpacing(30.0f)
-                .withAbsoluteRows(60.0f, -1)
+                //.withAbsoluteRows(60.0f, -1)
+                .withAbsoluteRows(80, 80, 80, 80, -1)
                 //.withBalancedRows(1)
                 .withBalancedCols(2);
 
-        //DropDownController dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
-        DropDownController2 dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController2()).withContentAnchorPosition(AnchorPosition.TOP_LEFT);
-        dropDown.addItem("Choice 1 ", x -> { System.out.println("Choice 1 selected"); });
-        dropDown.addItem("Choice 2 ", x -> { System.out.println("Choice 2 selected"); SoundHelper.cawCaw(); });
-        dropDown.addItem("Much longer and wordy Choice Three (the best) ", x -> { System.out.println("Choice 3 selected"); });
+        DropDownController2 dropDown = layout.setWidget(0, 1, new DropDownController2()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
+        dropDown.addItem("Choice 1", x->{});
+        dropDown.addItem("Choice 2", x->{});
+        dropDown.addItem("Caw", x->{ SoundHelper.cawCaw();});
+        dropDown.addItem("Choice 3", x->{});
 
-        layout.setWidget(0, 0, new TextButton("Cycle Position")).withOnClick( onClick -> {
-            AnchorPosition next = nextAnchor();
-            System.out.println("next anchor position: " + next);
-            dropDown.setContentAnchorPosition(next);
-        }).withGrowthPolicy(GrowthPolicy.EXPANDING_BOTH);
-
-        layout.setWidget(0, 1, new CheckboxButton()).withOnClick( checkboxButton -> {
+        layout.setWidget(0, 0, new CheckboxButton()).withOnClick( checkboxButton -> {
             if (checkboxButton.isChecked())
-                dropDown.setGrowthPolicy(GrowthPolicy.EXPANDING_X);
+                dropDown.setGrowthPolicy(GrowthPolicy.EXPANDING_BOTH); // TODO: expanding both has bugs! (not vertically centered)
             else
                 dropDown.setGrowthPolicy(GrowthPolicy.PREFERRED_BOTH);
         });
+
+        DropDownController2 dropDown2 = layout.setWidget(1, 1, new DropDownController2()).withGrowthPolicy(GrowthPolicy.EXPANDING_Y);
+        dropDown2.addItem("Choice 1", x->{});
+        dropDown2.addItem("Choice 2", x->{});
+        dropDown2.addItem("Caw", x->{ SoundHelper.cawCaw();});
+        dropDown2.addItem("Choice 3", x->{});
+
+        //DropDownController dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
+//        DropDownController2 dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController2()).withContentAnchorPosition(AnchorPosition.TOP_LEFT);
+//        dropDown.addItem("Choice 1 ", x -> { System.out.println("Choice 1 selected"); });
+//        dropDown.addItem("Choice 2 ", x -> { System.out.println("Choice 2 selected"); SoundHelper.cawCaw(); });
+//        dropDown.addItem("Much longer and wordy Choice Three (the best) ", x -> { System.out.println("Choice 3 selected"); });
+//
+//        layout.setWidget(0, 0, new TextButton("Cycle Position")).withOnClick( onClick -> {
+//            AnchorPosition next = nextAnchor();
+//            System.out.println("next anchor position: " + next);
+//            dropDown.setContentAnchorPosition(next);
+//        }).withGrowthPolicy(GrowthPolicy.EXPANDING_BOTH);
+//
+//        layout.setWidget(0, 1, new CheckboxButton()).withOnClick( checkboxButton -> {
+//            if (checkboxButton.isChecked())
+//                dropDown.setGrowthPolicy(GrowthPolicy.EXPANDING_X);
+//            else
+//                dropDown.setGrowthPolicy(GrowthPolicy.PREFERRED_BOTH);
+//        });
 
 //                .withContentAnchorPosition(AnchorPosition.TOP_LEFT)
     }

@@ -21,6 +21,8 @@ public class DropDownController2 extends Widget<DropDownController2> {
     private VerticalLayout itemLayout;
 
     public DropDownController2() {
+        this.contentAnchorPosition = AnchorPosition.TOP_LEFT;
+
         itemLayout = new VerticalLayout()
                 .withChildExpansionPolicy(VerticalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_MAX)
                 .withGlobalChildAnchor(contentAnchorPosition);
@@ -142,16 +144,16 @@ public class DropDownController2 extends Widget<DropDownController2> {
         // This is Widget::render(sb) but slightly modified
 
         // Dimensions
-        float width, height;
 
-        if (showingDropDown) {
-            width = (growthPolicy.isExpandingWidth()) ? getContentWidth() : itemLayout.getPrefWidth();
-            height = (growthPolicy.isExpandingHeight()) ? getContentHeight() : itemLayout.getPrefHeight();
-        }
-        else {
-            width = (growthPolicy.isExpandingWidth()) ? getContentWidth() : getPrefWidth();
-            height = (growthPolicy.isExpandingHeight()) ? getContentHeight() : getPrefHeight();
-        }
+//        if (showingDropDown) {
+//            width = (growthPolicy.isExpandingWidth()) ? getContentWidth() : itemLayout.getPrefWidth();
+//            height = (growthPolicy.isExpandingHeight()) ? getContentHeight() : itemLayout.getPrefHeight();
+//        }
+//        else {
+            float width = (growthPolicy.isExpandingWidth()) ? getContentWidth() : getPrefWidth();
+            //float height = (growthPolicy.isExpandingHeight()) ? getContentHeight() : getPrefHeight();
+            float height = getPrefHeight();
+//        }
 
         // Position
         float left = getContentLeft();

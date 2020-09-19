@@ -7,7 +7,9 @@ public class TestClass extends TopPanelItem {
     private TestScreen screen;
 
     public TestClass() {
-        super(TextureHelper.getTexture(TextureHelper.TextureItem.ICON), TextureHelper.MOD_ID + ":ICON");
+        //super(TextureHelper.getTexture(TextureHelper.TextureItem.ICON), TextureHelper.MOD_ID + ":ICON");
+        super(TextureHelper.TextureItem.ICON.get(), TextureHelper.MOD_ID + ":ICON");
+
         //super(TextureManager.getTexture("ModLib", "ICON"), "ModLib:TEST");
     }
 
@@ -16,7 +18,7 @@ public class TestClass extends TopPanelItem {
         System.out.println("OJB: top panel item clicked");
 
         if (screen == null)
-            screen = new TestScreen(333, 247);
+            screen = new TestScreen(1000, 800);
 
         //screen.print();
 

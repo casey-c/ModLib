@@ -30,6 +30,16 @@ public class ColorHelper {
 
     public static final Color BUTTON_HIGHLIGHT = new Color(1.0f, 1.0f, 1.0f, 0.5f); // todo: adjust opacity
 
+    // --------------------------------------------------------------------------------
+
+    public static final Color ICON_COLOR = new Color(0.71f, 0.71f, 0.71f,  1.0f);
+
+    public static final Color CANCEL_BUTTON_BASE = new Color(0.553f, 0.251f, 0.251f, 1.0f);
+    public static final Color CANCEL_BUTTON_HOVER = new Color(0.694f, 0.345f, 0.345f, 1.0f);
+    public static final Color CANCEL_BUTTON_CLICK = new Color(0.761f, 0.212f, 0.212f, 1.0f);
+
+    // --------------------------------------------------------------------------------
+
     public static Color rainbowColor() {
         float r = (MathUtils.cosDeg((float) (System.currentTimeMillis() / 10L % 360L)) + 1.25F) / 2.3F;
         float g = (MathUtils.cosDeg((float)((System.currentTimeMillis() + 1000L) / 10L % 360L)) + 1.25F) / 2.3F;

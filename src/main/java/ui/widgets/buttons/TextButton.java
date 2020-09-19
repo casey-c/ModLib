@@ -24,9 +24,18 @@ public class TextButton extends SimpleButton<TextButton> {
     }
 
     public TextButton(String text, BitmapFont font, Color fontColor) {
+        super();
         setText(text, font);
         this.fontColor = fontColor;
     }
+
+    public TextButton(String text, BitmapFont font, Color fontColor, Color baseColor, Color hoverColor, Color clickColor) {
+        super(baseColor, hoverColor, clickColor);
+        setText(text, font);
+        this.fontColor = fontColor;
+
+    }
+
 
     // --------------------------------------------------------------------------------
 

@@ -9,9 +9,14 @@ import utils.RenderingHelper;
 import utils.TextureHelper;
 
 public class DynamicScreen<T extends DynamicScreen<T>> extends AbstractScreen<T> {
-    private static final Texture TEX_CORNER_BASE = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_CORNER_BASE);
-    private static final Texture TEX_CORNER_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_CORNER_TRIM);
-    private static final Texture TEX_EDGE_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_EDGE_TRIM);
+//    private static final Texture TEX_CORNER_BASE = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_CORNER_BASE);
+//    private static final Texture TEX_CORNER_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_CORNER_TRIM);
+//    private static final Texture TEX_EDGE_TRIM = TextureHelper.getTexture(TextureHelper.TextureItem.SCREEN_EDGE_TRIM);
+
+    private static final Texture TEX_CORNER_BASE = TextureHelper.TextureItem.SCREEN_CORNER_BASE.get();
+    private static final Texture TEX_CORNER_TRIM = TextureHelper.TextureItem.SCREEN_CORNER_TRIM.get();
+    private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.SCREEN_EDGE_TRIM.get();
+
 
     private final int CORNER_SIZE = 100;
 

@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
 import ui.widgets.SimplePadding;
+import ui.widgets.buttons.ButtonFactory;
 import ui.widgets.buttons.TextButton;
 import ui.widgets.labels.SimpleLabel;
 import ui.widgets.lines.HorizontalLine;
@@ -42,9 +43,7 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 .computeLayout();
 
 
-        VerticalLayout vl = layout.setWidget(1, 1, new VerticalLayout()).withChildExpansionPolicy(VerticalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_FULL);
-        vl.addChild( new TextButton("Caw Caw").withOnClick(onClick -> { SoundHelper.cawCaw(); }) );
-        vl.computeLayout();
+        layout.setWidget(1, 1, ButtonFactory.cancelButton());
 
         //layout.setWidget(1, 1, new DebugWidget(100, 100));
 //        layout.setWidget(1,1, new SimpleButton(100, 100)).withOnClick(onClick -> {

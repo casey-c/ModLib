@@ -19,13 +19,16 @@ public class TextureHelper {
         BUTTON_HIGHLIGHT_TOP_EDGE("ModLib/images/widgets/button/button_highlight_top_edge.png"),
         BUTTON_HIGHLIGHT_CENTER("ModLib/images/widgets/button/button_highlight_center.png"),
 
-        ICON("ModLib/images/icon.png")
+        ICON("ModLib/images/icon.png"),
+        X_ICON("ModLib/images/widgets/icons/icon_x.png")
         ;
 
         private final String val;
 
         private TextureItem(String val) { this.val = val; }
         @Override public String toString() { return val; }
+
+        public Texture get() { return TextureHelper.getTexture(this); }
     }
 
     public static void registerModTextures() {

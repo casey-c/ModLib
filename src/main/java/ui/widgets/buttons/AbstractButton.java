@@ -3,50 +3,26 @@ package ui.widgets.buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import ui.layouts.AnchorPosition;
 import ui.widgets.Widget;
 import utils.SoundHelper;
 
 import java.util.function.Consumer;
 
-/*
-public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget {
-    protected Consumer<T> onHoverEnter, onHoverLeave, onClick, onRightClick;
+public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget<T> {
+    protected Consumer<AbstractButton> onHoverEnter, onHoverLeave, onClick, onRightClick;
     protected Hitbox hb;
+
     protected boolean hovering;
 
-//    public void setOnClick(Consumer<AbstractButton> onClick) { this.onClick = onClick; }
-//    public void setOnHoverEnter(Consumer<AbstractButton> onHoverEnter) { this.onHoverEnter = onHoverEnter; }
-//    public void setOnHoverLeave(Consumer<AbstractButton> onHoverLeave) { this.onHoverLeave = onHoverLeave; }
-//    public void setOnRightClick(Consumer<AbstractButton> onRightClick) { this.onRightClick = onRightClick; }
+    public void setOnClick(Consumer<AbstractButton> onClick) { this.onClick = onClick; }
+    public void setOnRightClick(Consumer<AbstractButton> onRightClick) { this.onRightClick = onRightClick; }
+    public void setOnHoverEnter(Consumer<AbstractButton> onHoverEnter) { this.onHoverEnter = onHoverEnter; }
+    public void setOnHoverLeave(Consumer<AbstractButton> onHoverLeave) { this.onHoverLeave = onHoverLeave; }
 
-    // --------------------------------------------------------------------------------
-    // TODO: if I end up making a button factory class, these should probably go there instead?
-
-    public T withOnClick(Consumer<T> onClick) {
-        this.onClick = onClick;
-        return (T)this;
-    }
-
-    public T withOnHoverEnter(Consumer<T> onHoverEnter) {
-        this.onHoverEnter = onHoverEnter;
-        return (T)this;
-    }
-
-    public T withOnHoverLeave(Consumer<T> onHoverLeave) {
-        this.onHoverLeave = onHoverLeave;
-        return (T)this;
-    }
-
-    public T withOnRightClick(Consumer<T> onRightClick) {
-        this.onRightClick = onRightClick;
-        return (T)this;
-    }
-
-    // --------------------------------------------------------------------------------
-
-    @Override public void showFixed(float x, float y, AnchorPosition pos, float width, float height) { hb.move(getCenterX(x, width, pos), getCenterY(y, height, pos)); }
-    @Override public void hide() { hb.move(-10000.0f, -10000.0f); }
+    public T withOnClick(Consumer<AbstractButton> onClick) { setOnClick(onClick); return (T)this;}
+    public T withOnRightClick(Consumer<AbstractButton> onRightClick) { setOnRightClick(onRightClick);return (T)this; }
+    public T withOnHoverEnter(Consumer<AbstractButton> onHoverEnter) { setOnHoverEnter(onHoverEnter); return (T) this; }
+    public T withOnHoverLeave(Consumer<AbstractButton> onHoverLeave) { setOnHoverLeave(onHoverLeave); return (T)this; }
 
     // --------------------------------------------------------------------------------
 
@@ -57,7 +33,7 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
         // Hover-leave
         if (hovering && !hb.hovered) {
             if (onHoverLeave != null)
-                onHoverLeave.accept((T)this);
+                onHoverLeave.accept(this);
 
             hovering = false;
         }
@@ -69,7 +45,7 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
             hovering = true;
 
             if (onHoverEnter != null)
-                onHoverEnter.accept((T)this);
+                onHoverEnter.accept(this);
         }
 
         // Click started
@@ -84,12 +60,28 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
 
             // Handle
             if (onClick != null)
-                onClick.accept((T)this);
+                onClick.accept(this);
         }
 
 
         // TODO: click checking? right click checking? hover enter/leave, etc. etc.
     }
-}
 
- */
+    private boolean hitboxNeedsFixing = true;
+
+    @Override public void show() { hitboxNeedsFixing = true; }
+    @Override public void hide() { hb.move(-10000.0f, -10000.0f); }
+
+    @Override
+    public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+        if (hitboxNeedsFixing)  {
+            hb.width = width;
+            hb.height = height;
+            hb.move(bottomLeftX + (width * 0.5f), bottomLeftY + (height * 0.5f));
+
+            hitboxNeedsFixing = false;
+            print();
+        }
+
+    }
+}

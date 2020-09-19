@@ -4,12 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureHelper;
 
-public class SimpleButton<T extends SimpleButton<T>> extends AbstractButton2<T> {
+public class SimpleButton<T extends SimpleButton<T>> extends AbstractButton<T> {
     protected float width;
     protected float height;
 

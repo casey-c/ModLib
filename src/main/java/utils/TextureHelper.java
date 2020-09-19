@@ -19,6 +19,10 @@ public class TextureHelper {
         BUTTON_HIGHLIGHT_TOP_EDGE("ModLib/images/widgets/button/button_highlight_top_edge.png"),
         BUTTON_HIGHLIGHT_CENTER("ModLib/images/widgets/button/button_highlight_center.png"),
 
+        CHECKBOX_BASE("ModLib/images/widgets/checkbox/checkbox_base.png"),
+        CHECKBOX_TRIM("ModLib/images/widgets/checkbox/checkbox_trim.png"),
+        CHECKBOX_CHECK("ModLib/images/widgets/checkbox/checkbox_check.png"),
+
         ICON("ModLib/images/icon.png"),
         X_ICON("ModLib/images/widgets/icons/icon_x.png"),
         RESET_ICON("ModLib/images/widgets/icons/icon_reset.png")

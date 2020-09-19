@@ -26,26 +26,43 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
 
     // --------------------------------------------------------------------------------
 
+    public void click() {
+        if (onClick != null)
+            onClick.accept(this);
+    }
+
+    public void rightClick() {
+        if (onRightClick != null)
+            onRightClick.accept(this);
+    }
+
+    public void hoverEnter() {
+        if (onHoverEnter != null)
+            onHoverEnter.accept(this);
+    }
+
+    public void hoverLeave() {
+        if (onHoverLeave != null)
+            onHoverLeave.accept(this);
+    }
+
+    // --------------------------------------------------------------------------------
+
     @Override
     public void update() {
         hb.update();
 
         // Hover-leave
         if (hovering && !hb.hovered) {
-            if (onHoverLeave != null)
-                onHoverLeave.accept(this);
-
+            hoverLeave();
             hovering = false;
         }
 
         // Hover-start
         if (!hovering && hb.justHovered) {
             SoundHelper.playUIHover();
-
             hovering = true;
-
-            if (onHoverEnter != null)
-                onHoverEnter.accept(this);
+            hoverEnter();
         }
 
         // Click started
@@ -57,14 +74,11 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
         // Click finished
         if (hb.clicked) {
             hb.clicked = false;
-
-            // Handle
-            if (onClick != null)
-                onClick.accept(this);
+            click();
         }
 
 
-        // TODO: click checking? right click checking? hover enter/leave, etc. etc.
+        // TODO: right click checking
     }
 
     private boolean hitboxNeedsFixing = true;

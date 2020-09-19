@@ -9,6 +9,7 @@ import ui.layouts.*;
 import ui.screens.DynamicScreen;
 import ui.widgets.SimplePadding;
 import ui.widgets.buttons.ButtonFactory;
+import ui.widgets.buttons.CheckboxButton;
 import ui.widgets.buttons.TextButton;
 import ui.widgets.labels.SimpleLabel;
 import ui.widgets.lines.HorizontalLine;
@@ -45,7 +46,8 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 .withSpacing(40).withBalancedCols(2).withBalancedRows(2);
         for (int i = 0; i < 2; ++i) {
             for (int j = 0; j < 2; ++j) {
-                bottomGrid.setWidget(i, j, new TextButton(i + ", " + j)).withGrowthPolicy(GrowthPolicy.EXPANDING_BOTH);
+                //bottomGrid.setWidget(i, j, new TextButton(i + ", " + j)).withGrowthPolicy(GrowthPolicy.EXPANDING_BOTH);
+                bottomGrid.setWidget(i, j, new CheckboxButton());
             }
         }
 

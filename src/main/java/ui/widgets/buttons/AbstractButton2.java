@@ -75,8 +75,10 @@ public abstract class AbstractButton2<T extends AbstractButton2<T>> extends Widg
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
         if (hitboxNeedsFixing)  {
-            System.out.println("OJB: moving hitbox into position");
+            hb.width = width;
+            hb.height = height;
             hb.move(bottomLeftX + (width * 0.5f), bottomLeftY + (height * 0.5f));
+
             hitboxNeedsFixing = false;
             print();
         }

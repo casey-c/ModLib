@@ -15,8 +15,7 @@ public class DynamicScreen<T extends DynamicScreen<T>> extends AbstractScreen<T>
 
     private final int CORNER_SIZE = 100;
 
-    private int centerWidth, centerHeight;
-
+    // TODO: minimum size? - nah
     // Minimum size (each corner piece is 100x100, so no edges/no center = 100+100 in each dimension)
 //    private float atLeastCornerSize(int input) {
 //        return (input < (CORNER_SIZE * 2)) ? CORNER_SIZE * 2 : (float)input;
@@ -24,9 +23,6 @@ public class DynamicScreen<T extends DynamicScreen<T>> extends AbstractScreen<T>
 
     public DynamicScreen(int width, int height) {
         super(width, height);
-
-        this.centerWidth = width - (CORNER_SIZE * 2);
-        this.centerHeight = height - (CORNER_SIZE * 2);
     }
 
     public Color getBaseColor() { return ColorHelper.SCREEN_BASE_COLOR; }
@@ -34,20 +30,7 @@ public class DynamicScreen<T extends DynamicScreen<T>> extends AbstractScreen<T>
 
     @Override
     protected void renderBackground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
-        RenderingHelper.renderDynamicPieces(sb,
-                TEX_CORNER_BASE,
-                TEX_CORNER_TRIM,
-                TEX_EDGE_TRIM,
-                bottomLeftX,
-                bottomLeftY,
-                bottomLeftX + CORNER_SIZE,
-                bottomLeftX + CORNER_SIZE + centerWidth,
-                bottomLeftY + CORNER_SIZE,
-                bottomLeftY + CORNER_SIZE + centerHeight,
-                centerWidth,
-                centerHeight,
-                getBaseColor(),
-                getTrimColor(),
-                CORNER_SIZE);
+        RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, bottomLeftX, bottomLeftY, width, height, CORNER_SIZE, getBaseColor());
+        RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, bottomLeftX, bottomLeftY, width, height, CORNER_SIZE, getTrimColor());
     }
 }

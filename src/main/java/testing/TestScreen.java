@@ -5,18 +5,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import ui.layouts.*;
-import ui.screens.DynamicScreen2;
-import ui.widgets.DebugWidget;
+import ui.screens.DynamicScreen;
 import ui.widgets.SimplePadding;
-import ui.widgets.buttons.SimpleButton;
 import ui.widgets.buttons.TextButton;
 import ui.widgets.labels.SimpleLabel;
 import ui.widgets.lines.HorizontalLine;
-import ui.widgets.lines.VerticalLine;
 import utils.ColorHelper;
 import utils.SoundHelper;
 
-public class TestScreen extends DynamicScreen2<TestScreen> {
+public class TestScreen extends DynamicScreen<TestScreen> {
     private GridLayout layout;
 
     public TestScreen(int width, int height) {

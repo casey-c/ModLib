@@ -1,109 +1,76 @@
 package ui.screens;
 
-/*
+import basemod.BaseMod;
 import basemod.interfaces.PostUpdateSubscriber;
 import basemod.interfaces.RenderSubscriber;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.core.Settings;
-import ui.layouts.Layout;
-import ui.widgets.ScreenWidget;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import ui.layouts.AnchorPosition;
+import ui.widgets.Widget;
+import utils.ColorHelper;
 
-import java.util.ArrayList;
+public class AbstractScreen<T extends AbstractScreen<T>> extends Widget<T> implements RenderSubscriber, PostUpdateSubscriber {
+    private boolean visible;
+    protected float SCREEN_WIDTH, SCREEN_HEIGHT;
 
-public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubscriber, PostUpdateSubscriber {
-    protected boolean visible;
+    public AbstractScreen(float width, float height) {
+        this.SCREEN_WIDTH = width;
+        this.SCREEN_HEIGHT = height;
 
-    protected Texture SCREEN_BG;
-    protected float SCREEN_W, SCREEN_H;
+        setActualFromAnchor(
+                ScreenHelper.getGlobalCenterX(SCREEN_WIDTH),
+                ScreenHelper.getGlobalCenterY(SCREEN_HEIGHT),
+                SCREEN_WIDTH,
+                SCREEN_HEIGHT,
+                AnchorPosition.BOTTOM_LEFT
+        );
 
-    protected float CONTENT_PADDING_LEFT = 60.0f;
-    protected float CONTENT_PADDING_RIGHT = 60.0f;
-    protected float CONTENT_PADDING_TOP = 60.0f;
-    protected float CONTENT_PADDING_BOTTOM = 60.0f;
-
-    protected float getScreenLeft() { return ((float) Settings.WIDTH - SCREEN_W) * 0.5f; }
-    protected float getScreenRight() { return getScreenLeft() + SCREEN_W; }
-    protected float getScreenBottom() { return ((float) Settings.HEIGHT - SCREEN_H) * 0.5f; }
-    protected float getScreenTop() { return getScreenBottom() + SCREEN_H; }
-
-    protected float getContentLeft() { return getScreenLeft() + CONTENT_PADDING_LEFT; }
-    protected float getContentRight() { return getScreenRight() - CONTENT_PADDING_RIGHT; }
-
-    protected float getContentBottom() { return getScreenBottom() + CONTENT_PADDING_BOTTOM; }
-    protected float getContentTop() { return getScreenTop() - CONTENT_PADDING_TOP; }
-
-    protected float getContentCenterX() { return getContentLeft() + (getContentWidth() * 0.5f); }
-    protected float getContentCenterY() { return getContentBottom() + (getContentHeight() * 0.5f); }
-
-    protected float getScreenWidth() { return SCREEN_W; }
-    protected float getContentWidth() { return SCREEN_W - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT; }
-
-    protected float getScreenHeight() { return SCREEN_H; }
-    protected float getContentHeight() { return SCREEN_H - CONTENT_PADDING_TOP - CONTENT_PADDING_BOTTOM; }
-
-    // --------------------------------------------------------------------------------
-
-    protected T mainLayout;
-
-    // --------------------------------------------------------------------------------
-
-    public boolean isVisible() {
-        return visible;
+        BaseMod.subscribe(this);
     }
 
+    // Convenience
+
+    @Override public float getPrefWidth() { return SCREEN_WIDTH; }
+    @Override public float getPrefHeight() { return SCREEN_HEIGHT; }
+
+    // --------------------------------------------------------------------------------
+
+    public void setVisible(boolean val) { this.visible = val; }
+    public boolean isVisible() { return visible; }
+
+    @Override
     public void show() {
         if (visible)
             return;
 
-        visible = true;
+        this.visible = true;
         ScreenHelper.showCustomScreen("DECK_OPEN");
-
-        if (mainLayout != null)
-            mainLayout.show();
     }
 
+    @Override
     public void hide() {
         if (!visible)
             return;
 
-        visible = false;
+        this.visible = false;
         ScreenHelper.closeCustomScreen("DECK_CLOSE");
-
-        if (mainLayout != null)
-            mainLayout.hide();
     }
 
-    public void saveAndClose() { hide(); }
-    public void revertAndClose() { hide(); }
+    // --------------------------------------------------------------------------------
 
-    protected void renderScreenBackground(SpriteBatch sb) {
-        sb.setColor(Color.WHITE);
-        sb.draw(SCREEN_BG,
-                ((float) Settings.WIDTH - SCREEN_W * Settings.scale) * 0.5f,
-                ((float) Settings.HEIGHT - SCREEN_H * Settings.scale) * 0.5f
-        );
+    protected void renderBackground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+        // TODO: lock behind debug only
+        sb.setColor(ColorHelper.VERY_DIM_BLUE);
+        sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
     }
 
-    protected void renderScreenForeground(SpriteBatch sb) {
-        if (mainLayout != null)
-            mainLayout.render(sb);
+    protected void renderForeground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+        // TODO: any other widgets on this screen
     }
 
-    public void setContentPadding(float left, float right, float top, float bottom)  {
-        this.CONTENT_PADDING_LEFT = left;
-        this.CONTENT_PADDING_TOP = top;
-        this.CONTENT_PADDING_RIGHT = right;
-        this.CONTENT_PADDING_BOTTOM = bottom;
-    }
-
-    public void setContentPadding(float horizontal, float vertical)  {
-        this.CONTENT_PADDING_LEFT = horizontal;
-        this.CONTENT_PADDING_TOP = vertical;
-        this.CONTENT_PADDING_RIGHT = horizontal;
-        this.CONTENT_PADDING_BOTTOM = vertical;
+    @Override public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+        renderBackground(sb, bottomLeftX, bottomLeftY, width, height);
+        renderForeground(sb, bottomLeftX, bottomLeftY, width, height);
     }
 
     @Override
@@ -111,19 +78,7 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
         if (!visible)
             return;
 
-        renderScreenBackground(sb);
-        renderScreenForeground(sb);
-    }
-
-    public void print() {
-        System.out.println("SCREEN (width, height): " + getScreenWidth() + ", " + getScreenHeight());
-        System.out.println("SCREEN bottom left (x, y): " + getScreenLeft() + ", " + getScreenBottom());
-        System.out.println("SCREEN upper right (x, y): " + getScreenRight() + ", " + getScreenTop());
-        System.out.println();
-        System.out.println("SCREEN CONTENT (width, height): " + getContentWidth() + ", " + getContentHeight());
-        System.out.println("SCREEN CONTENT bottom left (x, y): " + getContentLeft() + ", " + getContentBottom());
-        System.out.println("SCREEN CONTENT upper right (x, y): " + getContentRight() + ", " + getContentTop());
-        System.out.println();
+        render(sb);
     }
 
     @Override
@@ -131,9 +86,6 @@ public abstract class AbstractScreen<T extends Layout<T>> implements RenderSubsc
         if (!visible)
             return;
 
-        if (mainLayout != null)
-            mainLayout.update();
+        update();
     }
 }
-
- */

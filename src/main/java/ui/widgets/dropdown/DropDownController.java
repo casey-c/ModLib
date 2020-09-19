@@ -10,14 +10,18 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import ui.GrowthPolicy;
 import ui.layouts.AnchorPosition;
 import ui.layouts.VerticalLayout;
+import ui.layouts.VerticalLayoutPolicy;
 import ui.widgets.Widget;
 import ui.widgets.buttons.AbstractButton;
+import ui.widgets.labels.SimpleLabel;
 import utils.ColorHelper;
 
 public class DropDownController extends AbstractButton<DropDownController> {
     VerticalLayout layout = new VerticalLayout();
     boolean dropDownVisible;
-    String text = "Choice 1";
+    //String text = "Choice 1";
+
+    private SimpleLabel selected;
 
     private BitmapFont font = FontHelper.tipBodyFont;
     private Color fontColor = Settings.CREAM_COLOR;
@@ -25,6 +29,8 @@ public class DropDownController extends AbstractButton<DropDownController> {
     private static final float TEXT_OFFSET_Y = 7;
 
     public DropDownController() {
+        layout.withChildExpansionPolicy(VerticalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_FULL);
+
         layout.addChild(new DropDownItem("Choice 1")).withOnClick(this::selectDropDownItem);
         layout.addChild(new DropDownItem("Choice 2")).withOnClick(this::selectDropDownItem);
         layout.addChild(new DropDownItem("Choice 3 is longer")).withOnClick(this::selectDropDownItem);
@@ -32,11 +38,14 @@ public class DropDownController extends AbstractButton<DropDownController> {
         layout.addChild(new DropDownItem("Choice 5")).withOnClick(this::selectDropDownItem);
 
         hb = new Hitbox(getPrefWidth(), getPrefHeight());
+
+         selected = new SimpleLabel("???").withOffsets(8, 7);
     }
 
     private void selectDropDownItem(DropDownItem item) {
-        this.text = item.getText();
-        System.out.println("Selected " + text);
+        //this.text = item.getText();
+        selected.setText(item.getText());
+        System.out.println("Selected " + item.getText());
         disableDropDown();
     }
 
@@ -156,10 +165,17 @@ public class DropDownController extends AbstractButton<DropDownController> {
             layout.render(sb);
         }
         else {
+//            if (layout.getChildren().size() > 0) {
+//                DropDownItem w = (DropDownItem) layout.getChildren().getFirst();
+//                w.renderAt(sb, bottomLeftX, bottomLeftY, width, height);
+//            }
+
             sb.setColor(ColorHelper.VERY_DIM_CYAN);
             sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
 
-            FontHelper.renderFontLeftDownAligned(sb, font, text, bottomLeftX + TEXT_OFFSET_X, bottomLeftY + (0.5f * height) - (0.5f * font.getLineHeight()) + TEXT_OFFSET_Y, fontColor);
+            selected.renderAt(sb, bottomLeftX, bottomLeftY, width, height);
+//
+//            FontHelper.renderFontLeftDownAligned(sb, font, text, bottomLeftX + TEXT_OFFSET_X, bottomLeftY + (0.5f * height) - (0.5f * font.getLineHeight()) + TEXT_OFFSET_Y, fontColor);
         }
 
         hb.render(sb);

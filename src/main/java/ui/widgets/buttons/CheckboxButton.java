@@ -33,6 +33,8 @@ public class CheckboxButton extends SimpleButton<CheckboxButton> {
         super.click();
     }
 
+    public boolean isChecked() { return isChecked; }
+
     @Override
     public void renderBackground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float w, float h) {
         // Base

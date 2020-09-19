@@ -39,14 +39,22 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 .withSpacing(30.0f)
                 .withAbsoluteRows(60.0f, -1)
                 //.withBalancedRows(1)
-                .withBalancedCols(1);
+                .withBalancedCols(2);
 
-        DropDownController dropDown = layout.setWidget(1, 0, new DropDownController()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
+        DropDownController dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
+
         layout.setWidget(0, 0, new TextButton("Cycle Position")).withOnClick( onClick -> {
             AnchorPosition next = nextAnchor();
             System.out.println("next anchor position: " + next);
             dropDown.setContentAnchorPosition(next);
         }).withGrowthPolicy(GrowthPolicy.EXPANDING_BOTH);
+
+        layout.setWidget(0, 1, new CheckboxButton()).withOnClick( checkboxButton -> {
+            if (checkboxButton.isChecked())
+                dropDown.setGrowthPolicy(GrowthPolicy.EXPANDING_X);
+            else
+                dropDown.setGrowthPolicy(GrowthPolicy.PREFERRED_BOTH);
+        });
 
 //                .withContentAnchorPosition(AnchorPosition.TOP_LEFT)
     }

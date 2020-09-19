@@ -2,6 +2,7 @@ package ui.screens;
 
 import basemod.BaseMod;
 import basemod.interfaces.PostRenderSubscriber;
+import basemod.interfaces.PostUpdateSubscriber;
 import basemod.interfaces.RenderSubscriber;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
@@ -10,7 +11,7 @@ import ui.layouts.AnchorPosition;
 import ui.widgets.Widget;
 import utils.ColorHelper;
 
-public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> implements RenderSubscriber {
+public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> implements RenderSubscriber, PostUpdateSubscriber {
     private boolean visible;
     protected float SCREEN_WIDTH, SCREEN_HEIGHT;
 
@@ -80,5 +81,13 @@ public class AbstractScreen2<T extends AbstractScreen2<T>> extends Widget<T> imp
             return;
 
         render(sb);
+    }
+
+    @Override
+    public void receivePostUpdate() {
+        if (!visible)
+            return;
+
+        update();
     }
 }

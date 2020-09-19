@@ -79,6 +79,24 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
     }
 
     @Override
+    public void show() {
+        for (Widget child : children)
+            child.show();
+    }
+
+    @Override
+    public void hide() {
+        for (Widget child : children)
+            child.hide();
+    }
+
+    @Override
+    public void update() {
+        for (Widget child : children)
+            child.update();
+    }
+
+    @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
         // todo: add a debug draw
 

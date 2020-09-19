@@ -1,6 +1,5 @@
 package ui.widgets.buttons;
 
-/*
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,6 +13,7 @@ import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureHelper;
 
+/*
 public class TextButtonOLD extends AbstractButtonOLD<TextButtonOLD> {
     private String text;
     private static final BitmapFont font = FontHelper.tipBodyFont;
@@ -225,5 +225,6 @@ public class TextButtonOLD extends AbstractButtonOLD<TextButtonOLD> {
         hb.render(sb);
     }
 }
+
 
  */

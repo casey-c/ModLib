@@ -8,10 +8,12 @@ import ui.layouts.*;
 import ui.screens.DynamicScreen2;
 import ui.widgets.DebugWidget;
 import ui.widgets.SimplePadding;
+import ui.widgets.buttons.SimpleButton;
 import ui.widgets.labels.SimpleLabel;
 import ui.widgets.lines.HorizontalLine;
 import ui.widgets.lines.VerticalLine;
 import utils.ColorHelper;
+import utils.SoundHelper;
 
 public class TestScreen extends DynamicScreen2<TestScreen> {
     private GridLayout layout;
@@ -41,7 +43,10 @@ public class TestScreen extends DynamicScreen2<TestScreen> {
                 .computeLayout();
 
 
-        layout.setWidget(1, 1, new DebugWidget(100, 100));
+        //layout.setWidget(1, 1, new DebugWidget(100, 100));
+        layout.setWidget(1,1, new SimpleButton(100, 100)).withOnClick(onClick -> {
+            SoundHelper.cawCaw();
+        }).setContentAnchorPosition(AnchorPosition.TOP_LEFT);
         //layout.setWidget(1, 1, new HorizontalLine2());
         //layout.setWidget(1, 1, new VerticalLine());
     }
@@ -53,5 +58,10 @@ public class TestScreen extends DynamicScreen2<TestScreen> {
         super.renderForeground(sb, bottomLeftX, bottomLeftY, width, height);
 
         layout.render(sb);
+    }
+
+    @Override
+    public void update() {
+        layout.update();
     }
 }

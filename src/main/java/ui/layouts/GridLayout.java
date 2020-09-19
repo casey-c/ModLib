@@ -301,6 +301,24 @@ public class GridLayout extends Layout<GridLayout> {
     @Override public float getPrefHeight() { return getActualHeight(); }
 
     @Override
+    public void show() {
+        for (Widget child : children.values())
+            child.show();
+    }
+
+    @Override
+    public void hide() {
+        for (Widget child : children.values())
+            child.hide();
+    }
+
+    @Override
+    public void update() {
+        for (Widget child : children.values())
+            child.update();
+    }
+
+    @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
         for (Widget w : children.values())
             w.render(sb);

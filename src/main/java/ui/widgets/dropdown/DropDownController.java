@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import ui.GrowthPolicy;
 import ui.layouts.AnchorPosition;
 import ui.layouts.VerticalLayout;
 import ui.widgets.Widget;
@@ -24,12 +25,11 @@ public class DropDownController extends AbstractButton<DropDownController> {
     private static final float TEXT_OFFSET_Y = 7;
 
     public DropDownController() {
-        layout.addChild(new DropDownItem("Choice 1")).withOnClick(item -> {
-            selectDropDownItem(item);
-        });
-        layout.addChild(new DropDownItem("Choice 2")).withOnClick(item -> {
-            selectDropDownItem(item);
-        });
+        layout.addChild(new DropDownItem("Choice 1")).withOnClick(this::selectDropDownItem);
+        layout.addChild(new DropDownItem("Choice 2")).withOnClick(this::selectDropDownItem);
+        layout.addChild(new DropDownItem("Choice 3 is longer")).withOnClick(this::selectDropDownItem);
+        layout.addChild(new DropDownItem("Choice 4")).withOnClick(this::selectDropDownItem);
+        layout.addChild(new DropDownItem("Choice 5")).withOnClick(this::selectDropDownItem);
 
         hb = new Hitbox(getPrefWidth(), getPrefHeight());
     }
@@ -68,12 +68,63 @@ public class DropDownController extends AbstractButton<DropDownController> {
         show();
     }
 
+    private void setAllGrowthPolicies(GrowthPolicy policy) {
+        layout.setGrowthPolicy(growthPolicy);
+        for (Widget child : layout.getChildren())
+            child.setGrowthPolicy(policy);
+    }
+
+    private void updateLayoutPosition() {
+        // Dimensions
+        float controllerWidth = (growthPolicy.isExpandingWidth()) ? getContentWidth() : getPrefWidth();
+        float controllerHeight = (growthPolicy.isExpandingHeight()) ? getContentHeight() : getPrefHeight();
+
+        // Position
+        float controllerLeft = getContentLeft();
+        float controllerBottom = getContentBottom();
+
+        if (contentAnchorPosition.isCentralX())
+            controllerLeft = getContentCenterX() - (controllerWidth * 0.5f);
+        else if (contentAnchorPosition.isRight())
+            controllerLeft = getContentRight() - controllerWidth;
+
+        if (contentAnchorPosition.isCentralY())
+            controllerBottom = getContentCenterY() - (controllerHeight * 0.5f);
+        else if (contentAnchorPosition.isTop())
+            controllerBottom = getContentTop() - controllerHeight;
+
+        float controllerTop = controllerBottom + controllerHeight;
+
+        layout.setActualFromAnchor(controllerLeft, controllerTop, controllerWidth, layout.getPrefHeight(), AnchorPosition.TOP_LEFT);
+        layout.setContentAnchorPosition(contentAnchorPosition);
+        setAllGrowthPolicies(growthPolicy);
+
+        layout.computeLayout();
+
+        System.out.println("layout is now set");
+        print();
+        layout.print();
+
+        // forces a hitbox recompute?
+        show();
+    }
+
     @Override
     public void setActualFromAnchor(float x, float y, float width, float height, AnchorPosition anchor) {
         super.setActualFromAnchor(x, y, width, height, anchor);
+        updateLayoutPosition();
+    }
 
-        layout.setActualFromAnchor(getContentLeft(), getContentTop(), getContentWidth(), getContentHeight(), AnchorPosition.TOP_LEFT);
-        layout.computeLayout();
+    @Override
+    public void setContentAnchorPosition(AnchorPosition position) {
+        super.setContentAnchorPosition(position);
+        updateLayoutPosition();
+    }
+
+    @Override
+    public void setGrowthPolicy(GrowthPolicy policy) {
+        super.setGrowthPolicy(policy);
+        updateLayoutPosition();
     }
 
     @Override
@@ -102,10 +153,6 @@ public class DropDownController extends AbstractButton<DropDownController> {
         super.renderAt(sb, bottomLeftX, bottomLeftY, width, height);
 
         if (dropDownVisible) {
-            // no, this doesn't fix the issue
-            //float layoutHeight = layout.getPrefHeight();
-            //layout.renderAt(sb, bottomLeftX, bottomLeftY - layoutHeight + height, width, layoutHeight);
-            
             layout.render(sb);
         }
         else {

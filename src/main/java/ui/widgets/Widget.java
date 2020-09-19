@@ -183,6 +183,8 @@ public abstract class Widget<T extends Widget<T>> {
         System.out.println();
         System.out.println("\tPREF WIDTH: " + getPrefWidth());
         System.out.println("\tPREF HEIGHT: " + getPrefHeight());
+        System.out.println();
+        System.out.println("\tANCHOR: " + contentAnchorPosition.name());
         System.out.println("-----------------------------");
     }
 

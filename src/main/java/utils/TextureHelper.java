@@ -20,7 +20,8 @@ public class TextureHelper {
         BUTTON_HIGHLIGHT_CENTER("ModLib/images/widgets/button/button_highlight_center.png"),
 
         ICON("ModLib/images/icon.png"),
-        X_ICON("ModLib/images/widgets/icons/icon_x.png")
+        X_ICON("ModLib/images/widgets/icons/icon_x.png"),
+        RESET_ICON("ModLib/images/widgets/icons/icon_reset.png")
         ;
 
         private final String val;

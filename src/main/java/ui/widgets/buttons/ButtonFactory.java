@@ -11,4 +11,9 @@ public class ButtonFactory {
                 ColorHelper.CANCEL_BUTTON_HOVER,
                 ColorHelper.CANCEL_BUTTON_CLICK);
     }
+
+    public static IconButton resetButton() {
+        return new IconButton(TextureHelper.TextureItem.RESET_ICON.get(), ColorHelper.ICON_COLOR);
+    }
+
 }

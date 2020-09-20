@@ -27,6 +27,7 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     private static final Texture TEX_CORNER_BASE = TextureHelper.TextureItem.DROPDOWN_CORNER_BASE.get();
     private static final Texture TEX_CORNER_TRIM = TextureHelper.TextureItem.DROPDOWN_CORNER_TRIM.get();
     private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM.get();
+    private static final Texture TEX_ICON = TextureHelper.TextureItem.DROPDOWN_ICON.get();
     private final int CORNER_SIZE = 16;
 
     public DropDownItem2(DropDownController2 parent, String text, Consumer<DropDownController2> onSelect) {
@@ -86,6 +87,10 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
         else {
             RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getBaseColor());
             RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getTrimColor());
+
+            // Icon
+            sb.setColor(ColorHelper.FADED_CREAM);
+            sb.draw(TEX_ICON, bottomLeftX + width - HORIZONTAL_OFFSET - TEX_ICON.getWidth(), bottomLeftY + (height - TEX_ICON.getHeight()) * 0.5f);
         }
 
         label.renderAt(sb, bottomLeftX, bottomLeftY, width, height);

@@ -2,12 +2,16 @@ package utils;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.megacrit.cardcrawl.core.Settings;
 
 public class ColorHelper {
     public static final Color TRANSPARENT_WHITE = new Color(1.0f, 1.0f, 1.0f, 0.75f);
     public static final Color DARK_GRAY = new Color(0.2f, 0.2f, 0.2f, 1.0f);
     public static final Color SCREEN_BASE_COLOR = new Color(0.133f, 0.165f, 0.169f, 0.8f);
     public static final Color ORANGE_COLOR = new Color(0.847f, 0.361f, 0.11f, 1.0f);
+
+    public static final Color FADED_CREAM = new Color(1.0f, 0.965f, 0.886f, 0.2f);
+
 
     // --------------------------------------------------------------------------------
 

@@ -11,7 +11,6 @@ import ui.widgets.SimplePadding;
 import ui.widgets.buttons.ButtonFactory;
 import ui.widgets.buttons.CheckboxButton;
 import ui.widgets.buttons.TextButton;
-import ui.widgets.dropdown.DropDownController;
 import ui.widgets.dropdown.DropDownController2;
 import ui.widgets.labels.SimpleLabel;
 import ui.widgets.lines.HorizontalLine;
@@ -43,23 +42,27 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 //.withBalancedRows(1)
                 .withBalancedCols(2);
 
-        DropDownController2 dropDown = layout.setWidget(0, 1, new DropDownController2()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
+        DropDownController2 dropDown = layout.setWidget(0, 1, new DropDownController2(interactiveWidgetManager)).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
         dropDown.addItem("Choice 1", x->{});
         dropDown.addItem("Choice 2", x->{});
-        dropDown.addItem("Caw", x->{ SoundHelper.cawCaw();});
+        dropDown.addItem("Caw", x->{
+            //SoundHelper.cawCaw();
+        });
         dropDown.addItem("Choice 3", x->{});
 
-        layout.setWidget(0, 0, new CheckboxButton()).withOnClick( checkboxButton -> {
+        layout.setWidget(0, 0, new CheckboxButton(interactiveWidgetManager)).withOnClick( checkboxButton -> {
             if (checkboxButton.isChecked())
                 dropDown.setGrowthPolicy(GrowthPolicy.EXPANDING_BOTH); // TODO: expanding both has bugs! (not vertically centered)
             else
                 dropDown.setGrowthPolicy(GrowthPolicy.PREFERRED_BOTH);
         });
 
-        DropDownController2 dropDown2 = layout.setWidget(1, 1, new DropDownController2()).withGrowthPolicy(GrowthPolicy.EXPANDING_Y);
+        DropDownController2 dropDown2 = layout.setWidget(1, 1, new DropDownController2(interactiveWidgetManager)).withGrowthPolicy(GrowthPolicy.EXPANDING_Y);
         dropDown2.addItem("Choice 1", x->{});
         dropDown2.addItem("Choice 2", x->{});
-        dropDown2.addItem("Caw", x->{ SoundHelper.cawCaw();});
+        dropDown2.addItem("Caw", x->{
+            //SoundHelper.cawCaw();
+        });
         dropDown2.addItem("Choice 3", x->{});
 
         //DropDownController dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);

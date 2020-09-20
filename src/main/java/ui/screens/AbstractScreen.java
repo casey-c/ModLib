@@ -5,6 +5,7 @@ import basemod.interfaces.PostUpdateSubscriber;
 import basemod.interfaces.RenderSubscriber;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import ui.interactivity.InteractiveWidgetManager;
 import ui.layouts.AnchorPosition;
 import ui.widgets.Widget;
 import utils.ColorHelper;
@@ -12,6 +13,8 @@ import utils.ColorHelper;
 public class AbstractScreen<T extends AbstractScreen<T>> extends Widget<T> implements RenderSubscriber, PostUpdateSubscriber {
     private boolean visible;
     protected float SCREEN_WIDTH, SCREEN_HEIGHT;
+
+    protected InteractiveWidgetManager interactiveWidgetManager = new InteractiveWidgetManager();
 
     public AbstractScreen(float width, float height) {
         this.SCREEN_WIDTH = width;

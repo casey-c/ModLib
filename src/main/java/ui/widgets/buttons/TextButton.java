@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
+import ui.interactivity.InteractiveWidgetManager;
 
 public class TextButton extends SimpleButton<TextButton> {
     private String text;
@@ -19,18 +20,18 @@ public class TextButton extends SimpleButton<TextButton> {
     private static final float TEXT_HORIZONTAL_PADDING = 4.0f;
     private static final float TEXT_VERTICAL_PADDING = 4.0f;
 
-    public TextButton(String text) {
-        this(text, FontHelper.tipBodyFont, Settings.CREAM_COLOR);
+    public TextButton(InteractiveWidgetManager manager, String text) {
+        this(manager, text, FontHelper.tipBodyFont, Settings.CREAM_COLOR);
     }
 
-    public TextButton(String text, BitmapFont font, Color fontColor) {
-        super();
+    public TextButton(InteractiveWidgetManager manager, String text, BitmapFont font, Color fontColor) {
+        super(manager);
         setText(text, font);
         this.fontColor = fontColor;
     }
 
-    public TextButton(String text, BitmapFont font, Color fontColor, Color baseColor, Color hoverColor, Color clickColor) {
-        super(baseColor, hoverColor, clickColor);
+    public TextButton(InteractiveWidgetManager manager, String text, BitmapFont font, Color fontColor, Color baseColor, Color hoverColor, Color clickColor) {
+        super(manager, baseColor, hoverColor, clickColor);
         setText(text, font);
         this.fontColor = fontColor;
 

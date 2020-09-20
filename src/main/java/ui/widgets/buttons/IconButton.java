@@ -6,22 +6,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
+import ui.interactivity.InteractiveWidgetManager;
 import utils.ColorHelper;
 
 public class IconButton extends SimpleButton<IconButton> {
     private Texture icon;
     private Color iconColor;
 
-    public IconButton(Texture icon) {
-        this(icon, Color.WHITE);
+    public IconButton(InteractiveWidgetManager manager, Texture icon) {
+        this(manager, icon, Color.WHITE);
     }
 
-    public IconButton(Texture icon, Color iconColor) {
-        this(icon, iconColor, ColorHelper.BUTTON_DEFAULT_BASE, ColorHelper.BUTTON_HOVER_BASE, ColorHelper.BUTTON_CLICK_BASE);
+    public IconButton(InteractiveWidgetManager manager, Texture icon, Color iconColor) {
+        this(manager, icon, iconColor, ColorHelper.BUTTON_DEFAULT_BASE, ColorHelper.BUTTON_HOVER_BASE, ColorHelper.BUTTON_CLICK_BASE);
     }
 
-    public IconButton(Texture icon, Color iconColor, Color baseColor, Color hoverColor, Color clickColor) {
-        super(baseColor, hoverColor, clickColor);
+    public IconButton(InteractiveWidgetManager manager, Texture icon, Color iconColor, Color baseColor, Color hoverColor, Color clickColor) {
+        super(manager, baseColor, hoverColor, clickColor);
 
         this.icon = icon;
         this.iconColor = iconColor;

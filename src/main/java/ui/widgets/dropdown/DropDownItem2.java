@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import ui.interactivity.InteractiveWidgetManager;
 import ui.widgets.buttons.AbstractButton;
 import ui.widgets.labels.SimpleLabel;
 import utils.ColorHelper;
@@ -30,7 +31,9 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     private static final Texture TEX_ICON = TextureHelper.TextureItem.DROPDOWN_ICON.get();
     private final int CORNER_SIZE = 16;
 
-    public DropDownItem2(DropDownController2 parent, String text, Consumer<DropDownController2> onSelect) {
+    public DropDownItem2(InteractiveWidgetManager manager, DropDownController2 parent, String text, Consumer<DropDownController2> onSelect) {
+        super(manager);
+
         this.parent = parent;
         this.onSelect = onSelect;
 

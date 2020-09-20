@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.Hitbox;
+import ui.interactivity.InteractiveWidgetManager;
 import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureHelper;
@@ -33,15 +34,16 @@ public class SimpleButton<T extends SimpleButton<T>> extends AbstractButton<T> {
     // TODO: really really really need to do some refactoring on these constructors - they may be the worst I've ever
     //   written in my entire life.....
 
-    public SimpleButton(float width, float height) {
-        this(width, height, ColorHelper.BUTTON_DEFAULT_BASE, ColorHelper.BUTTON_HOVER_BASE, ColorHelper.BUTTON_CLICK_BASE);
+    public SimpleButton(InteractiveWidgetManager manager, float width, float height) {
+        this(manager, width, height, ColorHelper.BUTTON_DEFAULT_BASE, ColorHelper.BUTTON_HOVER_BASE, ColorHelper.BUTTON_CLICK_BASE);
     }
 
-    protected SimpleButton() {
-        this(ColorHelper.BUTTON_DEFAULT_BASE, ColorHelper.BUTTON_HOVER_BASE, ColorHelper.BUTTON_CLICK_BASE);
+    protected SimpleButton(InteractiveWidgetManager manager) {
+        this(manager, ColorHelper.BUTTON_DEFAULT_BASE, ColorHelper.BUTTON_HOVER_BASE, ColorHelper.BUTTON_CLICK_BASE);
     }
 
-    public SimpleButton(Color baseColor, Color hoverColor, Color clickColor) {
+    public SimpleButton(InteractiveWidgetManager manager, Color baseColor, Color hoverColor, Color clickColor) {
+        super(manager);
         this.width = 0;
         this.height = 0;
         hb = new Hitbox(width, height);
@@ -51,7 +53,8 @@ public class SimpleButton<T extends SimpleButton<T>> extends AbstractButton<T> {
         this.clickColor = clickColor;
     }
 
-    public SimpleButton(float width, float height, Color baseColor, Color hoverColor, Color clickColor) {
+    public SimpleButton(InteractiveWidgetManager manager, float width, float height, Color baseColor, Color hoverColor, Color clickColor) {
+        super(manager);
         this.width = width;
         this.height = height;
 

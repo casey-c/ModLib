@@ -1,5 +1,7 @@
 package ui.widgets.dropdown;
 
+/*
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,6 +9,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import ui.interactivity.InteractiveWidgetManager;
 import ui.widgets.buttons.AbstractButton;
 import ui.widgets.labels.SimpleLabel;
 import utils.ColorHelper;
@@ -24,7 +27,8 @@ public class DropDownItem extends AbstractButton<DropDownItem> {
 
     private SimpleLabel label;
 
-    public DropDownItem(String text) {
+    public DropDownItem(InteractiveWidgetManager manager, String text) {
+        super(manager);
         label = new SimpleLabel(text).withOffsets(8, 7);
 
 //        this.text = text;
@@ -63,3 +67,5 @@ public class DropDownItem extends AbstractButton<DropDownItem> {
         hb.render(sb);
     }
 }
+
+ */

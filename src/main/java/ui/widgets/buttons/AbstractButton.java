@@ -3,17 +3,26 @@ package ui.widgets.buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import ui.interactivity.IHasInteractivity;
+import ui.interactivity.InteractiveWidgetManager;
 import ui.layouts.AnchorPosition;
 import ui.widgets.Widget;
 import utils.SoundHelper;
 
 import java.util.function.Consumer;
 
-public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget<T> {
+public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget<T> implements IHasInteractivity {
     protected Consumer<T> onHoverEnter, onHoverLeave, onClick, onRightClick;
     protected Hitbox hb;
 
     protected boolean hovering;
+
+    protected InteractiveWidgetManager interactiveWidgetManager;
+
+    public AbstractButton(InteractiveWidgetManager interactiveWidgetManager) {
+        this.interactiveWidgetManager = interactiveWidgetManager;
+        interactiveWidgetManager.track(this);
+    }
 
     public void setOnClick(Consumer<T> onClick) { this.onClick = onClick; }
     public void setOnRightClick(Consumer<T> onRightClick) { this.onRightClick = onRightClick; }
@@ -28,21 +37,33 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
     // --------------------------------------------------------------------------------
 
     public void click() {
+        if (!interactive)
+            return;
+
         if (onClick != null)
             onClick.accept((T)this);
     }
 
     public void rightClick() {
+        if (!interactive)
+            return;
+
         if (onRightClick != null)
             onRightClick.accept((T)this);
     }
 
     public void hoverEnter() {
+        if (!interactive)
+            return;
+
         if (onHoverEnter != null)
             onHoverEnter.accept((T)this);
     }
 
     public void hoverLeave() {
+        if (!interactive)
+            return;
+
         if (onHoverLeave != null)
             onHoverLeave.accept((T)this);
     }
@@ -51,6 +72,9 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
 
     @Override
     public void update() {
+        if (!interactive)
+            return;
+
         if (hb == null)
             return;
 
@@ -85,13 +109,28 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
         // TODO: right click checking
     }
 
+    protected boolean interactive = true;
+    @Override public boolean isCurrentlyInteractive() { return interactive; }
+
+    @Override
+    public void enableInteractivity() {
+        hitboxNeedsFixing = true;
+        interactive = true;
+    }
+
+    @Override
+    public void disableInteractivity() {
+        hb.move(-10000.0f, -10000.0f);
+        interactive = false;
+    }
+
     private boolean hitboxNeedsFixing = true;
     public void setHitboxNeedsFixing() {
         hitboxNeedsFixing = true;
     }
 
-    @Override public void show() { hitboxNeedsFixing = true; }
-    @Override public void hide() { hb.move(-10000.0f, -10000.0f); }
+//    @Override public void show() {}
+//    @Override public void hide() {}
 
 //    @Override
 //    public void setActualFromAnchor(float x, float y, float width, float height, AnchorPosition anchor) {

@@ -4,8 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.relics.WhiteBeast;
+import input.ClickHelper;
 import ui.GrowthPolicy;
+import ui.interactivity.IHasInteractivity;
+import ui.interactivity.InteractiveWidgetManager;
 import ui.layouts.AnchorPosition;
 import ui.layouts.VerticalLayout;
 import ui.layouts.VerticalLayoutPolicy;
@@ -13,12 +17,13 @@ import ui.widgets.Widget;
 import ui.widgets.buttons.AbstractButton;
 import utils.ColorHelper;
 import utils.RenderingHelper;
+import utils.SoundHelper;
 import utils.TextureHelper;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public class DropDownController2 extends Widget<DropDownController2> {
+public class DropDownController2 extends Widget<DropDownController2> implements IHasInteractivity {
     private boolean showingDropDown;
 
     private DropDownItem2 selectedItem;
@@ -30,12 +35,45 @@ public class DropDownController2 extends Widget<DropDownController2> {
     private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM.get();
     private final int CORNER_SIZE = 16;
 
-    public DropDownController2() {
+    private InteractiveWidgetManager interactiveWidgetManager;
+
+    public DropDownController2(InteractiveWidgetManager manager) {
         this.contentAnchorPosition = AnchorPosition.TOP_LEFT;
+        this.interactiveWidgetManager = manager;
 
         itemLayout = new VerticalLayout()
                 .withChildExpansionPolicy(VerticalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_MAX)
                 .withGlobalChildAnchor(contentAnchorPosition);
+
+        // Make sure we can enable / disable interactivity
+        manager.track(this);
+
+        ClickHelper.watchLeftClick(this, x -> { clickOutsideHandler();});
+    }
+
+    public void clickOutsideHandler() {
+        if (!interactive || !showingDropDown)
+            return;
+
+        float mx = InputHelper.mX;
+        float my = InputHelper.mY;
+
+        //System.out.println("DropDownController found a left click: " + mx + ", " + my);
+        //itemLayout.print();
+
+        float left = itemLayout.getLeft();
+        float right = itemLayout.getRight();
+        float top = itemLayout.getTop();
+        float bot = top - itemLayout.getPrefHeight();
+
+        if ((mx < left || mx > right) || (my < bot || my > top)) {
+            //System.out.println("Mouse not in bounds");
+            select(selectedItem);
+        }
+        else {
+            //System.out.println("Mouse in bounds");
+        }
+
     }
 
 
@@ -45,7 +83,7 @@ public class DropDownController2 extends Widget<DropDownController2> {
     public boolean isShowingDropDown() { return showingDropDown; }
 
     public void addItem(String text, Consumer<DropDownController2> onSelect) {
-        DropDownItem2 item = new DropDownItem2(this, text, onSelect);
+        DropDownItem2 item = new DropDownItem2(interactiveWidgetManager, this, text, onSelect);
         items.add(item);
 
         // Auto select the first one we add to the list (TODO: better / more customizable options (e.g. default values, etc.))
@@ -63,6 +101,9 @@ public class DropDownController2 extends Widget<DropDownController2> {
     // --------------------------------------------------------------------------------
 
     public void select(DropDownItem2 item) {
+        if (!interactive)
+            return;
+
         if (showingDropDown) {
             this.selectedItem = item;
             disableDropDown();
@@ -71,11 +112,6 @@ public class DropDownController2 extends Widget<DropDownController2> {
         else {
             enableDropDown();
         }
-
-        System.out.println("Selected an item");
-        print();
-        itemLayout.print();
-        selectedItem.print();
     }
 
     // --------------------------------------------------------------------------------
@@ -86,6 +122,8 @@ public class DropDownController2 extends Widget<DropDownController2> {
         // Update the hitboxes
         itemLayout.hide();
         selectedItem.show();
+
+        interactiveWidgetManager.enableAll();
     }
 
     private void enableDropDown() {
@@ -93,7 +131,13 @@ public class DropDownController2 extends Widget<DropDownController2> {
 
         // Enable the hitboxes
         itemLayout.show();
+
+        interactiveWidgetManager.enableJustThis(this);
+
+
+        interactive = true;
     }
+
 
     // --------------------------------------------------------------------------------
     // Pass through all the options to the layout
@@ -241,4 +285,14 @@ public class DropDownController2 extends Widget<DropDownController2> {
     }
 
     @Override public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) { }
+
+    private boolean interactive = true;
+    @Override public boolean isCurrentlyInteractive() { return interactive; }
+    @Override public void enableInteractivity() {
+        interactive = true;
+        for (DropDownItem2 item : items)
+            item.enableInteractivity();
+    }
+    @Override public void disableInteractivity() { interactive = false; }
+
 }

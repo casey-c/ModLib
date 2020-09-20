@@ -3,6 +3,7 @@ package ui.widgets.buttons;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import ui.interactivity.InteractiveWidgetManager;
 import utils.ColorHelper;
 import utils.TextureHelper;
 
@@ -22,13 +23,17 @@ public class CheckboxButton extends SimpleButton<CheckboxButton> {
 
     private boolean isChecked;
 
-    public CheckboxButton() {
+    public CheckboxButton(InteractiveWidgetManager manager) {
+        super(manager);
         this.width = TEX_BASE.getWidth();
         this.height = TEX_BASE.getHeight();
     }
 
     @Override
     public void click() {
+        if (!interactive)
+            return;
+
         isChecked = !isChecked;
         super.click();
     }

@@ -77,7 +77,7 @@ public class ClickHelper implements PostUpdateSubscriber {
     private HashMap<Integer, GenericObject> lc = new HashMap<>();
     private HashMap<Integer, HBObject> lcHB = new HashMap<>();
 
-    private boolean mouseDownRight;
+    private boolean mouseDownRight, mouseDownLeft;
 
     // --------------------------------------------------------------------------------
 
@@ -92,6 +92,15 @@ public class ClickHelper implements PostUpdateSubscriber {
 
         ID id = new ID(globalID++);
         instance.rc.put(id.id, new GenericObject(obj, callback));
+
+        return id;
+    }
+
+    public static ID watchLeftClick(Object obj, Consumer<Object> callback) {
+        ClickHelper instance = getInstance();
+
+        ID id = new ID(globalID++);
+        instance.lc.put(id.id, new GenericObject(obj, callback));
 
         return id;
     }
@@ -113,6 +122,17 @@ public class ClickHelper implements PostUpdateSubscriber {
         g.callback = callback;
     }
 
+    public static void updateLeftClick(ID id, Object obj, Consumer<Object> callback) {
+        ClickHelper instance = getInstance();
+
+        if (!instance.lc.containsKey(id.id))
+            return;
+
+        GenericObject g = instance.lc.get(id.id);
+        g.obj = obj;
+        g.callback = callback;
+    }
+
     /**
      * Add a callback function that fires when the provided hitbox is hovered while a right click occurs.
      * @param hb the hitbox to watch
@@ -125,6 +145,15 @@ public class ClickHelper implements PostUpdateSubscriber {
 
         ID id = new ID(globalID++);
         instance.rcHB.put(id.id, new HBObject(hb, obj, callback));
+
+        return id;
+    }
+
+    public static ID watchLeftClickHB(Hitbox hb, Object obj, Consumer<Object> callback) {
+        ClickHelper instance = getInstance();
+
+        ID id = new ID(globalID++);
+        instance.lcHB.put(id.id, new HBObject(hb, obj, callback));
 
         return id;
     }
@@ -148,6 +177,18 @@ public class ClickHelper implements PostUpdateSubscriber {
         h.callback = callback;
     }
 
+    public static void updateLeftClickHB(ID id, Hitbox hb, Object obj, Consumer<Object> callback) {
+        ClickHelper instance = getInstance();
+
+        if (!instance.lcHB.containsKey(id.id))
+            return;
+
+        HBObject h = instance.lcHB.get(id.id);
+        h.hb = hb;
+        h.obj = obj;
+        h.callback = callback;
+    }
+
     /**
      * Remove the supplied callback.
      * @param id a preexisting identifier
@@ -156,6 +197,12 @@ public class ClickHelper implements PostUpdateSubscriber {
         ClickHelper instance = getInstance();
         instance.rc.remove(id.id);
         instance.rcHB.remove(id.id);
+    }
+
+    public static void removeLeftClick(ID id) {
+        ClickHelper instance = getInstance();
+        instance.lc.remove(id.id);
+        instance.lcHB.remove(id.id);
     }
 
     // --------------------------------------------------------------------------------
@@ -167,6 +214,15 @@ public class ClickHelper implements PostUpdateSubscriber {
             o.activate();
 
         for (HBObject o : rcHB.values())
+            o.testAndActivate();
+    }
+
+    private void leftClickHandler() {
+        System.out.println("OJB: regular click");
+        for (GenericObject o : lc.values())
+            o.activate();
+
+        for (HBObject o : lcHB.values())
             o.testAndActivate();
     }
 
@@ -182,6 +238,17 @@ public class ClickHelper implements PostUpdateSubscriber {
                 mouseDownRight = false;
             }
         }
+
+        if (InputHelper.isMouseDown) {
+            mouseDownLeft = true;
+        } else {
+            // We already had the mouse down, and now we released, so fire our right click event
+            if (mouseDownLeft) {
+                leftClickHandler();
+                mouseDownLeft = false;
+            }
+        }
+
     }
 
 }

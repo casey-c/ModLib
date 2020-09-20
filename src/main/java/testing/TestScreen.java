@@ -43,14 +43,14 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 .withBalancedCols(2);
 
         DropDownController2 dropDown = layout.setWidget(0, 1, new DropDownController2(interactiveWidgetManager)).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
-        dropDown.addItem("Choice 1", x->{});
-        dropDown.addItem("Choice 2", x->{});
-        dropDown.addItem("Caw", x->{
-            //SoundHelper.cawCaw();
+        dropDown.addItem("Choice 1", onSelect -> {});
+        dropDown.addItem("Choice 2", onSelect -> {});
+        dropDown.addItem("Caw", onSelect -> {
+            SoundHelper.cawCaw();
         });
-        dropDown.addItem("Choice 3", x->{});
+        dropDown.addItem("Choice 3", onSelect -> {});
 
-        layout.setWidget(0, 0, new CheckboxButton(interactiveWidgetManager)).withOnClick( checkboxButton -> {
+        layout.setWidget(0, 0, new CheckboxButton(interactiveWidgetManager, "Scale Width")).withOnClick( checkboxButton -> {
             if (checkboxButton.isChecked())
                 dropDown.setGrowthPolicy(GrowthPolicy.EXPANDING_BOTH); // TODO: expanding both has bugs! (not vertically centered)
             else
@@ -58,12 +58,12 @@ public class TestScreen extends DynamicScreen<TestScreen> {
         });
 
         DropDownController2 dropDown2 = layout.setWidget(1, 1, new DropDownController2(interactiveWidgetManager)).withGrowthPolicy(GrowthPolicy.EXPANDING_Y);
-        dropDown2.addItem("Choice 1", x->{});
-        dropDown2.addItem("Choice 2", x->{});
-        dropDown2.addItem("Caw", x->{
-            //SoundHelper.cawCaw();
+        dropDown2.addItem("Choice 1", onSelect -> {} );
+        dropDown2.addItem("Choice 2", onSelect -> {} );
+        dropDown2.addItem("Caw", onSelect ->{
+            SoundHelper.cawCaw();
         });
-        dropDown2.addItem("Choice 3", x->{});
+        dropDown2.addItem("Choice 3", onSelect -> {});
 
         //DropDownController dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
 //        DropDownController2 dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController2()).withContentAnchorPosition(AnchorPosition.TOP_LEFT);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ui.interactivity.InteractiveWidgetManager;
+import ui.widgets.labels.SimpleLabel;
 import utils.ColorHelper;
 import utils.TextureHelper;
 
@@ -23,10 +24,25 @@ public class CheckboxButton extends SimpleButton<CheckboxButton> {
 
     private boolean isChecked;
 
+    private boolean labeled;
+    private SimpleLabel label;
+
+    private static final float BOX_LABEL_SPACING = 30;
+
+
     public CheckboxButton(InteractiveWidgetManager manager) {
         super(manager);
         this.width = TEX_BASE.getWidth();
         this.height = TEX_BASE.getHeight();
+    }
+
+    public CheckboxButton(InteractiveWidgetManager manager, String text) {
+        super(manager);
+        this.width = TEX_BASE.getWidth();
+        this.height = TEX_BASE.getHeight();
+
+        this.labeled = true;
+        this.label = new SimpleLabel(text).withOffsets(BOX_LABEL_SPACING, 0);
     }
 
     @Override
@@ -39,6 +55,14 @@ public class CheckboxButton extends SimpleButton<CheckboxButton> {
     }
 
     public boolean isChecked() { return isChecked; }
+
+    @Override
+    public float getPrefWidth() {
+        if (labeled)
+            return super.getPrefWidth() + label.getPrefWidth() + BOX_LABEL_SPACING;
+        else
+            return super.getPrefWidth();
+    }
 
     @Override
     public void renderBackground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float w, float h) {
@@ -57,6 +81,10 @@ public class CheckboxButton extends SimpleButton<CheckboxButton> {
             sb.setColor(checkColor);
             sb.draw(TEX_CHECK, bottomLeftX + (0.5f * w) - (width * 0.5f), bottomLeftY + (0.5f * h) - (height * 0.5f) );
         }
+
+        // Text
+        if (labeled)
+            label.renderAt(sb, bottomLeftX, bottomLeftY, w, h);
 
     }
 }

@@ -18,10 +18,11 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     private SimpleLabel label;
     private Consumer<DropDownController2> onSelect;
 
-    private static final float HORIZONTAL_OFFSET = 8;
-    private static final float VERTICAL_OFFSET = 0;
-    private static final float HORIZONTAL_PADDING = 40;
-    private static final float VERTICAL_PADDING = 20;
+    private static final float HORIZONTAL_OFFSET = 26;
+    private static final float VERTICAL_OFFSET = 5;
+    //private static final float HORIZONTAL_PADDING = 40;
+    private static final float HORIZONTAL_PADDING = 144;
+    private static final float VERTICAL_PADDING = 30;
 
     private static final Texture TEX_CORNER_BASE = TextureHelper.TextureItem.DROPDOWN_CORNER_BASE.get();
     private static final Texture TEX_CORNER_TRIM = TextureHelper.TextureItem.DROPDOWN_CORNER_TRIM.get();
@@ -48,7 +49,7 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
 
 
     @Override public float getPrefWidth() {
-        return label.getPrefWidth() + HORIZONTAL_PADDING;
+        return label.getPrefWidth() + HORIZONTAL_PADDING + HORIZONTAL_OFFSET;
     }
 
     @Override public float getPrefHeight() {
@@ -56,12 +57,14 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     }
 
     public Color getBaseColor() {
-        return (hb != null && hb.hovered) ? ColorHelper.VERY_DIM_GREEN : ColorHelper.VERY_DIM_MAGENTA;
+        return (hb != null && hb.hovered) ? ColorHelper.BUTTON_CLICK_BASE : ColorHelper.BUTTON_DEFAULT_BASE;
     }
 
     public Color getTrimColor() {
-        return ColorHelper.ORANGE_COLOR;
+        return ColorHelper.BUTTON_TRIM;
     }
+
+    private static final float SHRINK_AMT = 1.0f;
 
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
@@ -70,13 +73,19 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
         fixHitbox(bottomLeftX, bottomLeftY, width, height);
 
         // render background
-        if (!parent.isShowingDropDown()) {
-            RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getBaseColor());
-            RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getTrimColor());
+        if (parent.isShowingDropDown()) {
+            // TODO
+            sb.setColor(ColorHelper.BUTTON_TRIM_2);
+            sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
+
+            sb.setColor(getBaseColor());
+            sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY + SHRINK_AMT, width, height - SHRINK_AMT - SHRINK_AMT);
+            //RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getBaseColor());
+            //RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getTrimColor());
         }
         else {
-            // TODO
             RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getBaseColor());
+            RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getTrimColor());
         }
 
         label.renderAt(sb, bottomLeftX, bottomLeftY, width, height);

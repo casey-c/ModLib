@@ -153,11 +153,11 @@ public class DropDownController2 extends Widget<DropDownController2> {
 
     public Color getBaseColor() {
         //return (hb != null && hb.hovered) ? ColorHelper.VERY_DIM_GREEN : ColorHelper.VERY_DIM_MAGENTA;
-        return ColorHelper.VERY_DIM_GREEN;
+        return ColorHelper.BUTTON_DEFAULT_BASE;
     }
 
     public Color getTrimColor() {
-        return ColorHelper.ORANGE_COLOR;
+        return ColorHelper.BUTTON_TRIM;
     }
 
     // --------------------------------------------------------------------------------
@@ -205,10 +205,12 @@ public class DropDownController2 extends Widget<DropDownController2> {
 
             // Render background
             RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, (int)left, (int)bottom, (int)width, (int)height, CORNER_SIZE, getBaseColor());
-            RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, (int)left, (int)bottom, (int)width, (int)height, CORNER_SIZE, getTrimColor());
 
             // literally doesn't matter what params we set, since VertLayouts just call child.render(sb), not renderAt
             itemLayout.renderAt(sb, left, bottom, width, height);
+
+            // Render trim
+            RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, (int)left, (int)bottom, (int)width, (int)height, CORNER_SIZE, getTrimColor());
 
 //            print();
 //            itemLayout.print();

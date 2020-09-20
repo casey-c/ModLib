@@ -23,6 +23,10 @@ public class TextureHelper {
         CHECKBOX_TRIM("ModLib/images/widgets/checkbox/checkbox_trim.png"),
         CHECKBOX_CHECK("ModLib/images/widgets/checkbox/checkbox_check.png"),
 
+        DROPDOWN_CORNER_BASE("ModLib/images/widgets/dropdown/dropdown_corner_base_v2.png"),
+        DROPDOWN_CORNER_TRIM("ModLib/images/widgets/dropdown/dropdown_corner_trim_v2.png"),
+        DROPDOWN_EDGE_TRIM("ModLib/images/widgets/dropdown/dropdown_edge_trim_v2.png"),
+
         ICON("ModLib/images/icon.png"),
         X_ICON("ModLib/images/widgets/icons/icon_x.png"),
         RESET_ICON("ModLib/images/widgets/icons/icon_reset.png")

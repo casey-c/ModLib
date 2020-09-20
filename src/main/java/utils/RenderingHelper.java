@@ -242,14 +242,14 @@ Specified by:
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, centerStartX, centerStartY, centerWidth, centerHeight);
     }
 
-    public static void renderDynamicBase(SpriteBatch sb, Texture cornerTex, float left, float bottom, float width, float height, int cornerSize, Color baseColor) {
-        float centerLeft = left + cornerSize;
-        float centerRight = left + width - cornerSize;
-        float centerBottom = bottom + cornerSize;
-        float centerTop = bottom + height - cornerSize;
+    public static void renderDynamicBase(SpriteBatch sb, Texture cornerTex, int left, int bottom, int width, int height, int cornerSize, Color baseColor) {
+        int centerLeft = left + cornerSize;
+        int centerRight = left + width - cornerSize;
+        int centerBottom = bottom + cornerSize;
+        int centerTop = bottom + height - cornerSize;
 
-        int centerWidth = (int)(centerRight - centerLeft);
-        int centerHeight = (int)(centerTop - centerBottom);
+        int centerWidth = centerRight - centerLeft;
+        int centerHeight = centerTop - centerBottom;
 
         // CORNERS
         easyDrawRegular(sb, cornerTex, left, bottom, cornerSize, cornerSize, 90.0f, false, false, baseColor, cornerSize); // bottom left
@@ -269,14 +269,14 @@ Specified by:
         easyDrawRegular(sb, ImageMaster.WHITE_SQUARE_IMG, centerLeft, bottom, centerWidth, cornerSize, 0.0f, false, true, baseColor, cornerSize); // bottom
     }
 
-    public static void renderDynamicTrim(SpriteBatch sb, Texture cornerTex, Texture edgeTex, float left, float bottom, float width, float height, int cornerSize, Color trimColor) {
-        float centerLeft = left + cornerSize;
-        float centerRight = left + width - cornerSize;
-        float centerBottom = bottom + cornerSize;
-        float centerTop = bottom + height - cornerSize;
+    public static void renderDynamicTrim(SpriteBatch sb, Texture cornerTex, Texture edgeTex, int left, int bottom, int width, int height, int cornerSize, Color trimColor) {
+        int centerLeft = left + cornerSize;
+        int centerRight = left + width - cornerSize;
+        int centerBottom = bottom + cornerSize;
+        int centerTop = bottom + height - cornerSize;
 
-        int centerWidth = (int)(centerRight - centerLeft);
-        int centerHeight = (int)(centerTop - centerBottom);
+        int centerWidth = centerRight - centerLeft;
+        int centerHeight = centerTop - centerBottom;
 
         // CORNERS
         easyDrawRegular(sb, cornerTex, left, bottom, cornerSize, cornerSize, 90.0f, false, false, trimColor, cornerSize);
@@ -291,14 +291,14 @@ Specified by:
         easyDrawRegular(sb, edgeTex, centerLeft, bottom, centerWidth, cornerSize, 0.0f, false, true, trimColor, cornerSize); // bottom
     }
 
-    public static void renderDynamicHighlight(SpriteBatch sb, Texture cornerTex, Texture edgeTex, Texture centerTex, float left, float bottom, float width, float height, int cornerSize) {
-        float centerLeft = left + cornerSize;
-        float centerRight = left + width - cornerSize;
-        float centerBottom = bottom + cornerSize;
-        float centerTop = bottom + height - cornerSize;
+    public static void renderDynamicHighlight(SpriteBatch sb, Texture cornerTex, Texture edgeTex, Texture centerTex, int left, int bottom, int width, int height, int cornerSize) {
+        int centerLeft = left + cornerSize;
+        int centerRight = left + width - cornerSize;
+        int centerBottom = bottom + cornerSize;
+        int centerTop = bottom + height - cornerSize;
 
-        int centerWidth = (int)(centerRight - centerLeft);
-        int centerHeight = (int)(centerTop - centerBottom);
+        int centerWidth = centerRight - centerLeft;
+        int centerHeight = centerTop - centerBottom;
 
         // CORNERS
         easyDrawRegular(sb, cornerTex, left, centerTop, cornerSize, cornerSize, 0.0f, false, false, ColorHelper.BUTTON_HIGHLIGHT, cornerSize); // top left

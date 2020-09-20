@@ -10,6 +10,8 @@ public class VerticalLayout extends OneDimensionalLayout<VerticalLayout> {
     private boolean dynamicChildHeight = true;
     private float fixedHeight;
 
+    private float layoutBottom;
+
     // --------------------------------------------------------------------------------
 
     public VerticalLayout withChildExpansionPolicy(VerticalLayoutPolicy policy) {
@@ -82,7 +84,11 @@ public class VerticalLayout extends OneDimensionalLayout<VerticalLayout> {
 
             y -= verticalSpacing;
         }
+
+        this.layoutBottom = y + verticalSpacing;
     }
+
+    public float getLayoutBottom() { return layoutBottom; }
 
     @Override public float getPrefWidth() { return maxChildPrefWidth(); }
     @Override public float getPrefHeight() { return sumChildPrefHeight() + totalVerticalSpacing(); }

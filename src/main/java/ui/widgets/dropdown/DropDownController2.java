@@ -1,5 +1,7 @@
 package ui.widgets.dropdown;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.relics.WhiteBeast;
@@ -9,6 +11,9 @@ import ui.layouts.VerticalLayout;
 import ui.layouts.VerticalLayoutPolicy;
 import ui.widgets.Widget;
 import ui.widgets.buttons.AbstractButton;
+import utils.ColorHelper;
+import utils.RenderingHelper;
+import utils.TextureHelper;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -19,6 +24,11 @@ public class DropDownController2 extends Widget<DropDownController2> {
     private DropDownItem2 selectedItem;
     private ArrayList<DropDownItem2> items = new ArrayList<>();
     private VerticalLayout itemLayout;
+
+    private static final Texture TEX_CORNER_BASE = TextureHelper.TextureItem.DROPDOWN_CORNER_BASE.get();
+    private static final Texture TEX_CORNER_TRIM = TextureHelper.TextureItem.DROPDOWN_CORNER_TRIM.get();
+    private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM.get();
+    private final int CORNER_SIZE = 16;
 
     public DropDownController2() {
         this.contentAnchorPosition = AnchorPosition.TOP_LEFT;
@@ -31,6 +41,8 @@ public class DropDownController2 extends Widget<DropDownController2> {
 
 //    @Override public float getPrefWidth() { return selectedItem == null ? 0 : selectedItem.getPrefWidth(); }
 //    @Override public float getPrefHeight() { return selectedItem == null ? 0 : selectedItem.getPrefHeight(); }
+
+    public boolean isShowingDropDown() { return showingDropDown; }
 
     public void addItem(String text, Consumer<DropDownController2> onSelect) {
         DropDownItem2 item = new DropDownItem2(this, text, onSelect);
@@ -136,6 +148,17 @@ public class DropDownController2 extends Widget<DropDownController2> {
         if (selectedItem != null) selectedItem.setHitboxNeedsFixing();
     }
 
+    // --------------------------------------------------------------------------------
+    // TODO: make this not copypasted from DropDownItem
+
+    public Color getBaseColor() {
+        //return (hb != null && hb.hovered) ? ColorHelper.VERY_DIM_GREEN : ColorHelper.VERY_DIM_MAGENTA;
+        return ColorHelper.VERY_DIM_GREEN;
+    }
+
+    public Color getTrimColor() {
+        return ColorHelper.ORANGE_COLOR;
+    }
 
     // --------------------------------------------------------------------------------
 
@@ -177,6 +200,12 @@ public class DropDownController2 extends Widget<DropDownController2> {
 //            System.out.println(width);
 //            System.out.println(height);
 //            System.out.println();
+            bottom = itemLayout.getLayoutBottom();
+            height = itemLayout.getPrefHeight();
+
+            // Render background
+            RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, (int)left, (int)bottom, (int)width, (int)height, CORNER_SIZE, getBaseColor());
+            RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, (int)left, (int)bottom, (int)width, (int)height, CORNER_SIZE, getTrimColor());
 
             // literally doesn't matter what params we set, since VertLayouts just call child.render(sb), not renderAt
             itemLayout.renderAt(sb, left, bottom, width, height);

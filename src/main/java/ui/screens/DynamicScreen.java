@@ -35,7 +35,7 @@ public class DynamicScreen<T extends DynamicScreen<T>> extends AbstractScreen<T>
 
     @Override
     protected void renderBackground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
-        RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, bottomLeftX, bottomLeftY, width, height, CORNER_SIZE, getBaseColor());
-        RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, bottomLeftX, bottomLeftY, width, height, CORNER_SIZE, getTrimColor());
+        RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getBaseColor());
+        RenderingHelper.renderDynamicTrim(sb, TEX_CORNER_TRIM, TEX_EDGE_TRIM, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, getTrimColor());
     }
 }

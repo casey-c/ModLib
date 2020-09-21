@@ -320,7 +320,18 @@ public class GridLayout extends Layout<GridLayout> {
 
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
-        for (Widget w : children.values())
-            w.render(sb);
+        // render all children of this layout
+        boolean anyPriority = false;
+        for (Widget w : children.values()) {
+            if (w.mustBeRenderedLast()) anyPriority = true;
+            else w.render(sb);
+        }
+
+        if (anyPriority) {
+            for (Widget w : children.values()) {
+                if (w.mustBeRenderedLast())
+                    w.render(sb);
+            }
+        }
     }
 }

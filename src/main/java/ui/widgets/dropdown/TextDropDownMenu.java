@@ -226,6 +226,9 @@ public class TextDropDownMenu extends Widget<TextDropDownMenu> implements IHasIn
 
     // --------------------------------------------------------------------------------
 
+
+    @Override public boolean mustBeRenderedLast() { return showingDropDown; }
+
     @Override
     public void render(SpriteBatch sb) {
         // This is Widget::render(sb) but slightly modified

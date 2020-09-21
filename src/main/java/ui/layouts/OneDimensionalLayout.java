@@ -104,7 +104,22 @@ public abstract class OneDimensionalLayout<T extends OneDimensionalLayout<T>> ex
         // todo: add a debug draw
 
         // render all children of this layout
-        for (Widget w : children)
-            w.render(sb);
+        boolean anyPriority = false;
+        for (Widget w : children) {
+            if (w.mustBeRenderedLast()) {
+                anyPriority = true;
+                continue;
+            }
+            else
+                w.render(sb);
+        }
+
+        if (anyPriority) {
+            for (Widget w : children) {
+                if (w.mustBeRenderedLast())
+                    w.render(sb);
+            }
+        }
+
     }
 }

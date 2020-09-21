@@ -182,6 +182,8 @@ public abstract class Widget<T extends Widget<T>> {
 
     // --------------------------------------------------------------------------------
 
+    public boolean mustBeRenderedLast() { return false; }
+
     public void render(SpriteBatch sb) {
         // Dimensions
         float width = (growthPolicy.isExpandingWidth()) ? getContentWidth() : getPrefWidth();

@@ -36,13 +36,15 @@ public class CheckboxButton extends SimpleButton<CheckboxButton> {
         this.height = TEX_BASE.getHeight();
     }
 
+    // Labeled version
     public CheckboxButton(InteractiveWidgetManager manager, String text) {
         super(manager);
         this.width = TEX_BASE.getWidth();
         this.height = TEX_BASE.getHeight();
 
         this.labeled = true;
-        this.label = new SimpleLabel(text).withOffsets(BOX_LABEL_SPACING, 0);
+        this.label = new SimpleLabel(text).withOffsets(0, 7);
+        //this.label.withOffsets(0, (height - label.getPrefHeight()) * 0.5f);
     }
 
     @Override
@@ -59,32 +61,45 @@ public class CheckboxButton extends SimpleButton<CheckboxButton> {
     @Override
     public float getPrefWidth() {
         if (labeled)
-            return super.getPrefWidth() + label.getPrefWidth() + BOX_LABEL_SPACING;
+            return width + label.getPrefWidth() + BOX_LABEL_SPACING;
         else
-            return super.getPrefWidth();
+            return width;
     }
 
     @Override
     public void renderBackground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float w, float h) {
+        float leftBox = bottomLeftX + (0.5f * w) - (width) * 0.5f;
+
+        if (labeled)
+            leftBox = leftBox - (BOX_LABEL_SPACING + label.getPrefWidth()) * 0.5f;
+
+        float bottomBox = bottomLeftY;
+
         // Base
         if (isChecked) sb.setColor(baseColorChecked);
         else sb.setColor(baseColorUnchecked);
-        sb.draw(TEX_BASE, bottomLeftX + (0.5f * w) - (width * 0.5f), bottomLeftY + (0.5f * h) - (height * 0.5f) );
+        //sb.draw(TEX_BASE, bottomLeftX + (0.5f * w) - (width * 0.5f), bottomLeftY + (0.5f * h) - (height * 0.5f) );
+        sb.draw(TEX_BASE, leftBox, bottomBox);
 
         // Trim
         if (isChecked) sb.setColor(trimColorChecked);
         else sb.setColor(trimColorUnchecked);
-        sb.draw(TEX_TRIM, bottomLeftX + (0.5f * w) - (width * 0.5f), bottomLeftY + (0.5f * h) - (height * 0.5f) );
+        //sb.draw(TEX_TRIM, bottomLeftX + (0.5f * w) - (width * 0.5f), bottomLeftY + (0.5f * h) - (height * 0.5f) );
+        sb.draw(TEX_TRIM, leftBox, bottomBox);
 
         // Checkbox
         if (isChecked) {
             sb.setColor(checkColor);
-            sb.draw(TEX_CHECK, bottomLeftX + (0.5f * w) - (width * 0.5f), bottomLeftY + (0.5f * h) - (height * 0.5f) );
+            //sb.draw(TEX_CHECK, bottomLeftX + (0.5f * w) - (width * 0.5f), bottomLeftY + (0.5f * h) - (height * 0.5f) );
+            sb.draw(TEX_CHECK, leftBox, bottomBox);
         }
 
         // Text
-        if (labeled)
-            label.renderAt(sb, bottomLeftX, bottomLeftY, w, h);
+        if (labeled) {
+            float leftLabel = leftBox + width + BOX_LABEL_SPACING;
+            //label.renderAt(sb, bottomLeftX, bottomLeftY, w, h);
+            label.renderAt(sb, leftLabel, bottomLeftY, w, h);
+        }
 
     }
 }

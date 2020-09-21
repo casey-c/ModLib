@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import ui.widgets.Widget;
+import utils.ColorHelper;
 
 public class SimpleLabel extends Widget<SimpleLabel> {
     private String text;
@@ -49,6 +51,9 @@ public class SimpleLabel extends Widget<SimpleLabel> {
 
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+//        sb.setColor(ColorHelper.VERY_DIM_MAGENTA);
+//        sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
+
         sb.setColor(Color.WHITE);
         FontHelper.renderFontLeftDownAligned(sb, font, text, bottomLeftX + horizOffset, bottomLeftY + vertOffset, fontColor);
     }

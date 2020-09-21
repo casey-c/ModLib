@@ -6,6 +6,7 @@ import ui.GrowthPolicy;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
 import ui.widgets.DebugWidget;
+import ui.widgets.buttons.CheckboxButton;
 import ui.widgets.buttons.TextButton;
 import ui.widgets.dropdown.TextDropDownMenu;
 import utils.ColorHelper;
@@ -53,6 +54,8 @@ public class TestScreen extends DynamicScreen<TestScreen> {
             SoundHelper.cawCaw();
             dropDown.selectByString("CENTER");
         });
+
+        layout.setWidget(2, 1, new CheckboxButton(interactiveWidgetManager, "Hello World"));
 
     }
 

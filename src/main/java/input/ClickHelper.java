@@ -208,8 +208,6 @@ public class ClickHelper implements PostUpdateSubscriber {
     // --------------------------------------------------------------------------------
 
     private void rightClickHandler() {
-        System.out.println("OJB: right click");
-
         for (GenericObject o : rc.values())
             o.activate();
 
@@ -218,13 +216,14 @@ public class ClickHelper implements PostUpdateSubscriber {
     }
 
     private void leftClickHandler() {
-        System.out.println("OJB: regular click");
         for (GenericObject o : lc.values())
             o.activate();
 
         for (HBObject o : lcHB.values())
             o.testAndActivate();
     }
+
+    // --------------------------------------------------------------------------------
 
     @Override
     public void receivePostUpdate() {

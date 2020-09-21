@@ -3,9 +3,7 @@ package ui.widgets.dropdown;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.relics.WhiteBeast;
 import input.ClickHelper;
 import ui.GrowthPolicy;
 import ui.interactivity.IHasInteractivity;
@@ -14,20 +12,18 @@ import ui.layouts.AnchorPosition;
 import ui.layouts.VerticalLayout;
 import ui.layouts.VerticalLayoutPolicy;
 import ui.widgets.Widget;
-import ui.widgets.buttons.AbstractButton;
 import utils.ColorHelper;
 import utils.RenderingHelper;
-import utils.SoundHelper;
 import utils.TextureHelper;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-public class DropDownController2 extends Widget<DropDownController2> implements IHasInteractivity {
+public class TextDropDownMenu extends Widget<TextDropDownMenu> implements IHasInteractivity {
     private boolean showingDropDown;
 
-    private DropDownItem2 selectedItem;
-    private ArrayList<DropDownItem2> items = new ArrayList<>();
+    private TextDropDownMenuItem selectedItem;
+    private ArrayList<TextDropDownMenuItem> items = new ArrayList<>();
     private VerticalLayout itemLayout;
 
     private static final Texture TEX_CORNER_BASE = TextureHelper.TextureItem.DROPDOWN_CORNER_BASE.get();
@@ -37,7 +33,7 @@ public class DropDownController2 extends Widget<DropDownController2> implements 
 
     private InteractiveWidgetManager interactiveWidgetManager;
 
-    public DropDownController2(InteractiveWidgetManager manager) {
+    public TextDropDownMenu(InteractiveWidgetManager manager) {
         this.contentAnchorPosition = AnchorPosition.TOP_LEFT;
         this.interactiveWidgetManager = manager;
 
@@ -76,14 +72,37 @@ public class DropDownController2 extends Widget<DropDownController2> implements 
 
     }
 
+    public boolean selectByIndex(int index) {
+        if (index > 0 && index < items.size()) {
+            this.selectedItem = items.get(index);
+            selectedItem.notifySelect();
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean selectByString(String text) {
+        for (TextDropDownMenuItem item : items) {
+            if (item.getText() == text) {
+                this.selectedItem = item;
+                selectedItem.notifySelect();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 //    @Override public float getPrefWidth() { return selectedItem == null ? 0 : selectedItem.getPrefWidth(); }
 //    @Override public float getPrefHeight() { return selectedItem == null ? 0 : selectedItem.getPrefHeight(); }
 
     public boolean isShowingDropDown() { return showingDropDown; }
 
-    public void addItem(String text, Consumer<DropDownController2> onSelect) {
-        DropDownItem2 item = new DropDownItem2(interactiveWidgetManager, this, text, onSelect);
+    public void addItem(String text, Consumer<TextDropDownMenu> onSelect) {
+        TextDropDownMenuItem item = new TextDropDownMenuItem(interactiveWidgetManager, this, text, onSelect);
         items.add(item);
 
         // Auto select the first one we add to the list (TODO: better / more customizable options (e.g. default values, etc.))
@@ -100,7 +119,7 @@ public class DropDownController2 extends Widget<DropDownController2> implements 
 
     // --------------------------------------------------------------------------------
 
-    public void select(DropDownItem2 item) {
+    public void select(TextDropDownMenuItem item) {
         if (!interactive)
             return;
 
@@ -113,6 +132,7 @@ public class DropDownController2 extends Widget<DropDownController2> implements 
             enableDropDown();
         }
     }
+
 
     // --------------------------------------------------------------------------------
 
@@ -290,7 +310,7 @@ public class DropDownController2 extends Widget<DropDownController2> implements 
     @Override public boolean isCurrentlyInteractive() { return interactive; }
     @Override public void enableInteractivity() {
         interactive = true;
-        for (DropDownItem2 item : items)
+        for (TextDropDownMenuItem item : items)
             item.enableInteractivity();
     }
     @Override public void disableInteractivity() { interactive = false; }

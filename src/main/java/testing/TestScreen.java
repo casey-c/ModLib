@@ -2,19 +2,12 @@ package testing;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.FontHelper;
 import ui.GrowthPolicy;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
-import ui.widgets.SimplePadding;
-import ui.widgets.buttons.ButtonFactory;
-import ui.widgets.buttons.CheckboxButton;
+import ui.widgets.DebugWidget;
 import ui.widgets.buttons.TextButton;
-import ui.widgets.dropdown.DropDownController2;
-import ui.widgets.labels.SimpleLabel;
-import ui.widgets.lines.HorizontalLine;
-import ui.widgets.lines.VerticalLine;
+import ui.widgets.dropdown.TextDropDownMenu;
 import utils.ColorHelper;
 import utils.SoundHelper;
 
@@ -42,49 +35,25 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 //.withBalancedRows(1)
                 .withBalancedCols(2);
 
-        DropDownController2 dropDown = layout.setWidget(0, 1, new DropDownController2(interactiveWidgetManager)).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
-        dropDown.addItem("Choice 1", onSelect -> {});
-        dropDown.addItem("Choice 2", onSelect -> {});
-        dropDown.addItem("Caw", onSelect -> {
+        DebugWidget dw = layout.setWidget(0, 3, 0, 0, new DebugWidget());
+
+        TextDropDownMenu dropDown = layout.setWidget(0, 1, new TextDropDownMenu(interactiveWidgetManager)).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
+
+        for (AnchorPosition pos : AnchorPosition.values()) {
+            dropDown.addItem(pos.name(), onSelect -> {
+                dw.setContentAnchorPosition(pos);
+            });
+        }
+
+        // Start off centered
+        dropDown.selectByString("CENTER");
+
+
+        layout.setWidget(1, 1, new TextButton(interactiveWidgetManager, "Reset to Center")).withGrowthPolicy(GrowthPolicy.EXPANDING_BOTH).withOnClick(onClick -> {
             SoundHelper.cawCaw();
-        });
-        dropDown.addItem("Choice 3", onSelect -> {});
-
-        layout.setWidget(0, 0, new CheckboxButton(interactiveWidgetManager, "Scale Width")).withOnClick( checkboxButton -> {
-            if (checkboxButton.isChecked())
-                dropDown.setGrowthPolicy(GrowthPolicy.EXPANDING_BOTH); // TODO: expanding both has bugs! (not vertically centered)
-            else
-                dropDown.setGrowthPolicy(GrowthPolicy.PREFERRED_BOTH);
+            dropDown.selectByString("CENTER");
         });
 
-        DropDownController2 dropDown2 = layout.setWidget(1, 1, new DropDownController2(interactiveWidgetManager)).withGrowthPolicy(GrowthPolicy.EXPANDING_Y);
-        dropDown2.addItem("Choice 1", onSelect -> {} );
-        dropDown2.addItem("Choice 2", onSelect -> {} );
-        dropDown2.addItem("Caw", onSelect ->{
-            SoundHelper.cawCaw();
-        });
-        dropDown2.addItem("Choice 3", onSelect -> {});
-
-        //DropDownController dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController()).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
-//        DropDownController2 dropDown = layout.setWidget(1, 1, 0, 1, new DropDownController2()).withContentAnchorPosition(AnchorPosition.TOP_LEFT);
-//        dropDown.addItem("Choice 1 ", x -> { System.out.println("Choice 1 selected"); });
-//        dropDown.addItem("Choice 2 ", x -> { System.out.println("Choice 2 selected"); SoundHelper.cawCaw(); });
-//        dropDown.addItem("Much longer and wordy Choice Three (the best) ", x -> { System.out.println("Choice 3 selected"); });
-//
-//        layout.setWidget(0, 0, new TextButton("Cycle Position")).withOnClick( onClick -> {
-//            AnchorPosition next = nextAnchor();
-//            System.out.println("next anchor position: " + next);
-//            dropDown.setContentAnchorPosition(next);
-//        }).withGrowthPolicy(GrowthPolicy.EXPANDING_BOTH);
-//
-//        layout.setWidget(0, 1, new CheckboxButton()).withOnClick( checkboxButton -> {
-//            if (checkboxButton.isChecked())
-//                dropDown.setGrowthPolicy(GrowthPolicy.EXPANDING_X);
-//            else
-//                dropDown.setGrowthPolicy(GrowthPolicy.PREFERRED_BOTH);
-//        });
-
-//                .withContentAnchorPosition(AnchorPosition.TOP_LEFT)
     }
 
     private AnchorPosition nextAnchor() {

@@ -14,10 +14,10 @@ import utils.TextureHelper;
 
 import java.util.function.Consumer;
 
-public class DropDownItem2 extends AbstractButton<DropDownItem2> {
-    private DropDownController2 parent;
+public class TextDropDownMenuItem extends AbstractButton<TextDropDownMenuItem> {
+    private TextDropDownMenu parent;
     private SimpleLabel label;
-    private Consumer<DropDownController2> onSelect;
+    private Consumer<TextDropDownMenu> onSelect;
 
     private static final float HORIZONTAL_OFFSET = 26;
     private static final float VERTICAL_OFFSET = 5;
@@ -31,7 +31,7 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     private static final Texture TEX_ICON = TextureHelper.TextureItem.DROPDOWN_ICON.get();
     private final int CORNER_SIZE = 16;
 
-    public DropDownItem2(InteractiveWidgetManager manager, DropDownController2 parent, String text, Consumer<DropDownController2> onSelect) {
+    public TextDropDownMenuItem(InteractiveWidgetManager manager, TextDropDownMenu parent, String text, Consumer<TextDropDownMenu> onSelect) {
         super(manager);
 
         this.parent = parent;
@@ -51,6 +51,7 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
         onSelect.accept(parent);
     }
 
+    public String getText() { return label.getText(); }
 
     @Override public float getPrefWidth() {
         return label.getPrefWidth() + HORIZONTAL_PADDING + HORIZONTAL_OFFSET;

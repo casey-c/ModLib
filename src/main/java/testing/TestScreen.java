@@ -8,6 +8,7 @@ import ui.screens.DynamicScreen;
 import ui.widgets.DebugWidget;
 import ui.widgets.buttons.CheckboxButton;
 import ui.widgets.buttons.TextButton;
+import ui.widgets.dropdown.DropDownMenu2;
 import ui.widgets.dropdown.TextDropDownMenu;
 import utils.ColorHelper;
 import utils.SoundHelper;
@@ -24,38 +25,47 @@ public class TestScreen extends DynamicScreen<TestScreen> {
     public TestScreen(int width, int height) {
         super(width, height);
 
-        setMargins(80, 40, 40, 80);
-
         anchorList.addAll(Arrays.asList(AnchorPosition.values()));
+        setMargins(80, 40, 40, 80);
 
         layout = new GridLayout()
                 .anchoredAt(this)
-                .withSpacing(30.0f)
-                //.withAbsoluteRows(60.0f, -1)
-                .withAbsoluteRows(80, 80, 80, 80, -1)
-                //.withBalancedRows(1)
-                .withBalancedCols(2);
+                .withSpacing(30)
+                .withBalancedCols(2)
+                .withAbsoluteRows(80, -1);
 
-        DebugWidget dw = layout.setWidget(0, 3, 0, 0, new DebugWidget());
-
-        TextDropDownMenu dropDown = layout.setWidget(0, 1, new TextDropDownMenu(interactiveWidgetManager)).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
-
-        for (AnchorPosition pos : AnchorPosition.values()) {
-            dropDown.addItem(pos.name(), onSelect -> {
-                dw.setContentAnchorPosition(pos);
-            });
-        }
-
-        // Start off centered
-        dropDown.selectByString("CENTER");
+        DropDownMenu2 dropdown = layout.setWidget(0, 0, new DropDownMenu2(interactiveWidgetManager));
+        dropdown.setup();
 
 
-        layout.setWidget(1, 1, new TextButton(interactiveWidgetManager, "Reset to Center")).withGrowthPolicy(GrowthPolicy.EXPANDING_BOTH).withOnClick(onClick -> {
-            SoundHelper.cawCaw();
-            dropDown.selectByString("CENTER");
-        });
-
-        layout.setWidget(2, 1, new CheckboxButton(interactiveWidgetManager, "Hello World"));
+//        layout = new GridLayout()
+//                .anchoredAt(this)
+//                .withSpacing(30.0f)
+//                //.withAbsoluteRows(60.0f, -1)
+//                .withAbsoluteRows(80, 80, 80, 80, -1)
+//                //.withBalancedRows(1)
+//                .withBalancedCols(2);
+//
+//        DebugWidget dw = layout.setWidget(0, 3, 0, 0, new DebugWidget());
+//
+//        TextDropDownMenu dropDown = layout.setWidget(0, 1, new TextDropDownMenu(interactiveWidgetManager)).withGrowthPolicy(GrowthPolicy.EXPANDING_X);
+//
+//        for (AnchorPosition pos : AnchorPosition.values()) {
+//            dropDown.addItem(pos.name(), onSelect -> {
+//                dw.setContentAnchorPosition(pos);
+//            });
+//        }
+//
+//        // Start off centered
+//        dropDown.selectByString("CENTER");
+//
+//
+//        layout.setWidget(1, 1, new TextButton(interactiveWidgetManager, "Reset to Center")).withGrowthPolicy(GrowthPolicy.EXPANDING_BOTH).withOnClick(onClick -> {
+//            SoundHelper.cawCaw();
+//            dropDown.selectByString("CENTER");
+//        });
+//
+//        layout.setWidget(2, 1, new CheckboxButton(interactiveWidgetManager, "Hello World"));
 
     }
 

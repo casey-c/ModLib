@@ -139,7 +139,9 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
 //    }
 
     public void fixHitbox(float bottomLeftX, float bottomLeftY, float width, float height) {
-        if (hitboxNeedsFixing && hb != null)  {
+        if (hb == null) hb = new Hitbox(width, height);
+
+        if (hitboxNeedsFixing)  {
             hb.width = width;
             hb.height = height;
             hb.move(bottomLeftX + (width * 0.5f), bottomLeftY + (height * 0.5f));

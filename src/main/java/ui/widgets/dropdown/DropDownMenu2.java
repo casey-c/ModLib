@@ -2,6 +2,8 @@ package ui.widgets.dropdown;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import input.ClickHelper;
 import ui.interactivity.IHasInteractivity;
 import ui.interactivity.InteractiveWidgetManager;
 import ui.layouts.AnchorPosition;
@@ -23,6 +25,8 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     public DropDownMenu2(InteractiveWidgetManager manager) {
         this.interactiveWidgetManager = manager;
         manager.track(this);
+
+        ClickHelper.watchLeftClick(this, x -> { clickOutsideHandler(); });
     }
 
     private void openDropDown() {
@@ -43,6 +47,32 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     private void select(DropDownItem2 item) {
         closeDropDown();
         header.setText(item.getText());
+    }
+
+    public void clickOutsideHandler() {
+        if (!header.isCurrentlyInteractive() || !open)
+            return;
+
+        float mx = InputHelper.mX;
+        float my = InputHelper.mY;
+
+        //System.out.println("DropDownController found a left click: " + mx + ", " + my);
+        //itemLayout.print();
+
+        float left = getContentLeft();
+        float right = getContentRight();
+        float top = getContentTop();
+        float bot = getContentBottom() - bottomLayout.getPrefHeight();
+
+        if ((mx < left || mx > right) || (my < bot || my > top)) {
+            //System.out.println("Mouse not in bounds");
+            //select(selectedItem);
+            closeDropDown();
+        }
+        else {
+            //System.out.println("Mouse in bounds");
+        }
+
     }
 
     public void setup() {

@@ -1,5 +1,6 @@
 package ui.widgets.dropdown;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -11,7 +12,9 @@ import ui.layouts.VerticalLayout;
 import ui.layouts.VerticalLayoutPolicy;
 import ui.widgets.Widget;
 import utils.ColorHelper;
+import utils.RenderingHelper;
 import utils.SoundHelper;
+import utils.TextureHelper;
 
 public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteractivity {
     private DropDownHeader2 header;
@@ -19,6 +22,11 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
 
     private boolean open;
     private InteractiveWidgetManager interactiveWidgetManager;
+
+    private static final Texture TEX_CORNER_BASE = TextureHelper.TextureItem.DROPDOWN_CORNER_BASE_2.get();
+    private static final Texture TEX_CORNER_TRIM = TextureHelper.TextureItem.DROPDOWN_CORNER_TRIM_2.get();
+    private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM_2.get();
+    private static final int CORNER_SIZE = 16;
 
     // --------------------------------------------------------------------------------
 
@@ -111,17 +119,26 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
             bottomLayout.update();
     }
 
+    private float getTotalHeight(float height) { return (open) ? height + bottomLayout.getPrefHeight() : height; }
+    private float getTotalBottom(float bottom) { return (open) ? bottom - bottomLayout.getPrefHeight() : bottom; }
+
     // --------------------------------------------------------------------------------
     public void renderBackground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
 //        if (open) sb.setColor(ColorHelper.VERY_DIM_RED);
 //        else sb.setColor(ColorHelper.VERY_DIM_BLUE);
 
-        float totalHeight = (open) ? height + bottomLayout.getPrefHeight() : height;
-        float y = (open) ? bottomLeftY - bottomLayout.getPrefHeight() : bottomLeftY;
 
         // TODO: fancy corners
-        sb.setColor(ColorHelper.BUTTON_DEFAULT_BASE);
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, y, width, totalHeight);
+        RenderingHelper.renderDynamicBase(sb,
+                TEX_CORNER_BASE,
+                (int)bottomLeftX,
+                (int)getTotalBottom(bottomLeftY),
+                (int)width,
+                (int)getTotalHeight(height),
+                CORNER_SIZE,
+                ColorHelper.DROPDOWN_BASE);
+//        sb.setColor(ColorHelper.BUTTON_DEFAULT_BASE);
+//        sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, getTotalBottom(bottomLeftY), width, getTotalHeight(height));
     }
     public void renderItems(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
         if (open)
@@ -130,6 +147,15 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     }
     public void renderTrim(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
         // TODO
+        RenderingHelper.renderDynamicTrim(sb,
+                TEX_CORNER_TRIM,
+                TEX_EDGE_TRIM,
+                (int)bottomLeftX,
+                (int)getTotalBottom(bottomLeftY),
+                (int)width,
+                (int)getTotalHeight(height),
+                CORNER_SIZE,
+                ColorHelper.BUTTON_TRIM );
     }
 
     @Override

@@ -28,6 +28,10 @@ public class TextureHelper {
         DROPDOWN_EDGE_TRIM("ModLib/images/widgets/dropdown/dropdown_edge_trim_v4.png"),
         DROPDOWN_ICON("ModLib/images/widgets/dropdown/dropdown_icon.png"),
 
+        DROPDOWN_CORNER_BASE_2("ModLib/images/widgets/dropdown/new/dropdown_corner_base.png"),
+        DROPDOWN_CORNER_TRIM_2("ModLib/images/widgets/dropdown/new/dropdown_corner_trim.png"),
+        DROPDOWN_EDGE_TRIM_2("ModLib/images/widgets/dropdown/new/dropdown_edge_trim.png"),
+
         ICON("ModLib/images/icon.png"),
         X_ICON("ModLib/images/widgets/icons/icon_x.png"),
         RESET_ICON("ModLib/images/widgets/icons/icon_reset.png")

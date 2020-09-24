@@ -1,6 +1,7 @@
 package ui.widgets.dropdown;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
@@ -9,6 +10,8 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import ui.interactivity.InteractiveWidgetManager;
 import ui.widgets.buttons.AbstractButton;
 import utils.ColorHelper;
+import utils.RenderingHelper;
+import utils.TextureHelper;
 
 public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     private boolean last;
@@ -20,6 +23,11 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     protected static final float TEXT_HORIZONTAL_OFFSET = 40;
     protected static final float TEXT_VERTICAL_OFFSET = 7;
     protected static final float BORDER_HEIGHT = 4;
+
+    private static final Texture TEX_CORNER_BASE = TextureHelper.TextureItem.DROPDOWN_CORNER_BASE_2.get();
+    private static final Texture TEX_CORNER_TRIM = TextureHelper.TextureItem.DROPDOWN_CORNER_TRIM_2.get();
+    private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM_2.get();
+    private static final int CORNER_SIZE = 16;
 
     public DropDownItem2(InteractiveWidgetManager interactiveWidgetManager, String text) {
         super(interactiveWidgetManager);
@@ -44,16 +52,28 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
 
         // Border
         if (!last) {
-            sb.setColor(Color.RED);
+            sb.setColor(ColorHelper.BUTTON_TRIM);
             sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, BORDER_HEIGHT);
         }
     }
 
     protected void renderBackground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
-        if (hb.hovered) sb.setColor(ColorHelper.BUTTON_CLICK_BASE);
-        else sb.setColor(ColorHelper.BUTTON_DEFAULT_BASE);
+        Color c = (hb.hovered) ? ColorHelper.BUTTON_CLICK_BASE : ColorHelper.DROPDOWN_BASE;
+        sb.setColor(c);
 
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
+        if (last) {
+            sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY + (height * 0.5f), width, height * 0.5f);
+            RenderingHelper.renderDynamicBase(sb, TEX_CORNER_BASE, (int)bottomLeftX, (int)bottomLeftY, (int)width, (int)height, CORNER_SIZE, c);
+        }
+        else {
+            sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
+        }
+
+//        if (hb.hovered) sb.setColor(ColorHelper.BUTTON_CLICK_BASE);
+//        else sb.setColor(ColorHelper.BUTTON_DEFAULT_BASE);
+
+        //sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
+
     }
 
     @Override

@@ -10,7 +10,7 @@ public class ColorHelper {
     public static final Color SCREEN_BASE_COLOR = new Color(0.133f, 0.165f, 0.169f, 0.8f);
     public static final Color ORANGE_COLOR = new Color(0.847f, 0.361f, 0.11f, 1.0f);
 
-    public static final Color FADED_CREAM = new Color(1.0f, 0.965f, 0.886f, 0.2f);
+    public static final Color FADED_CREAM = new Color(1.0f, 0.965f, 0.886f, 0.4f);
 
 
     // --------------------------------------------------------------------------------
@@ -35,6 +35,9 @@ public class ColorHelper {
 
     public static final Color BUTTON_HIGHLIGHT = new Color(1.0f, 1.0f, 1.0f, 0.3f); // todo: adjust opacity
 
+    // --------------------------------------------------------------------------------
+
+    public static final Color DROPDOWN_BASE = new Color(0.271f, 0.271f, 0.271f, 1.0f);
 
     // --------------------------------------------------------------------------------
 

@@ -1,6 +1,7 @@
 package ui.widgets.dropdown;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
@@ -10,6 +11,8 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import ui.interactivity.InteractiveWidgetManager;
 import ui.widgets.buttons.AbstractButton;
 import utils.ColorHelper;
+import utils.RenderingHelper;
+import utils.TextureHelper;
 
 public class DropDownHeader2 extends AbstractButton<DropDownHeader2> {
     private DropDownMenu2 parent;
@@ -21,6 +24,11 @@ public class DropDownHeader2 extends AbstractButton<DropDownHeader2> {
     protected static final float TEXT_HORIZONTAL_OFFSET = 40;
     protected static final float TEXT_VERTICAL_OFFSET = 7;
     protected static final float BORDER_HEIGHT = 4;
+
+    private static final Texture TEX_CORNER_BASE = TextureHelper.TextureItem.DROPDOWN_CORNER_BASE_2.get();
+    private static final Texture TEX_CORNER_TRIM = TextureHelper.TextureItem.DROPDOWN_CORNER_TRIM_2.get();
+    private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM_2.get();
+    private static final int CORNER_SIZE = 16;
 
     public DropDownHeader2(InteractiveWidgetManager interactiveWidgetManager, DropDownMenu2 parent) {
         super(interactiveWidgetManager);
@@ -46,8 +54,17 @@ public class DropDownHeader2 extends AbstractButton<DropDownHeader2> {
 
         // Background
         if(hb.hovered || parent.isOpen()) {
-            sb.setColor(ColorHelper.FADED_CREAM);
-            sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
+//            sb.setColor(ColorHelper.FADED_CREAM);
+//            sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
+
+            RenderingHelper.renderDynamicBase(sb,
+                    TEX_CORNER_BASE,
+                    (int)bottomLeftX,
+                    (int)bottomLeftY,
+                    (int)width,
+                    (int)height,
+                    CORNER_SIZE,
+                    ColorHelper.FADED_CREAM);
         }
 
         // Text
@@ -58,7 +75,7 @@ public class DropDownHeader2 extends AbstractButton<DropDownHeader2> {
 
         // Border
         if (parent.isOpen()) {
-            sb.setColor(Color.RED);
+            sb.setColor(ColorHelper.BUTTON_TRIM);
             sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, BORDER_HEIGHT);
         }
 

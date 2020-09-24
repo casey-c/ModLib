@@ -26,8 +26,8 @@ public class TestScreen extends DynamicScreen<TestScreen> {
         layout = new GridLayout()
                 .anchoredAt(this)
                 .withSpacing(30)
-                .withBalancedCols(2)
-                .withAbsoluteRows(60, 60, -1);
+                .withBalancedCols(1)
+                .withAbsoluteRows(80, 80, -1);
 
         layout.setWidget(0, 0, new DropDownMenu(interactiveWidgetManager))
               .withChild("Choice 1", onSelect -> {})
@@ -36,7 +36,7 @@ public class TestScreen extends DynamicScreen<TestScreen> {
 
         layout.setWidget(1, 0, new DropDownMenu(interactiveWidgetManager))
                 .withChild("Choice 1", onSelect -> {})
-                .withChild("Much Longer and WOrdy choice 2", onSelect -> { SoundHelper.cawCaw(); })
+                .withChild("Much Longer and Wordy choice 2", onSelect -> { SoundHelper.cawCaw(); })
                 .withChild("Pre selected choice 3", true, onSelect -> {});
 
 //        layout = new GridLayout()

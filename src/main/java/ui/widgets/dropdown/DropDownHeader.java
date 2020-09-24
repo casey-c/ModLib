@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import ui.interactivity.InteractiveWidgetManager;
 import ui.widgets.buttons.AbstractButton;
@@ -14,8 +13,8 @@ import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureHelper;
 
-public class DropDownHeader2 extends AbstractButton<DropDownHeader2> {
-    private DropDownMenu2 parent;
+public class DropDownHeader extends AbstractButton<DropDownHeader> {
+    private DropDownMenu parent;
 
     protected BitmapFont font = FontHelper.tipBodyFont;
     private String text;
@@ -30,7 +29,7 @@ public class DropDownHeader2 extends AbstractButton<DropDownHeader2> {
     private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM_2.get();
     private static final int CORNER_SIZE = 16;
 
-    public DropDownHeader2(InteractiveWidgetManager interactiveWidgetManager, DropDownMenu2 parent, String text) {
+    public DropDownHeader(InteractiveWidgetManager interactiveWidgetManager, DropDownMenu parent, String text) {
         super(interactiveWidgetManager);
         this.parent = parent;
         setText(text);

@@ -15,14 +15,14 @@ import utils.TextureHelper;
 
 import java.util.function.Consumer;
 
-public class DropDownItem2 extends AbstractButton<DropDownItem2> {
+public class DropDownItem extends AbstractButton<DropDownItem> {
     private boolean last;
 
     protected BitmapFont font = FontHelper.tipBodyFont;
     protected String text;
     protected float textWidth, textHeight;
 
-    private Consumer<DropDownItem2> onSelect;
+    private Consumer<DropDownItem> onSelect;
 
     protected static final float TEXT_HORIZONTAL_OFFSET = 40;
     protected static final float TEXT_VERTICAL_OFFSET = 7;
@@ -35,7 +35,7 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
 
     private boolean selected;
 
-    public DropDownItem2(InteractiveWidgetManager interactiveWidgetManager, String text, Consumer<DropDownItem2> onSelect) {
+    public DropDownItem(InteractiveWidgetManager interactiveWidgetManager, String text, Consumer<DropDownItem> onSelect) {
         super(interactiveWidgetManager);
 
         this.text = text;

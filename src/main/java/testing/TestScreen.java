@@ -2,14 +2,9 @@ package testing;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import ui.GrowthPolicy;
 import ui.layouts.*;
 import ui.screens.DynamicScreen;
-import ui.widgets.DebugWidget;
-import ui.widgets.buttons.CheckboxButton;
-import ui.widgets.buttons.TextButton;
-import ui.widgets.dropdown.DropDownMenu2;
-import ui.widgets.dropdown.TextDropDownMenu;
+import ui.widgets.dropdown.DropDownMenu;
 import utils.ColorHelper;
 import utils.SoundHelper;
 
@@ -34,7 +29,7 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 .withBalancedCols(2)
                 .withAbsoluteRows(60, -1);
 
-        DropDownMenu2 dropdown = layout.setWidget(0, 0, new DropDownMenu2(interactiveWidgetManager));
+        DropDownMenu dropdown = layout.setWidget(0, 0, new DropDownMenu(interactiveWidgetManager));
 
         dropdown.addChild("Choice 1", onSelect -> {
             System.out.println("Pressed choice 1");
@@ -48,7 +43,7 @@ public class TestScreen extends DynamicScreen<TestScreen> {
             SoundHelper.cawCaw();
         });
 
-        dropdown.setSelectedFromString("Choice Two");
+        dropdown.selectByString("Choice Two");
 
 
 //        layout = new GridLayout()

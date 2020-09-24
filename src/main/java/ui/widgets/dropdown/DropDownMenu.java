@@ -17,8 +17,8 @@ import utils.TextureHelper;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteractivity {
-    private DropDownHeader2 header;
+public class DropDownMenu extends Widget<DropDownMenu> implements IHasInteractivity {
+    private DropDownHeader header;
     private VerticalLayout bottomLayout;
 
     private boolean open;
@@ -32,17 +32,17 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     private static final Texture TEX_ICON = TextureHelper.TextureItem.DROPDOWN_ICON.get();
     private static final float ICON_HORIZONTAL_OFFSET = 26;
 
-    private DropDownItem2 last = null;
-    private DropDownItem2 selected = null;
+    private DropDownItem last = null;
+    private DropDownItem selected = null;
     private boolean initialized;
 
     // --------------------------------------------------------------------------------
 
-    public DropDownMenu2(InteractiveWidgetManager manager) {
+    public DropDownMenu(InteractiveWidgetManager manager) {
         this.interactiveWidgetManager = manager;
         manager.track(this);
 
-        header = new DropDownHeader2(interactiveWidgetManager, this, "???");
+        header = new DropDownHeader(interactiveWidgetManager, this, "???");
         bottomLayout = new VerticalLayout();
 
         ClickHelper.watchLeftClick(this, x -> { clickOutsideHandler(); });
@@ -63,8 +63,8 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
         else openDropDown();
     }
 
-    private void select(DropDownItem2 item) { select(item, true);  }
-    private void select(DropDownItem2 item, boolean fireCallback) {
+    private void select(DropDownItem item) { select(item, true);  }
+    private void select(DropDownItem item, boolean fireCallback) {
         closeDropDown();
         header.setText(item.getText());
 
@@ -96,19 +96,19 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     }
 
 
-    public DropDownMenu2 withChild(String text, Consumer<DropDownMenu2> onSelect) { return withChild(text, false, onSelect); }
-    public DropDownMenu2 withChild(String text, boolean selected, Consumer<DropDownMenu2> onSelect) {
+    public DropDownMenu withChild(String text, Consumer<DropDownMenu> onSelect) { return withChild(text, false, onSelect); }
+    public DropDownMenu withChild(String text, boolean selected, Consumer<DropDownMenu> onSelect) {
         addChild(text, selected, onSelect);
         return this;
     }
 
-    public void addChild(String text, Consumer<DropDownMenu2> onSelect) { addChild(text, false, onSelect); }
-    public void addChild(String text, boolean selected, Consumer<DropDownMenu2> onSelect) {
+    public void addChild(String text, Consumer<DropDownMenu> onSelect) { addChild(text, false, onSelect); }
+    public void addChild(String text, boolean selected, Consumer<DropDownMenu> onSelect) {
         if (!initialized)
             setup();
 
-        DropDownItem2 item = bottomLayout
-                .addChild(new DropDownItem2(interactiveWidgetManager, text, dropDownItem2 -> { onSelect.accept(this); }))
+        DropDownItem item = bottomLayout
+                .addChild(new DropDownItem(interactiveWidgetManager, text, dropDownItem -> { onSelect.accept(this); }))
                 .withOnClick(this::select);
 
         // Update the last
@@ -138,15 +138,34 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
 
     // --------------------------------------------------------------------------------
 
-    public boolean setSelectedFromString(String text) {
+    public boolean selectByString(String text) {
         LinkedList<Widget> children = bottomLayout.getChildren();
         for (Widget c : children) {
-            if (c instanceof DropDownItem2) {
-                DropDownItem2 item = (DropDownItem2) c;
+            if (c instanceof DropDownItem) {
+                DropDownItem item = (DropDownItem) c;
                 if (item.getText() == text) {
-                    select(item);
+                    select(item, false);
                     return true;
                 }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean selectByIndex(int index) {
+        int pos = 0;
+        LinkedList<Widget> children = bottomLayout.getChildren();
+        for (Widget c : children) {
+            if (c instanceof DropDownItem) {
+                DropDownItem item = (DropDownItem) c;
+
+                if (pos == index) {
+                    select(item, false);
+                    return true;
+                }
+
+                pos++;
             }
         }
 
@@ -238,8 +257,8 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     public void enableInteractivity() {
         header.enableInteractivity();
         for (Widget w : bottomLayout.getChildren()) {
-            if (w instanceof DropDownItem2) {
-                DropDownItem2 item = (DropDownItem2) w;
+            if (w instanceof DropDownItem) {
+                DropDownItem item = (DropDownItem) w;
                 item.enableInteractivity();
             }
         }

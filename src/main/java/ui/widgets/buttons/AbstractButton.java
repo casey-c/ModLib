@@ -120,7 +120,8 @@ public abstract class AbstractButton<T extends AbstractButton<T>> extends Widget
 
     @Override
     public void disableInteractivity() {
-        hb.move(-10000.0f, -10000.0f);
+        if (hb != null)
+            hb.move(-10000.0f, -10000.0f);
         interactive = false;
     }
 

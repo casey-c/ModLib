@@ -118,7 +118,7 @@ public class DropDownMenu extends Widget<DropDownMenu> implements IHasInteractiv
         item.setLast(true);
         last = item;
 
-        if (selected)
+        if (selected || this.selected == null)
             select(item, false);
 
         bottomLayout.computeLayout();
@@ -176,6 +176,7 @@ public class DropDownMenu extends Widget<DropDownMenu> implements IHasInteractiv
 
     public boolean isOpen() { return open; }
     public void setOpen(boolean open) { this.open = open; }
+    @Override public boolean mustBeRenderedLast() { return open; }
 
     // --------------------------------------------------------------------------------
 

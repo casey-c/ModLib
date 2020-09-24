@@ -27,24 +27,17 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 .anchoredAt(this)
                 .withSpacing(30)
                 .withBalancedCols(2)
-                .withAbsoluteRows(60, -1);
+                .withAbsoluteRows(60, 60, -1);
 
-        DropDownMenu dropdown = layout.setWidget(0, 0, new DropDownMenu(interactiveWidgetManager));
+        layout.setWidget(0, 0, new DropDownMenu(interactiveWidgetManager))
+              .withChild("Choice 1", onSelect -> {})
+              .withChild("Caw Caw", onSelect -> { SoundHelper.cawCaw(); })
+              .withChild("Choice 3", onSelect -> {});
 
-        dropdown.addChild("Choice 1", onSelect -> {
-            System.out.println("Pressed choice 1");
-        });
-
-        dropdown.addChild("Choice Two", onSelect -> {
-            System.out.println("Pressed choice two");
-        });
-
-        dropdown.addChild("Caw Caw", true, x -> {
-            SoundHelper.cawCaw();
-        });
-
-        dropdown.selectByString("Choice Two");
-
+        layout.setWidget(1, 0, new DropDownMenu(interactiveWidgetManager))
+                .withChild("Choice 1", onSelect -> {})
+                .withChild("Much Longer and WOrdy choice 2", onSelect -> { SoundHelper.cawCaw(); })
+                .withChild("Pre selected choice 3", true, onSelect -> {});
 
 //        layout = new GridLayout()
 //                .anchoredAt(this)

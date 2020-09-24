@@ -32,7 +32,7 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 .anchoredAt(this)
                 .withSpacing(30)
                 .withBalancedCols(2)
-                .withAbsoluteRows(80, -1);
+                .withAbsoluteRows(60, -1);
 
         DropDownMenu2 dropdown = layout.setWidget(0, 0, new DropDownMenu2(interactiveWidgetManager));
         dropdown.setup();

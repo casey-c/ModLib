@@ -42,31 +42,26 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
 
     private void select(DropDownItem2 item) {
         closeDropDown();
+        header.setText(item.getText());
     }
 
     public void setup() {
-        header = new DropDownHeader2(interactiveWidgetManager)
+        header = new DropDownHeader2(interactiveWidgetManager, this)
                 .anchoredAt(getContentLeft(), getContentBottom(), getContentWidth(), getContentHeight())
-                .withOnClick(onClick -> {
-                    toggle();
-                    if (open) SoundHelper.cawCaw();
-                });
-
-        System.out.println("Made drop down menu");
-        print();
-        header.print();
+                .withOnClick(onClick -> { toggle(); });
 
         bottomLayout = new VerticalLayout()
                 .anchoredAt(getContentLeft(), getContentBottom(), getContentWidth(), 1, AnchorPosition.TOP_LEFT)
                 .withFixedRowHeight(getContentHeight())
                 .withChildExpansionPolicy(VerticalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_FULL);
 
-        bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager)).withOnClick(this::select);
-        bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager)).withOnClick(this::select);
-        bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager)).withOnClick(this::select);
+        bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager, "Choice 1")).withOnClick(this::select);
+        bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager, "Choice 2")).withOnClick(this::select);
+        bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager, "Choice 3")).withOnClick(this::select).setLast(true);
         bottomLayout.computeLayout();
 
-        bottomLayout.print();
+        // TODO select defaults etc.
+        header.setText("Choice 1");
     }
 
     // --------------------------------------------------------------------------------
@@ -87,21 +82,31 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     }
 
     // --------------------------------------------------------------------------------
+    public void renderBackground(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+//        if (open) sb.setColor(ColorHelper.VERY_DIM_RED);
+//        else sb.setColor(ColorHelper.VERY_DIM_BLUE);
+
+        float totalHeight = (open) ? height + bottomLayout.getPrefHeight() : height;
+        float y = (open) ? bottomLeftY - bottomLayout.getPrefHeight() : bottomLeftY;
+
+        // TODO: fancy corners
+        sb.setColor(ColorHelper.BUTTON_DEFAULT_BASE);
+        sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, y, width, totalHeight);
+    }
+    public void renderItems(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+        if (open)
+            bottomLayout.render(sb);
+        header.render(sb);
+    }
+    public void renderTrim(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
+        // TODO
+    }
 
     @Override
     public void renderAt(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
-        if (open)
-            sb.setColor(ColorHelper.VERY_DIM_RED);
-        else
-            sb.setColor(ColorHelper.VERY_DIM_BLUE);
-
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
-
-        // TODO: render layout
-        if (open)
-            bottomLayout.render(sb);
-
-        header.render(sb);
+        renderBackground(sb, bottomLeftX, bottomLeftY, width, height);
+        renderItems(sb, bottomLeftX, bottomLeftY, width, height);
+        renderTrim(sb, bottomLeftX, bottomLeftY, width, height);
     }
 
     @Override

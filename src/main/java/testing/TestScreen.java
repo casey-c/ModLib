@@ -35,9 +35,20 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 .withAbsoluteRows(60, -1);
 
         DropDownMenu2 dropdown = layout.setWidget(0, 0, new DropDownMenu2(interactiveWidgetManager));
-        dropdown.withChild("Choice 1");
-        dropdown.withChild("Choice Two");
-        dropdown.withChild("Caw Caw", true);
+
+        dropdown.addChild("Choice 1", onSelect -> {
+            System.out.println("Pressed choice 1");
+        });
+
+        dropdown.addChild("Choice Two", onSelect -> {
+            System.out.println("Pressed choice two");
+        });
+
+        dropdown.addChild("Caw Caw", true, x -> {
+            SoundHelper.cawCaw();
+        });
+
+        dropdown.setSelectedFromString("Choice Two");
 
 
 //        layout = new GridLayout()

@@ -13,12 +13,16 @@ import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureHelper;
 
+import java.util.function.Consumer;
+
 public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     private boolean last;
 
     protected BitmapFont font = FontHelper.tipBodyFont;
     protected String text;
     protected float textWidth, textHeight;
+
+    private Consumer<DropDownItem2> onSelect;
 
     protected static final float TEXT_HORIZONTAL_OFFSET = 40;
     protected static final float TEXT_VERTICAL_OFFSET = 7;
@@ -31,17 +35,21 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
 
     private boolean selected;
 
-    public DropDownItem2(InteractiveWidgetManager interactiveWidgetManager, String text) {
+    public DropDownItem2(InteractiveWidgetManager interactiveWidgetManager, String text, Consumer<DropDownItem2> onSelect) {
         super(interactiveWidgetManager);
 
         this.text = text;
         this.textHeight = font.getLineHeight();
         this.textWidth = FontHelper.getSmartWidth(font, text, 10000, 10);
+
+        this.onSelect = onSelect;
     }
 
     public String getText() { return text; }
     public void setLast(boolean last) { this.last = last; }
     public void setSelected(boolean selected) { this.selected = selected; }
+
+    public void activate() { onSelect.accept(this); }
 
     // Always expands
     @Override public float getPrefWidth() { return getContentWidth(); }

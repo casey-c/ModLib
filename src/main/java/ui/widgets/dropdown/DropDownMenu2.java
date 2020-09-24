@@ -2,7 +2,6 @@ package ui.widgets.dropdown;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import input.ClickHelper;
 import ui.interactivity.IHasInteractivity;
@@ -13,7 +12,6 @@ import ui.layouts.VerticalLayoutPolicy;
 import ui.widgets.Widget;
 import utils.ColorHelper;
 import utils.RenderingHelper;
-import utils.SoundHelper;
 import utils.TextureHelper;
 
 public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteractivity {
@@ -27,6 +25,9 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     private static final Texture TEX_CORNER_TRIM = TextureHelper.TextureItem.DROPDOWN_CORNER_TRIM_2.get();
     private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM_2.get();
     private static final int CORNER_SIZE = 16;
+
+    private static final Texture TEX_ICON = TextureHelper.TextureItem.DROPDOWN_ICON.get();
+    private static final float ICON_HORIZONTAL_OFFSET = 26;
 
     // --------------------------------------------------------------------------------
 
@@ -140,10 +141,16 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
 //        sb.setColor(ColorHelper.BUTTON_DEFAULT_BASE);
 //        sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, getTotalBottom(bottomLeftY), width, getTotalHeight(height));
     }
+
+
     public void renderItems(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
         if (open)
             bottomLayout.render(sb);
         header.render(sb);
+
+        // Icon
+        sb.setColor(ColorHelper.FADED_CREAM);
+        sb.draw(TEX_ICON, bottomLeftX + width - ICON_HORIZONTAL_OFFSET - TEX_ICON.getWidth(), bottomLeftY + (height - TEX_ICON.getHeight()) * 0.5f);
     }
     public void renderTrim(SpriteBatch sb, float bottomLeftX, float bottomLeftY, float width, float height) {
         // TODO
@@ -156,6 +163,18 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
                 (int)getTotalHeight(height),
                 CORNER_SIZE,
                 ColorHelper.BUTTON_TRIM );
+
+        if (open) {
+            RenderingHelper.renderDynamicTrim(sb,
+                    TEX_CORNER_TRIM,
+                    TEX_EDGE_TRIM,
+                    (int)bottomLeftX,
+                    (int)bottomLeftY,
+                    (int)width,
+                    (int)height,
+                    CORNER_SIZE,
+                    ColorHelper.BUTTON_TRIM );
+        }
     }
 
     @Override

@@ -67,7 +67,12 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
         }
         else {
             sb.draw(ImageMaster.WHITE_SQUARE_IMG, bottomLeftX, bottomLeftY, width, height);
+
         }
+
+        // Gradient
+        sb.setColor(ColorHelper.BUTTON_HIGHLIGHT);
+        sb.draw(TextureHelper.TextureItem.BUTTON_HIGHLIGHT_CENTER.get(), bottomLeftX, bottomLeftY, width, height);
 
         // TODO: render a gradient (this looks terrible)
 //        RenderingHelper.renderDynamicHighlight(sb,

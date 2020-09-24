@@ -35,7 +35,9 @@ public class TestScreen extends DynamicScreen<TestScreen> {
                 .withAbsoluteRows(60, -1);
 
         DropDownMenu2 dropdown = layout.setWidget(0, 0, new DropDownMenu2(interactiveWidgetManager));
-        dropdown.setup();
+        dropdown.withChild("Choice 1");
+        dropdown.withChild("Choice Two");
+        dropdown.withChild("Caw Caw", true);
 
 
 //        layout = new GridLayout()

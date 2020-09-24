@@ -30,9 +30,10 @@ public class DropDownHeader2 extends AbstractButton<DropDownHeader2> {
     private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM_2.get();
     private static final int CORNER_SIZE = 16;
 
-    public DropDownHeader2(InteractiveWidgetManager interactiveWidgetManager, DropDownMenu2 parent) {
+    public DropDownHeader2(InteractiveWidgetManager interactiveWidgetManager, DropDownMenu2 parent, String text) {
         super(interactiveWidgetManager);
         this.parent = parent;
+        setText(text);
 
         //hb = new Hitbox(getPrefWidth(), getPrefHeight());
     }
@@ -64,13 +65,15 @@ public class DropDownHeader2 extends AbstractButton<DropDownHeader2> {
                     (int)width,
                     (int)height,
                     CORNER_SIZE,
-                    ColorHelper.FADED_CREAM);
+                    ColorHelper.VERY_FADED_CREAM);
         }
 
         // Text
         float textLeft = bottomLeftX + TEXT_HORIZONTAL_OFFSET;
         float textBottom = bottomLeftY + (height - textHeight - BORDER_HEIGHT) * 0.5f + TEXT_VERTICAL_OFFSET;
-        FontHelper.renderFontLeftDownAligned(sb, font, text, textLeft, textBottom, Settings.CREAM_COLOR);
+
+        Color textColor = (parent.isOpen()) ? Settings.GOLD_COLOR : Settings.CREAM_COLOR;
+        FontHelper.renderFontLeftDownAligned(sb, font, text, textLeft, textBottom, textColor);
 
 
         // Border

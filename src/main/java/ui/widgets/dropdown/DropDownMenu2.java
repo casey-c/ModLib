@@ -14,6 +14,8 @@ import utils.ColorHelper;
 import utils.RenderingHelper;
 import utils.TextureHelper;
 
+import java.util.LinkedList;
+
 public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteractivity {
     private DropDownHeader2 header;
     private VerticalLayout bottomLayout;
@@ -29,11 +31,18 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     private static final Texture TEX_ICON = TextureHelper.TextureItem.DROPDOWN_ICON.get();
     private static final float ICON_HORIZONTAL_OFFSET = 26;
 
+    private DropDownItem2 last = null;
+    private DropDownItem2 selected = null;
+    private boolean initialized;
+
     // --------------------------------------------------------------------------------
 
     public DropDownMenu2(InteractiveWidgetManager manager) {
         this.interactiveWidgetManager = manager;
         manager.track(this);
+
+        header = new DropDownHeader2(interactiveWidgetManager, this, "???");
+        bottomLayout = new VerticalLayout();
 
         ClickHelper.watchLeftClick(this, x -> { clickOutsideHandler(); });
     }
@@ -56,51 +65,67 @@ public class DropDownMenu2 extends Widget<DropDownMenu2> implements IHasInteract
     private void select(DropDownItem2 item) {
         closeDropDown();
         header.setText(item.getText());
+
+        if (selected != null)
+            selected.setSelected(false);
+
+        item.setSelected(true);
+        selected = item;
     }
 
     public void clickOutsideHandler() {
-        if (!header.isCurrentlyInteractive() || !open)
+        if (!initialized || !header.isCurrentlyInteractive() || !open)
             return;
 
         float mx = InputHelper.mX;
         float my = InputHelper.mY;
-
-        //System.out.println("DropDownController found a left click: " + mx + ", " + my);
-        //itemLayout.print();
 
         float left = getContentLeft();
         float right = getContentRight();
         float top = getContentTop();
         float bot = getContentBottom() - bottomLayout.getPrefHeight();
 
-        if ((mx < left || mx > right) || (my < bot || my > top)) {
-            //System.out.println("Mouse not in bounds");
-            //select(selectedItem);
+        if ((mx < left || mx > right) || (my < bot || my > top))
             closeDropDown();
-        }
-        else {
-            //System.out.println("Mouse in bounds");
-        }
-
     }
 
-    public void setup() {
-        header = new DropDownHeader2(interactiveWidgetManager, this)
-                .anchoredAt(getContentLeft(), getContentBottom(), getContentWidth(), getContentHeight())
-                .withOnClick(onClick -> { toggle(); });
 
-        bottomLayout = new VerticalLayout()
-                .anchoredAt(getContentLeft(), getContentBottom(), getContentWidth(), 1, AnchorPosition.TOP_LEFT)
-                .withFixedRowHeight(getContentHeight())
-                .withChildExpansionPolicy(VerticalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_FULL);
+    public DropDownMenu2 withChild(String text) { return withChild(text, false); }
+    public DropDownMenu2 withChild(String text, boolean selected) {
+        addChild(text, selected);
+        return this;
+    }
 
-        bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager, "Choice 1")).withOnClick(this::select);
-        bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager, "Choice 2")).withOnClick(this::select);
-        bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager, "Choice 3")).withOnClick(this::select).setLast(true);
+    public void addChild(String text) { addChild(text, false); }
+    public void addChild(String text, boolean selected) {
+        if (!initialized)
+            setup();
+
+        DropDownItem2 item = bottomLayout.addChild(new DropDownItem2(interactiveWidgetManager, text)).withOnClick(this::select);
+
+        // Update the last
+        if (last != null)
+            last.setLast(false);
+
+        item.setLast(true);
+        last = item;
+
+        if (selected)
+            select(item);
+
         bottomLayout.computeLayout();
+    }
 
-        // TODO select defaults etc.
-        header.setText("Choice 1");
+
+    private void setup() {
+        initialized = true;
+
+        header.anchoredAt(getContentLeft(), getContentBottom(), getContentWidth(), getContentHeight())
+              .withOnClick(onClick -> { toggle(); });
+
+        bottomLayout.anchoredAt(getContentLeft(), getContentBottom(), getContentWidth(), 1, AnchorPosition.TOP_LEFT)
+                    .withFixedRowHeight(getContentHeight())
+                    .withChildExpansionPolicy(VerticalLayoutPolicy.CHILD_EXPAND_WIDTH_TO_FULL);
     }
 
     // --------------------------------------------------------------------------------

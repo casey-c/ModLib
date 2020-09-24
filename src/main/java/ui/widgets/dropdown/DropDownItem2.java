@@ -29,6 +29,8 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
     private static final Texture TEX_EDGE_TRIM = TextureHelper.TextureItem.DROPDOWN_EDGE_TRIM_2.get();
     private static final int CORNER_SIZE = 16;
 
+    private boolean selected;
+
     public DropDownItem2(InteractiveWidgetManager interactiveWidgetManager, String text) {
         super(interactiveWidgetManager);
 
@@ -39,6 +41,7 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
 
     public String getText() { return text; }
     public void setLast(boolean last) { this.last = last; }
+    public void setSelected(boolean selected) { this.selected = selected; }
 
     // Always expands
     @Override public float getPrefWidth() { return getContentWidth(); }
@@ -48,7 +51,9 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
         // Text
         float textLeft = bottomLeftX + TEXT_HORIZONTAL_OFFSET;
         float textBottom = bottomLeftY + (height - textHeight - BORDER_HEIGHT) * 0.5f + TEXT_VERTICAL_OFFSET;
-        FontHelper.renderFontLeftDownAligned(sb, font, text, textLeft, textBottom, Settings.CREAM_COLOR);
+
+        Color textColor = (selected) ? Settings.GOLD_COLOR : Settings.CREAM_COLOR;
+        FontHelper.renderFontLeftDownAligned(sb, font, text, textLeft, textBottom, textColor);
 
         // Border
         if (!last) {
@@ -71,7 +76,7 @@ public class DropDownItem2 extends AbstractButton<DropDownItem2> {
         }
 
         // Gradient
-        sb.setColor(ColorHelper.BUTTON_HIGHLIGHT);
+        sb.setColor(ColorHelper.DROPDOWN_HIGHLIGHT);
         sb.draw(TextureHelper.TextureItem.BUTTON_HIGHLIGHT_CENTER.get(), bottomLeftX, bottomLeftY, width, height);
 
         // TODO: render a gradient (this looks terrible)

@@ -6,6 +6,7 @@ import ui.layouts.*;
 import ui.screens.DynamicScreen;
 import ui.widgets.buttons.TextButton;
 import ui.widgets.dropdown.DropDownMenu;
+import ui.widgets.radio.RadioGroup;
 import utils.ColorHelper;
 import utils.SoundHelper;
 
@@ -13,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TestScreen extends DynamicScreen<TestScreen> {
-    private GridLayout layout;
-
     private ArrayList<AnchorPosition> anchorList = new ArrayList<>();
     int anchorListPos = 0;
 
@@ -42,6 +41,16 @@ public class TestScreen extends DynamicScreen<TestScreen> {
         button.setWidget(0, 0, new TextButton(interactiveWidgetManager, "Swap to drop down")).withOnClick( x -> {
             ls.selectLayout(Screens.DROP_DOWN_SCREEN);
         });
+
+        RadioGroup radioGroup = button.setWidget(1, 0, new RadioGroup(interactiveWidgetManager));
+        radioGroup.addChild("Test 1", onChoose -> {
+            SoundHelper.cawCaw();
+        } );
+        radioGroup.addChild("Test 2", onChoose -> {} );
+        radioGroup.addChild("Test 3", onChoose -> {} );
+
+        System.out.println("made radio group?");
+        radioGroup.print();
 
         // Drop down layout
         GridLayout dropDown = ls.getLayoutByName(Screens.DROP_DOWN_SCREEN)

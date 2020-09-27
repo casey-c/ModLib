@@ -23,6 +23,10 @@ public class TextureHelper {
         CHECKBOX_TRIM("ModLib/images/widgets/checkbox/checkbox_trim.png"),
         CHECKBOX_CHECK("ModLib/images/widgets/checkbox/checkbox_check.png"),
 
+        RADIO_BASE("ModLib/images/widgets/radio/radio_base.png"),
+        RADIO_TRIM("ModLib/images/widgets/radio/radio_trim.png"),
+        RADIO_CENTER("ModLib/images/widgets/radio/radio_center.png"),
+
         DROPDOWN_CORNER_BASE("ModLib/images/widgets/dropdown/dropdown_corner_base_v4.png"),
         DROPDOWN_CORNER_TRIM("ModLib/images/widgets/dropdown/dropdown_corner_trim_v4.png"),
         DROPDOWN_EDGE_TRIM("ModLib/images/widgets/dropdown/dropdown_edge_trim_v4.png"),
